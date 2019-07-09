@@ -6,13 +6,19 @@
     "pages/myCenter/main"
   ],
   "usingComponents": {
-    "van-button": "vant-weapp/dist/button/index"
+    "van-button": "vant-weapp/dist/button/index",
+    "van-cell-group": "vant-weapp/dist/cell-group/index",
+    "van-cell": "vant-weapp/dist/cell/index",
+    "van-field": "vant-weapp/dist/field/index",
+    "van-popup": "vant-weapp/dist/popup/index",
+    "van-area": "vant-weapp/dist/area/index"
+    
   },
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#56c6ff",
     "navigationBarTitleText": "鲸抖云",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999",

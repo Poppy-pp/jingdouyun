@@ -33,12 +33,8 @@ export default {
 <style>
 .container {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 /* this rule will be remove */
 * {
@@ -46,5 +42,29 @@ export default {
   -moz-transition: width 2s;
   -webkit-transition: width 2s;
   -o-transition: width 2s;
+}
+.container .title-radius{
+  padding: 5px 0 30px 0;
+  background-color: #56c6ff;
+  position: relative;
+  width: 105%;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  top:0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.container .title-radius .title-text{
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.divider{
+  text-align: center;
+  font-size: 15px;
+  color: #969b9f;
 }
 </style>
