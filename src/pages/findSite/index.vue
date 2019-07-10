@@ -20,11 +20,11 @@
             <van-field v-model="area" label="活动城市" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
             <van-field v-model="type" label="活动类型" is-link @click="showActionType" readonly="readonly" placeholder="请选择活动类型"/>
             <van-field v-model="date" label="活动时间" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数" is-link @click="" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算" is-link @click="" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" label="联系电话" placeholder="请输入手机号" error> <i slot="button" class="sms-code">短信验证</i> </van-field>
-            <van-field v-model="sms" center clearable label="验证码" placeholder="请输入验证码"/>
-            <button class="free-btn">
+            <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
+            <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
+            <van-field v-model="phone" clearable label="联系电话" placeholder="请输入手机号"> <i slot="button" class="sms-code">短信验证</i> </van-field>
+            <van-field v-model="sms" clearable label="验证码" placeholder="请输入验证码"/>
+            <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
                 <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
             </button>
@@ -34,12 +34,12 @@
         <div v-show="active == 1">
             <van-cell-group>
             <van-field v-model="area" label="活动城市" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="type" label="活动类型" is-link @click="showActionType" readonly="readonly" placeholder="请选择活动类型"/>
+            <van-field v-model="sitetype" label="场地类型" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
             <van-field v-model="date" label="活动时间" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数" is-link @click="" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算" is-link @click="" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="price" label="位置要求" is-link @click="" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="price" label="活动需求" is-link @click="" readonly="readonly" placeholder="请选择活动需求"/>
+            <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
+            <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
+            <van-field v-model="addrask" label="位置要求" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择位置要求"/>
+            <van-field v-model="needs" label="活动需求" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
             <button class="free-btn">
                 <p class="title">智能速配</p>
                 <p class="desc">5s生成场地方案</p>
@@ -53,21 +53,38 @@
     <p class="divider">— 鲸抖云·让活动变得简单 —</p>
     <i class="pull-down">上划查看历史需求订单</i>
 
-    <!-- 省市区弹出层 -->
-    <van-popup v-model="showArea" position="bottom">
+    <!-- 省市区 弹出层 -->
+    <van-popup :show="showArea" position="bottom">
         <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel"/>
     </van-popup>
-    <!-- 选择时间弹出层 -->
-    <van-popup v-model="showDate" position="bottom">
-        <van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" :max-date="maxDate" :formatter="formatter" />
+    <!-- 选择时间 弹出层 -->
+    <van-popup :show="showDate" position="bottom">
+        <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
     </van-popup>
-    <!-- 活动类型 -->
-    <van-action-sheet v-model="showType" :actions="typeActions" @select="onSelectType" cancel-text="取消" />
+    <!-- 活动类型 弹出层-->
+    <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="onCancelType" cancel-text="取消" />
+    <!-- 活动人数 弹出层 -->
+    <van-action-sheet :show="showNum" :actions="numActions" @select="onSelectNum" @cancel="onCancelNum" cancel-text="取消" />
+    <!-- 活动预算 弹出层 -->
+    <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消" />
+    <!-- 场地类型 弹出层 -->
+    <van-action-sheet :show="showSite" :actions="siteActions" @select="onSelectSite" @cancel="onCancelSite" cancel-text="取消" />
+    <!-- 活动需求 弹出层 -->
+    <van-popup :show="showNeeds" position="bottom">
+      <div class="needs-box">
+        <block v-for="(item, index) in needsList" :key="index">
+          <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectNeeds' data-index="index">{{item.title}}</text>
+        </block>
+      </div>
+    </van-popup>
+    <!-- 提示 -->
+    <van-toast :show="showToast" :message="toastMsg"/>
   </div>
 </template>
 
 <script>
 import addressInfo from '@/utils/area'
+import { formatTime } from '@/utils/index'
 export default {
   data() {
     return {
@@ -76,58 +93,188 @@ export default {
       showArea: false,
       showDate: false,
       showType: false,
-      currentDate: new Date(),
+      showSite: false,
+      showNum: false,
+      showPrice: false,
+      showToast: false,
+      showNeeds: false,
+      toastMsg: '',//提示文字信息
+      currentDate: new Date().getTime(),//时间戳格式
       areaList: addressInfo,
-      area:'',//选择的城市信息
       typeActions: [
         { name: '不限' },
         { name: '发布会/颁奖/庆典' },
         { name: '论坛/推介会/商务会议'},
         { name: '讲座/沙龙'},
-        { name: '团建/年会/公司聚会'},
-      ]
+        { name: '工作会/总结会'},
+        { name: '年会/答谢会'},
+        { name: '聚会/团建/拓展'},
+      ],
+      numActions: [
+        { name: '不限' },
+        { name: '50人以下' },
+        { name: '50-100人'},
+        { name: '100-300人'},
+        { name: '500-1000人'},
+        { name: '1000人以上'},
+      ],
+      priceActions: [
+        { name: '不限' },
+        { name: '1万元以下' },
+        { name: '1万-5万'},
+        { name: '5万-10万'},
+        { name: '10万-20万'},
+        { name: '20万-30万'},
+        { name: '30万-50万'},
+        { name: '50万以上'},
+      ],
+      siteActions: [
+        { name: '不限' }, { name: '五星酒店' }, { name: '四星酒店' }, { name: '三星酒店' }, { name: '经济酒店' }, { name: '艺术展馆' }, { name: '体育场馆' }, 
+        { name: '会议中心' },{ name: '商超/综合体' }, { name: '公共空间' }, { name: '特色场地' }, { name: '剧院影院' }, { name: '高端会所' }, { name: '餐厅酒吧' },
+      ],
+      needsList: [ {title: "不限", isSelect: false}, {title: "客房住宿", isSelect: false}, {title: "场地方正", isSelect: false}, {title: "网红打卡", isSelect: false}, 
+        {title: "无柱", isSelect: false}, {title: "泳池", isSelect: false}, {title: "温泉", isSelect: false}, {title: "景区周围", isSelect: false},  {title: "园林草坪", isSelect: false}, 
+        {title: "户外广场", isSelect: false}, {title: "郊野", isSelect: false}, {title: "豪华", isSelect: false}, {title: "私密", isSelect: false}, {title: "中式", isSelect: false}, 
+        {title: "进车场地", isSelect: false}, {title: "美食餐饮", isSelect: false}, {title: "免费WIFI", isSelect: false}, {title: "健身娱乐", isSelect: false}, {title: "自然采光", isSelect: false}, 
+        {title: "阳光房", isSelect: false}, {title: "水景", isSelect: false}, {title: "露台", isSelect: false}, {title: "高尔夫", isSelect: false}, {title: "艺术特色", isSelect: false}, 
+        {title: "地铁沿线", isSelect: false}, {title: "声光电设备", isSelect: false}
+      ],
+      area:'',//选择的城市信息
+      type:'',//活动类型
+      date:'',
+      num:'',
+      price:'',
+      phone:'',
+      sms:'',
+      sitetype:'',
+      addrask:'',
+      needs:[],
+      storageneeds:[],//暂存活动需求
     };
   },
   components: {},
   computed: {},
   methods: {
-    //   地址
+    // 免费找场地
+    findSite(){
+      if (this.area == '' || this.type == '' || this.date == '' || this.num == '' || this.price == '' || this.phone == '' || this.sms == '' || this.addrask == '' || this.needs == ''){
+        this.showToast = true;
+        this.toastMsg = '请填写完整的活动信息！';
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      }
+    },
+    // 点击活动需求
+    selectNeeds(event) {
+      console.log(event)
+      // let index = event.target.dataset.index
+      // this.data.selectall[index].isSelect = !this.data.selectall[index].isSelect;
+      // this.setData({
+      //   selectall: this.data.selectall
+      // })
+    },
+    // 确认选择活动需求
+    submitNeeds(){
+      let all = [];
+      this.data.selectall.forEach((v,i)=>{
+        console.log(v + i)
+        if(v.isSelect){
+          all.push(v)
+        }
+      })
+      console.log(all);
+    },
+
+    //   城市
     showPopupArea() {
       this.showArea = true;
-      console.log(this.showArea)
-    },
-    // 日期
-    showPopupDate() {
-      this.showDate = true;
-    },
-    // 活动类型
-    showActionType(){
-        this.showType = true;
     },
     // 确认地址
     onAddrConfirm(val){
         this.showArea = false;
-        this.area = val[0].name+ "" +val[1].name;
+        this.area = val.target.values[0].name + '/' + val.target.values[1].name + '/' + val.target.values[2].name ;
+        this.addrask = this.area;
     },
     // 取消地址
     onAddrCancel(){
         this.showArea = false;
     },
-    // 选择活动类型
+
+    // 日期
+    showPopupDate() {
+      this.showDate = true;
+    },
+    // 确认日期
+    onDateConfirm(val){
+        this.showDate = false;
+        this.date = formatTime(new Date(val.mp.detail)).split(' ')[0];//取年月日
+    },
+    // 取消日期
+    onDateCancel(){
+        this.showDate = false;
+    },
+
+    // 活动类型
+    showActionType(){
+        this.showType = true;
+    },
     onSelectType(item) {
       this.showType = false;
-      Toast(item.name);
+      this.type = item.target.name;
     },
-    formatter(type, value) {
-　　if (type === 'year') {
-　　return `${value}年`;
-　　} else if (type === 'month') {
-　　  return `${value}月`
-　　} else if (type === 'day') {
-　　return `${value}日`
-　　} 
-　　return value;
-　}
+    onCancelType(item) {
+      this.showType = false;
+    },
+
+    // 活动人数
+    showActionNum(){
+        this.showNum = true;
+    },
+    onSelectNum(item) {
+      this.showNum = false;
+      this.num = item.target.name;
+    },
+    onCancelNum(item) {
+      this.showNum = false;
+    },
+
+    // 活动预算
+    showActionPrice(){
+        this.showPrice = true;
+    },
+    onSelectPrice(item) {
+      this.showPrice = false;
+      this.price = item.target.name;
+    },
+    onCancelPrice(item) {
+      this.showPrice = false;
+    },
+
+    // 场地类型
+    showActionSite(){
+        this.showSite = true;
+    },
+    onSelectSite(item) {
+      this.showSite = false;
+      this.sitetype = item.target.name;
+    },
+    onCancelSite(item) {
+      this.showSite = false;
+    },
+
+    // 活动需求
+    showPopupNeeds() {
+      this.showNeeds = true;
+    },
+    onNeedsConfirm(){
+        this.showNeeds = false;
+        this.needs = this.storageneeds;
+    },
+    onNeedsCancel(){
+        this.showNeeds = false;
+    },
+
   },
   created() {
   }
@@ -207,6 +354,31 @@ export default {
     font-size: 12px;
     color: #cdcdcd;
     margin-top: 5px;
+}
+.needs-box{
+  padding: 10px
+}
+.needs-select{
+  display: inline-block;
+  line-height: 50rpx;
+  padding: 14rpx 26rpx;
+  margin: 10rpx 10rpx;
+  font-size: 24rpx;
+  background: #e6e6e6;
+  color: #999;
+  border: none;
+  border-radius: 16rpx;
+}
+.needs-active{
+  display: inline-block;
+  background: #f44232;
+  color: #fff;
+  box-shadow: 0 5rpx 15rpx #f44232;
+  font-size: 24rpx;
+  padding: 14rpx 26rpx;
+  margin: 10rpx 10rpx;
+  border-radius: 16rpx;
+  line-height: 50rpx;
 }
 </style>
 

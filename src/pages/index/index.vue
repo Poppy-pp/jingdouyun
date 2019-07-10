@@ -1,11 +1,9 @@
 <!-- 鲸选-首页 -->
 <template>
   <div class="container">
-    <van-button type="default">默认按钮1</van-button>
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
+    <navigator url="../login/main">去登录</navigator>
+    <navigator url="../authorizeMobile/main">去授权手机号</navigator>
+    <navigator url="../authorizePlace/main">去授权位置信息</navigator>
   </div>
 </template>
 
@@ -14,10 +12,10 @@
 export default {
   data() {
     return {
-      
     };
   },
   methods: {
+    
   },
 
   created() {
