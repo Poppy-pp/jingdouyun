@@ -32,9 +32,11 @@ export default {
 
 <style>
 .container {
+  width: 100%;
   height: 100%;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 /* this rule will be remove */
 * {

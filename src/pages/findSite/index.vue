@@ -1,9 +1,7 @@
 <!-- 找场地-首页 -->
 <template>
   <div class="container">
-    <div class="title-radius">
-      <p class="title-text">活动场地一站式服务</p>
-    </div>
+    <div class="title-radius"></div>
     <div id="tab-box">
       <ul class="tab-tilte">
         <li
@@ -22,8 +20,8 @@
             <van-field v-model="date" label="活动时间" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" clearable label="联系电话" placeholder="请输入手机号"> <i slot="button" class="sms-code">短信验证</i> </van-field>
-            <van-field v-model="sms" clearable label="验证码" placeholder="请输入验证码"/>
+            <van-field v-model="phone" clearable label="联系电话" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
+            <van-field v-model="sms" clearable label="验证码" placeholder="请输入验证码" @input="inputSms"/>
             <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
                 <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
@@ -39,8 +37,8 @@
             <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
             <van-field v-model="addrask" label="位置要求" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="needs" label="活动需求" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
-            <button class="free-btn">
+            <van-field v-model="showeneeds" label="活动需求" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
+            <button class="free-btn" @click="recommendSite">
                 <p class="title">智能速配</p>
                 <p class="desc">5s生成场地方案</p>
             </button>
@@ -73,8 +71,13 @@
     <van-popup :show="showNeeds" position="bottom">
       <div class="needs-box">
         <block v-for="(item, index) in needsList" :key="index">
-          <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectNeeds' data-index="index">{{item.title}}</text>
+          <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectNeeds(index)'>{{item.title}}</text>
         </block>
+        <div class="btn">
+          <button class="cancel" @click="showNeeds = false">取消</button>
+          <button class="resize" @click="resizeNeeds">重置</button>
+          <button class="confirm" @click="submitNeeds">确定</button>
+        </div>
       </div>
     </van-popup>
     <!-- 提示 -->
@@ -146,10 +149,10 @@ export default {
       price:'',
       phone:'',
       sms:'',
-      sitetype:'',
-      addrask:'',
-      needs:[],
-      storageneeds:[],//暂存活动需求
+      sitetype:'',//场地类型
+      addrask:'',//位置要求
+      needs:[],//活动需求
+      showeneeds:'',//页面显示活动需求
     };
   },
   components: {},
@@ -157,33 +160,60 @@ export default {
   methods: {
     // 免费找场地
     findSite(){
-      if (this.area == '' || this.type == '' || this.date == '' || this.num == '' || this.price == '' || this.phone == '' || this.sms == '' || this.addrask == '' || this.needs == ''){
+      if (this.area == '' || this.type == '' || this.date == '' || this.num == '' || this.price == '' || this.phone == '' || this.sms == ''){
         this.showToast = true;
         this.toastMsg = '请填写完整的活动信息！';
         setTimeout(() => {
           this.showToast = false;
         }, 2000);
+      }else{
+        // 跳转至订单详情页面
+        let form = {
+          area: this.area,
+          type: this.type,
+          date: this.date,
+          num: this.num,
+          price: this.price,
+          phone: this.phone,
+          sms: this.sms,
+        }
+        wx.navigateTo({
+          url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+        })
       }
     },
-    // 点击活动需求
-    selectNeeds(event) {
-      console.log(event)
-      // let index = event.target.dataset.index
-      // this.data.selectall[index].isSelect = !this.data.selectall[index].isSelect;
-      // this.setData({
-      //   selectall: this.data.selectall
-      // })
-    },
-    // 确认选择活动需求
-    submitNeeds(){
-      let all = [];
-      this.data.selectall.forEach((v,i)=>{
-        console.log(v + i)
-        if(v.isSelect){
-          all.push(v)
+    // 智能推荐
+    recommendSite(){
+      if (this.area == '' || this.sitetype == '' || this.date == '' || this.num == '' || this.price == '' || this.addrask == '' || this.needs == ''){
+        this.showToast = true;
+        this.toastMsg = '请填写完整的活动信息！';
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      }else{
+        // 跳转至智能推荐页面
+        let form = {
+          area: this.area,
+          sitetype: this.sitetype,
+          date: this.date,
+          num: this.num,
+          price: this.price,
+          addrask: this.addrask,
+          needs: this.needs,
         }
-      })
-      console.log(all);
+        wx.navigateTo({
+          url: '/pages/findSite/mindRecommend/main?form=' + JSON.stringify(form)
+        })
+      }
+    },
+
+    // 输入手机号
+    inputPhone(val){
+      this.phone = val.mp.detail;
+    },
+    // 输入验证码
+    inputSms(val){
+      this.sms = val.mp.detail;
     },
 
     //   城市
@@ -267,20 +297,49 @@ export default {
     showPopupNeeds() {
       this.showNeeds = true;
     },
-    onNeedsConfirm(){
-        this.showNeeds = false;
-        this.needs = this.storageneeds;
+    // 点击选择活动需求
+    selectNeeds(index) {
+      this.needsList[index].isSelect = !this.needsList[index].isSelect;
     },
-    onNeedsCancel(){
-        this.showNeeds = false;
+    // 重置活动需求
+    resizeNeeds(){
+      this.needs = [];
+      this.needsList.forEach((item,index) =>{
+        item.isSelect = false;
+      })
+    },
+    // 确认选择活动需求
+    submitNeeds(){
+      this.needs = [];//初始化
+      this.showeneeds = '';
+      this.needsList.forEach((v,i)=>{
+        if(v.isSelect){
+          this.needs.push(v)
+        }
+      })
+      this.needs.forEach((item,index) =>{
+        this.showeneeds += item.title + '/';//页面显示
+      })
+      this.showNeeds = false;
     },
 
+    //初始化数据 
+    clearData(){
+      this.area = '';
+      this.type = '';
+      this.date = '';
+      this.num = '';
+      this.price = '';
+      this.phone = '';
+      this.sms = '';
+    }
   },
   created() {
+    this.clearData()
   }
 };
 </script>
-<style scoped>
+<style scoped lang="stylus">
 #tab-box {
   position: relative;
   top: -20px;
@@ -288,7 +347,7 @@ export default {
   margin: 0 auto;
   width: 90%;
   border-radius: 10px;
-  box-shadow: 0 3px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   padding: 0 0 15px 0;
 }
@@ -363,22 +422,53 @@ export default {
   line-height: 50rpx;
   padding: 14rpx 26rpx;
   margin: 10rpx 10rpx;
-  font-size: 24rpx;
-  background: #e6e6e6;
+  font-size: 26rpx;
+  background: #f6f7f8;
   color: #999;
   border: none;
-  border-radius: 16rpx;
+  border-radius: 3px;
+  width:40%;
+  text-align center
 }
 .needs-active{
   display: inline-block;
-  background: #f44232;
-  color: #fff;
-  box-shadow: 0 5rpx 15rpx #f44232;
-  font-size: 24rpx;
+  background: #f0f1f1;
+  color: #11bcfd;
+  font-size: 26rpx;
   padding: 14rpx 26rpx;
   margin: 10rpx 10rpx;
   border-radius: 16rpx;
   line-height: 50rpx;
+  border-radius: 3px;
+  width:40%;
+  text-align center
+}
+.needs-box .btn{
+  margin-top 20px
+  display flex
+  justify-content space-between
+}
+.needs-box .resize, .needs-box .confirm, .needs-box .cancel{
+  width 31%
+  display inline-block
+  font-size 16px
+  line-height 40px
+  border-radius 4px
+}
+.needs-box .resize{
+  background-color #c7cbcf
+  color #ffffff
+}
+.needs-box .confirm{
+  background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
+  color #ffffff
+}
+.needs-box .cancel{
+  background-color:#f5f5f5;
+  color:#999;
+}
+.needs-box button::after{
+  border none
 }
 </style>
 

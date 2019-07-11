@@ -4,6 +4,8 @@
     <navigator url="../login/main">去登录</navigator>
     <navigator url="../authorizeMobile/main">去授权手机号</navigator>
     <navigator url="../authorizePlace/main">去授权位置信息</navigator>
+    <navigator url="../findSite/freeDetail/main">订单详情</navigator>
+    <navigator url="../findSite/mindRecommend/main">智能推荐</navigator>
   </div>
 </template>
 
