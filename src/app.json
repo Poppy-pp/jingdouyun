@@ -8,8 +8,9 @@
     "pages/authorizeMobile/main",
     "pages/authorizePlace/main",
     "pages/findSite/freeDetail/main",
-    "pages/findSite/mindRecommend/main"
-    
+    "pages/findSite/mindRecommend/main",
+    "pages/findSite/findSiteForm/main",
+    "pages/index/cityIndex/main"
   ],
   "usingComponents": {
     "van-button": "vant-weapp/dist/button/index",
@@ -26,8 +27,9 @@
     "van-checkbox-group": "vant-weapp/dist/checkbox-group/index",
     "van-switch": "vant-weapp/dist/switch/index",
     "van-icon": "vant-weapp/dist/icon/index",
-    "van-dialog": "vant-weapp/dist/dialog/index"
-    
+    "van-dialog": "vant-weapp/dist/dialog/index",
+    "i-index": "../static/iview/index/index",
+    "i-index-item": "../static/iview/index-item/index"
   },
   "window": {
     "backgroundTextStyle": "light",

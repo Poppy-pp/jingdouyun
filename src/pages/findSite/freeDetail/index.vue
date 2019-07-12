@@ -22,9 +22,12 @@
       <div class="card">
         <p class="divider">— 鲸抖云·让活动变得简单 —<i class="card-desc">2019.5.27 12:32提交</i></p>
         <ul>
-          <li v-for="(item,index) in infoList" :key="index">
-            {{ '· ' + item.key + '：' + item.value }}
-          </li>
+          <li>{{ '· 订单号：' + infoList.ordernum }}</li>
+          <li>{{ '· 活动城市：' + infoList.area }}</li>
+          <li>{{ '· 活动类型：' + infoList.sitetype }}</li>
+          <li>{{ '· 举办时间：' + infoList.date }}</li>
+          <li>{{ '· 活动人数：' + infoList.num }}</li>
+          <li>{{ '· 活动预算：' + infoList.price }}</li>
         </ul>
       </div>
       <div class="btn-detail" v-if="orderStatus">
@@ -47,7 +50,7 @@ export default {
    data() {
        return {
           infoList:[
-            { key:'订单号', value:'JDY12312' }, { key:'活动城市', value:'北京' }, { key:'活动类型', value:'发布会/颁奖/庆典' }, { key:'举办时间', value:'2019.09.01-2019.10.03' }, { key:'活动人数', value:'100人以下' }, { key:'活动预算', value:'5000以下' }, 
+            // { key:'订单号', value:'JDY12312' }, { key:'活动城市', value:'北京' }, { key:'活动类型', value:'发布会/颁奖/庆典' }, { key:'举办时间', value:'2019.09.01-2019.10.03' }, { key:'活动人数', value:'100人以下' }, { key:'活动预算', value:'5000以下' }, 
           ],
           showContact: false,
           showDialog: false,
@@ -70,7 +73,22 @@ export default {
       wx.switchTab({
         url: '/pages/findSite/main',
       })
-    }
+    },
+    /* 获取当前路由栈数据 */
+    getQuery() {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const options = currentPage.options;
+      this.infoList = JSON.parse(options.form);
+      if(this.infoList.status == 0){// 订单已取消页面
+        this.orderStatus = false;
+      }else{
+        this.orderStatus = true;
+      }
+    },
+  },
+  mounted() {
+    this.getQuery();
   },
   created(){}
 }

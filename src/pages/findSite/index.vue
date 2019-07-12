@@ -2,7 +2,9 @@
 <template>
   <div class="container">
     <div class="title-radius"></div>
-    <div id="tab-box">
+
+    <!-- 首页 -->
+    <div id="tab-box" v-if="!showHistory">
       <ul class="tab-tilte">
         <li
           v-for="(title,index) in tabTitle"
@@ -47,9 +49,27 @@
         </div>
       </div>
     </div>
+
+    <!-- 历史订单记录 -->
+    <div class="history-box" v-else>
+      <div class="card add" @click="showHistory = false">
+        <van-icon name="plus" />
+        <p class="first-title">发布需求</p>
+      </div>
+      <div class="card" v-for="(item,index) in historyData" :key="index" @click="goDetail(item)">
+        <p class="title">{{ item.area }}</p>
+        <i class="needs" v-for="(item2,index2) in item.needs" :key="index2">{{ item2.title }}</i>
+        <p class="date">{{ item.date + '&emsp;' +  item.num + '&emsp;' + item.price }}</p>
+        <p class="date creat-time">2019.05.27 12:32生成方案<span :class="item.status == '0' ? 'cancel' : ''">{{ item.statusname }}</span></p>
+      </div>
+
+    </div>
+
     <!-- 分割线 -->
-    <p class="divider">— 鲸抖云·让活动变得简单 —</p>
-    <i class="pull-down">上划查看历史需求订单</i>
+    <div @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd' class="footer-desc">
+      <p class="divider">— 鲸抖云·让活动变得简单 —</p>
+      <i class="pull-down" v-if="!showHistory">上划查看历史需求订单</i>
+    </div>
 
     <!-- 省市区 弹出层 -->
     <van-popup :show="showArea" position="bottom">
@@ -92,7 +112,10 @@ export default {
   data() {
     return {
       active: 0,
+      touchS: [0, 0],//滑动开始位置x,y
+      touchE: [0, 0],//滑动结束位置x,y
       tabTitle: ["场地顾问推荐", "鲸灵智能推荐"],
+      showHistory: false,
       showArea: false,
       showDate: false,
       showType: false,
@@ -141,6 +164,11 @@ export default {
         {title: "进车场地", isSelect: false}, {title: "美食餐饮", isSelect: false}, {title: "免费WIFI", isSelect: false}, {title: "健身娱乐", isSelect: false}, {title: "自然采光", isSelect: false}, 
         {title: "阳光房", isSelect: false}, {title: "水景", isSelect: false}, {title: "露台", isSelect: false}, {title: "高尔夫", isSelect: false}, {title: "艺术特色", isSelect: false}, 
         {title: "地铁沿线", isSelect: false}, {title: "声光电设备", isSelect: false}
+      ],
+      historyData:[//历史订单记录
+        { addrask: "北京市/北京市/东城区", ordernum:'JDY12312', status:'1', statusname:'客服已受理', area: "北京市/北京市/东城区", date: "2019/07/11", num: "50人以下", price: "1万-5万", sitetype: "四星酒店", needs:[ { isSelect:true, title:"无柱"}, { isSelect:true, title:"泳池"}]},
+        { addrask: "四川省/成都市/高新区", ordernum:'JDY12313', status:'2',  statusname:'方案已生成', area: "四川省/成都市/高新区", date: "2019/07/13", num: "50-100人", price: "1万-5万", sitetype: "五星酒店", needs:[ { isSelect:true, title:"温泉"}, { isSelect:true, title:"室外"}]},
+        { addrask: "四川省/成都市/高新区", ordernum:'JDY12314', status:'0',  statusname:'订单已取消', area: "四川省/成都市/高新区", date: "2019/07/13", num: "50-100人", price: "1万-5万", sitetype: "五星酒店", needs:[ { isSelect:true, title:"温泉"}, { isSelect:true, title:"室外"}]},
       ],
       area:'',//选择的城市信息
       type:'',//活动类型
@@ -205,6 +233,32 @@ export default {
           url: '/pages/findSite/mindRecommend/main?form=' + JSON.stringify(form)
         })
       }
+    },
+    // 查看订单详情
+    goDetail(data){
+      wx.navigateTo({
+        url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(data),
+      })
+    },
+
+    // 滑动开始位置
+    touchStart (e) {
+        let sx = e.touches[0].pageX
+        let sy = e.touches[0].pageY
+        this.touchS = [sx, sy]
+    },
+    // 滑动移动位置
+    touchMove(e) {
+        let sx = e.touches[0].pageX;
+        let sy = e.touches[0].pageY;
+        this.touchE = [sx, sy]
+    },
+    // 滑动结束位置
+    touchEnd(e) {
+        if (this.touchS[1] > this.touchE[1] + 50) {
+            console.log('上滑');
+            this.showHistory = true;
+        }
     },
 
     // 输入手机号
@@ -427,7 +481,7 @@ export default {
   color: #999;
   border: none;
   border-radius: 3px;
-  width:40%;
+  width:39%;
   text-align center
 }
 .needs-active{
@@ -440,7 +494,7 @@ export default {
   border-radius: 16rpx;
   line-height: 50rpx;
   border-radius: 3px;
-  width:40%;
+  width:39%;
   text-align center
 }
 .needs-box .btn{
@@ -470,6 +524,72 @@ export default {
 .needs-box button::after{
   border none
 }
+.footer-desc{
+  margin-bottom 20px
+}
+.history-box{
+  .add{
+    justify-content center
+  }
+  .card{
+    position: relative;
+    top: -20px;
+    display: flex;
+    align-items center
+    flex-wrap wrap
+    margin: 0 auto;
+    width: 82%;
+    border-radius: 10px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px 15px
+    margin-bottom 15px
+    van-icon{
+      color #11bcfd
+      font-size 30px
+    }
+    .first-title{
+      width 100%
+      text-align center
+      font-size 15px
+    }
+    .title{
+      padding 10px 0
+      font-weight bold
+      font-size 18px
+      width 100%
+    }
+    .needs{
+      font-size 14px
+      display inline-block
+      background-color #dcf3fc
+      color #5ad0fc
+      padding:3px 10px;
+      border-radius 3px
+      margin 5px 5px 5px 0
+    }
+    .date{
+      font-size 15px
+      color #90959a
+      padding 5px 0
+      margin-bottom 5px
+      border-bottom 1px solid #f3f3f3
+      width 100%
+      span{
+        float right
+        color #262e46
+        font-size 15px
+      }
+      .cancel{
+        color #90959a
+      }
+    }
+    .creat-time{
+      border-bottom none
+    }
+  }
+}
+
 </style>
 
 
