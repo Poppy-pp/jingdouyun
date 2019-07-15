@@ -34,7 +34,7 @@
     </div>
 
     <!-- 分享好友 弹出层 -->
-    <van-popup :show="showShare" position="bottom" class="share-pop">
+    <van-popup :show="showShare" position="bottom" class="share-pop" @close="showShare = false">
       <p class="title">分享至</p>
       <div class="share-item">
         <div class="icon-box">
@@ -200,7 +200,7 @@ export default {
           align-items center
           i{
             color #111a34
-            font-size 14px
+            font-size 12px
             display inline
             margin-left 10px
           }
@@ -209,7 +209,7 @@ export default {
           margin-left 4px
           margin-bottom 3px
           padding 0
-          font-size 14px
+          font-size 12px
         }
         .result-title:last-child{
           margin-left 17px

@@ -17,13 +17,13 @@
           <!-- tab页一 -->
         <div v-show="active == 0">
           <van-cell-group>
-            <van-field v-model="area" label="活动城市" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="type" label="活动类型" is-link @click="showActionType" readonly="readonly" placeholder="请选择活动类型"/>
-            <van-field v-model="date" label="活动时间" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" clearable label="联系电话" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
-            <van-field v-model="sms" clearable label="验证码" placeholder="请输入验证码" @input="inputSms"/>
+            <van-field v-model="area" label="活动城市*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
+            <van-field v-model="type" label="活动类型*" is-link @click="showActionType" readonly="readonly" placeholder="请选择活动类型"/>
+            <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
+            <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
+            <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
+            <van-field v-model="phone" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
+            <van-field v-model="sms" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
             <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
                 <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
@@ -33,13 +33,13 @@
         <!-- tab页二 -->
         <div v-show="active == 1">
             <van-cell-group>
-            <van-field v-model="area" label="活动城市" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="sitetype" label="场地类型" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
-            <van-field v-model="date" label="活动时间" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="addrask" label="位置要求" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="showeneeds" label="活动需求" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
+            <van-field v-model="area" label="活动城市*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
+            <van-field v-model="sitetype" label="场地类型*" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
+            <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
+            <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
+            <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
+            <van-field v-model="addrask" label="位置要求*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择位置要求"/>
+            <van-field v-model="showeneeds" label="活动需求*" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
             <button class="free-btn" @click="recommendSite">
                 <p class="title">智能速配</p>
                 <p class="desc">5s生成场地方案</p>
@@ -72,11 +72,11 @@
     </div>
 
     <!-- 省市区 弹出层 -->
-    <van-popup :show="showArea" position="bottom">
+    <van-popup :show="showArea" position="bottom" @close="showArea = false">
         <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel"/>
     </van-popup>
     <!-- 选择时间 弹出层 -->
-    <van-popup :show="showDate" position="bottom">
+    <van-popup :show="showDate" position="bottom" @close="showDate = false">
         <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
     </van-popup>
     <!-- 活动类型 弹出层-->
@@ -88,7 +88,7 @@
     <!-- 场地类型 弹出层 -->
     <van-action-sheet :show="showSite" :actions="siteActions" @select="onSelectSite" @cancel="onCancelSite" cancel-text="取消" />
     <!-- 活动需求 弹出层 -->
-    <van-popup :show="showNeeds" position="bottom">
+    <van-popup :show="showNeeds" position="bottom" @close="showNeeds = false">
       <div class="needs-box">
         <block v-for="(item, index) in needsList" :key="index">
           <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectNeeds(index)'>{{item.title}}</text>

@@ -39,8 +39,6 @@ export default {
               key : firstName
           });
       })
-      console.log(storeCity)
-
       this.city = storeCity;
     }
   },

@@ -28,6 +28,7 @@
     "van-switch": "vant-weapp/dist/switch/index",
     "van-icon": "vant-weapp/dist/icon/index",
     "van-dialog": "vant-weapp/dist/dialog/index",
+    "van-tree-select": "vant-weapp/dist/tree-select/index",
     "i-index": "../static/iview/index/index",
     "i-index-item": "../static/iview/index-item/index"
   },
