@@ -103,12 +103,12 @@ export default {
     display:flex;
     justify-content center
     width 100%
-    height 70px
+    height 40px
   }
   .icon img{
     display inline-block
-    width 40px
-    height 40px
+    width 25px
+    height 25px
     padding 5px
   }
   .icon .circle{
@@ -123,51 +123,54 @@ export default {
     text-align center
   }
   .icon-title{
-    font-size 18px
+    font-size 14px
     color #ffffff
     margin-top:-20px
-  }
-  .icon-desc{
-    font-size 12px
-    color #ffffff
     text-align center
   }
-  .icon.cancel{
-    height 50px
+  .icon-desc{
+    font-size 20rpx
+    color #ffffff
+    text-align center
+    margin-top 3px
   }
   .icon.cancel img{
-    width 30px
-    height 30px
+    width 20px
+    height 20px
     padding 10px
+    margin-top:20px;
   }
 }
 .card {
   position: relative;
-  top: -50px;
+  top: -70px;
   display: block;
   margin: 0 auto;
   width: 80%;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  padding: 0 20px 40px 20px;
+  padding: 0 20px 70px 20px;
   .divider{
-    padding 20px 0
-    font-size 18px
+    padding 20px 0 10px 0
+    font-size 16px
+    font-weight 600
     color #000
     border-bottom 1px solid #f3f3f3
     .card-desc{
-      font-size 14px
+      font-size 12  px
       text-align center
       color #cdcdcd
       margin-top 5px
+      font-weight 300
     }
   }
   ul{
+    padding-top 10px
     li{
-      font-size 16px
-      color #666
-      padding 10px 0
+      font-size 14px
+      color #1b233c
+      padding 8px 0
     }
   }
 }
@@ -175,11 +178,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-self: flex-end;
-  .confirm, .cancel {
-    width: 48%;
+  .confirm, .cancel, .again {
+    width: 40%;
     display: inline-block;
-    font-size: 17px;
-    line-height: 45px;
+    font-size: 13px;
+    line-height: 35px;
+    border-radius 3px
   }
   .cancel{
     background-color:#9aa0a6;
@@ -190,9 +194,9 @@ export default {
     color #ffffff
   }
   .again{
-    width: 95%;
-    font-size: 17px;
-    line-height: 45px;
+    width: 90%;
+    font-size: 13px;
+    line-height: 35px;
   }
 }
 button::after {

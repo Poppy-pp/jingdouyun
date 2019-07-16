@@ -10,7 +10,7 @@
     <van-field v-model="sms" clearable label="验证码" placeholder="输入6位验证码"/>
     <p class="remember">
       <label>保存此号码供以后授权使用</label>
-      <van-switch :checked="remember" active-color="#11bcfd" inactive-color="#ccc" size="18px" @change="changeRemember"/> 
+      <van-switch :checked="remember" active-color="#11bcfd" inactive-color="#ccc" size="20px" @change="changeRemember"/> 
     </p>
     <button class="free-btn" @click="login">
         <p class="title">完成</p>
@@ -59,8 +59,10 @@ export default {
   padding 0 10px;
 }
 .login .welcome{
-  font-size 22px
-  padding 30px 18px 20px
+  font-size 20px
+  font-weight bold
+  padding 15px 18px 35px
+  color #111a34  
 }
 .sms-code{
     font-size: 14px;
@@ -69,12 +71,13 @@ export default {
 }
 .free-btn{
     background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
-    width: 95%;
+    width: 92%;
     color: #fff;
-    padding: 12px 0;
-    margin-top: 25px;
-    border-radius: 4px;
+    padding: 10px 0;
+    margin-top: 50px;
+    border-radius: 3px;
     line-height: 20px;
+    font-size 14px
 }
 .free-btn::after{ 
     border: none; 
@@ -84,9 +87,9 @@ export default {
     font-size: 15px;
 }
 .remember{
-  padding 15px 15px 15px 0
+  padding 10px 15px 10px 0
   margin-left 18px
-  font-size:16px;
+  font-size:14px;
   line-height:24px;
   border-bottom 1px solid #f3f3f3
 }

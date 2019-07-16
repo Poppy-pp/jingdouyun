@@ -46,7 +46,7 @@ export default {
   -o-transition: width 2s;
 }
 .container .title-radius{
-  padding: 5px 0 30px 0;
+  padding: 5px 0 45px 0;
   background-color: #56c6ff;
   position: relative;
   width: 105%;
@@ -61,12 +61,13 @@ export default {
 }
 .container .title-radius .title-text{
   color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 500;
 }
 .divider{
   text-align: center;
-  font-size: 15px;
-  color: #969b9f;
+  font-size: 13px;
+  color: #333333;
+  font-weight: 600;
 }
 </style>

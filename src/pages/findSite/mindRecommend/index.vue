@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="no-data">
+    <div :class="siteList.length == 0 ? 'no-data' : 'no-data-position'">
       <p>没有找到心仪的场地？</p>
       <p>让场地顾问1对1免费帮您找~</p>
       <button @click="goFindForm">免费帮我找场地</button>
@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    this.getQuery();
+    // this.getQuery();
   },
   created() {}
 };
@@ -113,40 +113,44 @@ export default {
   display: block;
   margin: 0 auto;
   width: 85%;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   padding: 10px 15px;
   .title{
-    padding 10px 0
+    padding 5px 0
     font-weight bold
-    font-size 18px
+    font-size 15px
   }
   .needs{
-    font-size 14px
+    font-size 20rpx
     display inline-block
     background-color #dcf3fc
-    color #5ad0fc
-    padding:3px 10px;
-    border-radius 3px
-    margin 5px 5px 5px 0
+    color #26c1fd
+    padding:1px 10px;
+    border-radius 2px
+    margin 0px 5px 0px 0
   }
   .date{
-    font-size 15px
+    font-size 12px
     color #90959a
     padding 5px 0
-    margin-bottom 5px
     border-bottom 1px solid #f3f3f3
+    width 100%
   }
   .creat-time{
     border-bottom none
   }
 }
 .no-data{
-  margin-top 50px
+  width 100%
   text-align center
-  font-size 15px
+  font-size 12px
   color #90959a
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   p{
     margin-bottom 5px
   }
@@ -155,8 +159,28 @@ export default {
     border 1px solid #11bcfd
     border-radius 20px
     background-color #ffffff
-    width 50%
-    font-size 15px
+    width 35%
+    font-size 12px
+    margin-top 20px
+  }
+}
+.no-data-position{
+  width 100%
+  text-align center
+  font-size 12px
+  color #90959a
+  position:relative;
+  margin-top 20px
+  p{
+    margin-bottom 5px
+  }
+  button{
+    color #11bcfd
+    border 1px solid #11bcfd
+    border-radius 20px
+    background-color #ffffff
+    width 35%
+    font-size 12px
     margin-top 20px
   }
 }
@@ -164,16 +188,15 @@ export default {
   display: block;
   margin: 0 auto;
   width: 85%;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   padding: 10px 15px;
   margin-top 10px
   .result-title{
-    font-size 15px
+    font-size 13px
     color #90959a
     padding 5px 0
-    margin-bottom 5px
   }
   ul{
     li{
@@ -182,8 +205,8 @@ export default {
       display flex
       align-items center
       img{
-        width 120px
-        height 100px
+        width 110px
+        height 95px
         border-radius 10px
         margin-right 10px
       }
@@ -191,16 +214,17 @@ export default {
         .title{
           padding 2px
           font-weight bold
-          font-size 18px
+          font-size 13px
+          margin-bottom 5px
         }
         .price{
-          font-size 18px
+          font-size 13px
           color #11bcfd
           display flex
           align-items center
           i{
             color #111a34
-            font-size 12px
+            font-size 20rpx
             display inline
             margin-left 10px
           }
@@ -225,7 +249,7 @@ export default {
     height 50px
     position fixed
     right 20px
-    bottom 80px
+    bottom 27%
     background: linear-gradient(to right, #02d4fc 0%,#1caafe 100%);
     border 3px solid #a9e5fc
     border-radius 50%
@@ -233,24 +257,25 @@ export default {
     align-items center
     justify-content center
     line-height 16px
+    z-index 10
     i{
       color #ffffff
-      font-size 15px
+      font-size 13px
     }
   }
 }
 .share-pop{
   .title{
     text-align center
-    font-size 15px
+    font-size 13px
     color #7f7f7f
-    padding 10px 0
+    padding 15px 0
   }
   .cancel{
     background-color #f4f5f7
-    color #4f575e
-    font-size 16px
-    padding 8px 0
+    color #333
+    font-size 14px
+    padding 15px 0
   }
   button::after{
     border:none
@@ -261,13 +286,13 @@ export default {
     padding 10px 60px 20px
     .icon-box{
       font-size 12px
-      color #7f7f7f
+      color #444
       display:inline-block;
       text-align center
     }
     img{
-      width 25px
-      height 25px
+      width 20px
+      height 20px
       padding 10px
       background-color #f1f2f3
       border-radius 50%

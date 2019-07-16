@@ -1,38 +1,170 @@
 <template>
-   <div class="container">
-    <div class="title-radius"></div>
-    <div class="card">
-      订单
+  <div class="container">
+    <div class="title-radius">
+      <div class="infomation">
+        <image src="http://img2.imgtn.bdimg.com/it/u=2667103721,4031219275&fm=26&gp=0.jpg" class="_headimage"></image>
+        <div class="info">
+          <div class="name">帅哥哥</div>
+          <div class="loookinfo">点击查看个人信息  <van-icon name="arrow" size="8px"/></div>
+        </div>
+      </div>
     </div>
-   </div>
+    <div class="card">
+      <div class="item">
+        <image src="/static/images/order.png" class="_tabimage"></image>
+        <text class="tabText">订单</text>
+      </div>
+      <div class="item" @click="goHot('我的收藏')">
+        <image src="/static/images/shoucang.png" class="_tabimage"></image>
+        <text class="tabText">收藏</text>
+      </div>
+      <div class="item" @click="goHot('我的足迹')">
+        <image src="/static/images/foot.png" class="_tabimage"></image>
+        <text class="tabText">足迹</text>
+      </div>
+    </div>
+    <div class="card centerNav">
+      <div class="Navitem">
+        <div class="item_metion">关注企业号/公众号</div>
+        <div class="item_value">获取行业最新资讯  <van-icon name="arrow" size="10px" /></div>
+      </div>
+      <div class="Navitem">
+        <div class="item_metion">下载鲸抖云App</div>
+        <div class="item_value">全方位活动服务平台  <van-icon name="arrow" size="10px" /></div>
+      </div>
+      <div class="Navitem" @click="showContact = true">
+        <div class="item_metion">客服电话</div>
+        <div class="item_value">010-1234151  <image src="/static/images/phone.png" class="_phone"></image></div>
+      </div> 
+      <div class="Navitem">
+        <div class="item_metion">关于我们</div>
+        <div class="item_value"><van-icon name="arrow" size="10px" /></div>
+      </div>
+      <div class="Navitem">
+        <div class="item_metion">意见反馈</div>
+        <div class="item_value"><van-icon name="arrow" size="10px" /></div>
+      </div>
+    </div>
+    <div class="my-metion">— 鲸抖云·让活动变的简单 —</div>
+    <!-- 电话 弹出层-->
+    <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
+  </div>
 </template>
 
 <script>
 export default {
-   data() {
-       return {}
-   },
+  data() {
+    return {
+      showContact:false,
+      contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
+    }
+  },
   components: {},
   computed:{},
-  methods:{},
+  methods:{
+    // 跳转到热门
+    goHot(data){
+      wx.navigateTo({
+        url: '/pages/index/hotSite/main?title=' + data,
+      })
+    },
+    // 选择呼叫
+    onSelectContact(val){ },
+  },
   created(){}
 }
 </script>
 
 <style scoped lang="stylus">
 .container .title-radius{
-  height 100px
+  height 120px
   padding-top 0
 }
+.infomation{
+  width:85%;
+  height: 63px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:row;
+  padding:22px 0;
+}
+._headimage{
+  width:63px;
+  height:63px;
+  border-radius:50%;
+}
+.info{
+  color:white;
+  line-height:31.5px;
+  margin-left:15px;
+}
+.name{
+  font-size:22px;
+}
+.loookinfo{
+  font-size:12px;
+  color:#f2f2f2;
+}
 .card {
-   position relative
-   top -50px
+  position relative
+  top -60px
   display: block;
   margin: 0 auto;
   width: 85%;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   padding: 10px 15px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around ;
+}
+.item{
+  display:flex;
+  flex-direction :column;
+  text-align:center;
+}
+._tabimage{
+  width:50px
+  height:40px
+}
+.tabText{
+  font-size:14px;
+}
+.centerNav{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+}
+.Navitem{
+  width:96%;
+  height:51px;
+  margin:0 auto;
+  line-height:55px;
+  border-bottom:1px solid #f3f3f3;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+}
+.Navitem:last-child{
+  border-bottom none
+}
+.item_metion{
+  font-size:16px;
+  color:#111a34;
+}
+.item_value{
+  font-size:13px;
+  color:#969b9f;
+}
+._phone{
+  width:20px;
+  height:20px;
+}
+.my-metion{
+  color:#969b9f;
+  font-size:14px;
+  text-align:center;
+  padding-bottom:10px;
 }
 </style>

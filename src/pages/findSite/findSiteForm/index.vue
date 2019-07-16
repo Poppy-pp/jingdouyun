@@ -199,11 +199,11 @@ export default {
 }
 .free-btn{
     background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
-    width: 90%;
+    width: 84%;
     color: #fff;
     padding: 10px 0;
-    margin-top: 15px;
-    border-radius: 4px;
+    margin-top: 38px;
+    border-radius: 3px;
     line-height: 25px;
 }
 .free-btn::after{ 
@@ -211,12 +211,12 @@ export default {
     outline: none;
 }
 .free-btn .title{
-    font-size: 15px;
+    font-size: 13px;
 }
 .desc{
     font-size: 12px;
     color #8e9398
     text-align center
-    margin-top 15px
+    margin-top 25px
 }
 </style>

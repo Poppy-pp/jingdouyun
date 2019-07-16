@@ -1,6 +1,6 @@
 <!--轮播  -->
 <template>
-    <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+    <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" indicator-color="#eaeaea" indicator-active-color="#ffffff">
         <block v-for="(item, index) in images" :key="index">
             <swiper-item>
                 <image :src="item.url" class="slide-image" mode="aspectFill"/>
@@ -29,8 +29,8 @@ export default {
 
 <style scoped>
 .swiper {
-  height: 350rpx !important;
-  margin-top: 50px;
+  height: 370rpx !important;
+  margin-top: 49px;
 }
 image {
   height: 100%;

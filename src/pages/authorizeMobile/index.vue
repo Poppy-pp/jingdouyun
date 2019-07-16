@@ -45,7 +45,7 @@ export default {
 
 <style lang="stylus" scoped>
 .pop {
-  padding: 30px 0;
+  padding: 22px 0 50px 0;
 }
 
 .pop .title, .pop .type, .pop .other, .pop .btn {
@@ -55,12 +55,14 @@ export default {
 .pop .title {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
+  color #333333
 }
 
 .pop .title img {
   width: 20px;
   height: 20px;
+  margin-right 5px
 }
 
 .pop .type {
@@ -70,7 +72,7 @@ export default {
 
 .pop .label {
   float: left;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 van-cell {
@@ -80,8 +82,8 @@ van-cell {
 
 .pop .other {
   color: #4f7cc1;
-  margin-top: 10px;
-  font-size: 15px;
+  margin-top: 15px;
+  font-size: 12px;
 }
 
 .pop .btn {
@@ -91,10 +93,11 @@ van-cell {
 }
 
 .pop .refuse, .pop .allow {
-  width: 48%;
+  width: 47%;
   display: inline-block;
-  font-size: 17px;
-  line-height: 45px;
+  font-size: 14px;
+  line-height: 35px;
+  border-radius 3px
 }
 
 .pop .refuse {

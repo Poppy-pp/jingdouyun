@@ -1,7 +1,7 @@
 <!-- 找场地-首页 -->
 <template>
   <div class="container">
-    <div class="title-radius"></div>
+    <div class="title-radius"><p class="title-text">活动场地一站式服务</p></div>
 
     <!-- 首页 -->
     <div id="tab-box" v-if="!showHistory">
@@ -38,8 +38,8 @@
             <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="addrask" label="位置要求*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="showeneeds" label="活动需求*" is-link @click="showPopupNeeds" readonly="readonly" placeholder="请选择活动需求"/>
+            <van-field v-model="addrask" label="位置要求*" is-link @click="goAreaAsk" readonly="readonly" placeholder="请选择位置要求"/>
+            <van-field v-model="showeneeds" label="活动需求*" is-link @click="goActivityNeeds" readonly="readonly" placeholder="请选择活动需求"/>
             <button class="free-btn" @click="recommendSite">
                 <p class="title">智能速配</p>
                 <p class="desc">5s生成场地方案</p>
@@ -66,7 +66,7 @@
     </div>
 
     <!-- 分割线 -->
-    <div @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd' class="footer-desc">
+    <div @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd'>
       <p class="divider">— 鲸抖云·让活动变得简单 —</p>
       <i class="pull-down" v-if="!showHistory">上划查看历史需求订单</i>
     </div>
@@ -87,19 +87,6 @@
     <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消" />
     <!-- 场地类型 弹出层 -->
     <van-action-sheet :show="showSite" :actions="siteActions" @select="onSelectSite" @cancel="onCancelSite" cancel-text="取消" />
-    <!-- 活动需求 弹出层 -->
-    <van-popup :show="showNeeds" position="bottom" @close="showNeeds = false">
-      <div class="needs-box">
-        <block v-for="(item, index) in needsList" :key="index">
-          <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectNeeds(index)'>{{item.title}}</text>
-        </block>
-        <div class="btn">
-          <button class="cancel" @click="showNeeds = false">取消</button>
-          <button class="resize" @click="resizeNeeds">重置</button>
-          <button class="confirm" @click="submitNeeds">确定</button>
-        </div>
-      </div>
-    </van-popup>
     <!-- 提示 -->
     <van-toast :show="showToast" :message="toastMsg"/>
   </div>
@@ -123,7 +110,6 @@ export default {
       showNum: false,
       showPrice: false,
       showToast: false,
-      showNeeds: false,
       toastMsg: '',//提示文字信息
       currentDate: new Date().getTime(),//时间戳格式
       areaList: addressInfo,
@@ -157,13 +143,6 @@ export default {
       siteActions: [
         { name: '不限' }, { name: '五星酒店' }, { name: '四星酒店' }, { name: '三星酒店' }, { name: '经济酒店' }, { name: '艺术展馆' }, { name: '体育场馆' }, 
         { name: '会议中心' },{ name: '商超/综合体' }, { name: '公共空间' }, { name: '特色场地' }, { name: '剧院影院' }, { name: '高端会所' }, { name: '餐厅酒吧' },
-      ],
-      needsList: [ {title: "不限", isSelect: false}, {title: "客房住宿", isSelect: false}, {title: "场地方正", isSelect: false}, {title: "网红打卡", isSelect: false}, 
-        {title: "无柱", isSelect: false}, {title: "泳池", isSelect: false}, {title: "温泉", isSelect: false}, {title: "景区周围", isSelect: false},  {title: "园林草坪", isSelect: false}, 
-        {title: "户外广场", isSelect: false}, {title: "郊野", isSelect: false}, {title: "豪华", isSelect: false}, {title: "私密", isSelect: false}, {title: "中式", isSelect: false}, 
-        {title: "进车场地", isSelect: false}, {title: "美食餐饮", isSelect: false}, {title: "免费WIFI", isSelect: false}, {title: "健身娱乐", isSelect: false}, {title: "自然采光", isSelect: false}, 
-        {title: "阳光房", isSelect: false}, {title: "水景", isSelect: false}, {title: "露台", isSelect: false}, {title: "高尔夫", isSelect: false}, {title: "艺术特色", isSelect: false}, 
-        {title: "地铁沿线", isSelect: false}, {title: "声光电设备", isSelect: false}
       ],
       historyData:[//历史订单记录
         { addrask: "北京市/北京市/东城区", ordernum:'JDY12312', status:'1', statusname:'客服已受理', area: "北京市/北京市/东城区", date: "2019/07/11", num: "50人以下", price: "1万-5万", sitetype: "四星酒店", needs:[ { isSelect:true, title:"无柱"}, { isSelect:true, title:"泳池"}]},
@@ -241,6 +220,20 @@ export default {
       })
     },
 
+    // 位置要求
+    goAreaAsk(){
+      wx.navigateTo({
+        url: '/pages/findSite/areaAsk/main',
+      })
+    },
+
+    // 活动需求
+    goActivityNeeds(){
+      wx.navigateTo({
+        url: '/pages/findSite/activityNeeds/main',
+      })
+    },
+
     // 滑动开始位置
     touchStart (e) {
         let sx = e.touches[0].pageX
@@ -277,8 +270,7 @@ export default {
     // 确认地址
     onAddrConfirm(val){
         this.showArea = false;
-        this.area = val.target.values[0].name + '/' + val.target.values[1].name + '/' + val.target.values[2].name ;
-        this.addrask = this.area;
+        this.area = val.target.values[0].name + '/' + val.target.values[1].name + '/' + val.target.values[2].name;
     },
     // 取消地址
     onAddrCancel(){
@@ -347,36 +339,6 @@ export default {
       this.showSite = false;
     },
 
-    // 活动需求
-    showPopupNeeds() {
-      this.showNeeds = true;
-    },
-    // 点击选择活动需求
-    selectNeeds(index) {
-      this.needsList[index].isSelect = !this.needsList[index].isSelect;
-    },
-    // 重置活动需求
-    resizeNeeds(){
-      this.needs = [];
-      this.needsList.forEach((item,index) =>{
-        item.isSelect = false;
-      })
-    },
-    // 确认选择活动需求
-    submitNeeds(){
-      this.needs = [];//初始化
-      this.showeneeds = '';
-      this.needsList.forEach((v,i)=>{
-        if(v.isSelect){
-          this.needs.push(v)
-        }
-      })
-      this.needs.forEach((item,index) =>{
-        this.showeneeds += item.title + '/';//页面显示
-      })
-      this.showNeeds = false;
-    },
-
     //初始化数据 
     clearData(){
       this.area = '';
@@ -386,35 +348,35 @@ export default {
       this.price = '';
       this.phone = '';
       this.sms = '';
-    }
+    },
   },
   created() {
-    this.clearData()
+    this.clearData();
   }
 };
 </script>
 <style scoped lang="stylus">
 #tab-box {
   position: relative;
-  top: -20px;
+  top: -32px;
   display: block;
   margin: 0 auto;
   width: 90%;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  padding: 0 0 15px 0;
+  padding: 0 0 10px 0;
 }
 .tab-tilte {
   width: 100%;
 }
 .tab-tilte li {
   width: 50%;
-  padding: 15px 0;
+  padding: 10px 0;
   text-align: center;
   background-color: #dcf3fc;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   color: #8e9398;
   display: inline-block;
 }
@@ -428,6 +390,7 @@ export default {
 .tab-tilte .active {
   background-color: #fff;
   color: #333333;
+  font-weight 600
 }
 .tab-content div {
   width: 100%;
@@ -439,93 +402,34 @@ export default {
 }
 .free-btn{
     background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
-    width: 95%;
+    width: 92%;
     color: #fff;
-    padding: 8px 0;
+    padding: 6px 0;
     margin-top: 15px;
-    border-radius: 4px;
-    line-height: 20px;
+    border-radius: 3px;
+    line-height: 18px;
 }
 .free-btn::after{ 
     border: none; 
     outline: none;
 }
 .free-btn .title{
-    font-size: 15px;
+    font-size: 14px;
 }
 .free-btn .desc{
-    font-size: 12px;
+    font-size:22rpx;
 }
 .pull-down{
     text-align: center;
-    font-size: 12px;
-    margin: 10px 0;
-    color: #cdcdcd;
+    font-size:22rpx;
+    margin:8rpx 0;
+    color: #c1c1c1;
 }
 .describe{
     text-align: center;
-    font-size: 12px;
-    color: #cdcdcd;
+    font-size:22rpx;
+    color: #c1c1c1;
     margin-top: 5px;
-}
-.needs-box{
-  padding: 10px
-}
-.needs-select{
-  display: inline-block;
-  line-height: 50rpx;
-  padding: 14rpx 26rpx;
-  margin: 10rpx 10rpx;
-  font-size: 26rpx;
-  background: #f6f7f8;
-  color: #999;
-  border: none;
-  border-radius: 3px;
-  width:39%;
-  text-align center
-}
-.needs-active{
-  display: inline-block;
-  background: #f0f1f1;
-  color: #11bcfd;
-  font-size: 26rpx;
-  padding: 14rpx 26rpx;
-  margin: 10rpx 10rpx;
-  border-radius: 16rpx;
-  line-height: 50rpx;
-  border-radius: 3px;
-  width:39%;
-  text-align center
-}
-.needs-box .btn{
-  margin-top 20px
-  display flex
-  justify-content space-between
-}
-.needs-box .resize, .needs-box .confirm, .needs-box .cancel{
-  width 31%
-  display inline-block
-  font-size 16px
-  line-height 40px
-  border-radius 4px
-}
-.needs-box .resize{
-  background-color #c7cbcf
-  color #ffffff
-}
-.needs-box .confirm{
-  background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
-  color #ffffff
-}
-.needs-box .cancel{
-  background-color:#f5f5f5;
-  color:#999;
-}
-.needs-box button::after{
-  border none
-}
-.footer-desc{
-  margin-bottom 20px
 }
 .history-box{
   .add{
@@ -533,20 +437,20 @@ export default {
   }
   .card{
     position: relative;
-    top: -20px;
+    top: -30px;
     display: flex;
     align-items center
     flex-wrap wrap
     margin: 0 auto;
     width: 82%;
-    border-radius: 10px;
+    border-radius: 7px;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    padding: 10px 15px
+    padding: 8px 20px
     margin-bottom 15px
     van-icon{
       color #11bcfd
-      font-size 30px
+      font-size 24px
     }
     .first-title{
       width 100%
@@ -554,22 +458,22 @@ export default {
       font-size 15px
     }
     .title{
-      padding 10px 0
+      padding 5px 0
       font-weight bold
-      font-size 18px
+      font-size 15px
       width 100%
     }
     .needs{
-      font-size 14px
+      font-size 20rpx
       display inline-block
       background-color #dcf3fc
-      color #5ad0fc
-      padding:3px 10px;
-      border-radius 3px
-      margin 5px 5px 5px 0
+      color #26c1fd
+      padding:1px 10px;
+      border-radius 2px
+      margin 0px 5px 0px 0
     }
     .date{
-      font-size 15px
+      font-size 12px
       color #90959a
       padding 5px 0
       margin-bottom 5px
@@ -578,7 +482,7 @@ export default {
       span{
         float right
         color #262e46
-        font-size 15px
+        font-size 14px
       }
       .cancel{
         color #90959a
