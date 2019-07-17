@@ -13,7 +13,10 @@
     "pages/findSite/activityNeeds/main",
     "pages/findSite/findSiteForm/main",
     "pages/index/cityIndex/main",
-    "pages/index/hotSite/main"
+    "pages/index/hotSite/main",
+    "pages/index/articleDetail/main",
+    "pages/index/siteDetail/main"
+    
   ],
   "usingComponents": {
     "van-button": "vant-weapp/dist/button/index",

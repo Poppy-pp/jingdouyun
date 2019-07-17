@@ -8,7 +8,7 @@
         <van-icon name="search" />
         <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff">
       </p>
-      <img class="adviser" src="../../../static/images/adviser.png" alt="">
+      <img class="adviser" src="../../../static/images/adviser.png" alt="" @click="showContact = true">
     </div>
     <!-- 轮播 --> 
     <Swiper :images="images"/>
@@ -28,7 +28,7 @@
       </div>
       <div class="site-box">
         <ul>
-          <li v-for="(item,index) in siteList" :key="index">
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
             <img src="../../../static/images/default.png">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
@@ -70,6 +70,8 @@
         </ul>
       </div>
     </van-popup>
+    <!-- 电话 弹出层-->
+    <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
   </div>
 </template>
 
@@ -80,6 +82,8 @@ export default {
   data() {
     return {
       addr:'北京',
+      showContact: false,
+      contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
       images: [
         { url: "../../static/images/banner.png" },
         { url: "../../static/images/banner.png" },
@@ -142,6 +146,12 @@ export default {
         url: '/pages/index/hotSite/main?title=' + data,
       })
     },
+    // 跳转至场地详情
+    goSiteDetail(){
+      wx.navigateTo({
+        url: '/pages/index/siteDetail/main',
+      })
+    },
     // 点击筛选下拉菜单
     chooseSearch(data){
       this.chooseSearchTitle = data;
@@ -198,6 +208,8 @@ export default {
         this.price = item.name;
       }
     },
+    // 选择呼叫
+    onSelectContact(val){ },
     
   },
   created() {

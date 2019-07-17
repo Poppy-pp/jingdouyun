@@ -156,6 +156,8 @@ export default {
 .item_value{
   font-size:13px;
   color:#969b9f;
+  display:flex;
+  align-items:center;
 }
 ._phone{
   width:20px;

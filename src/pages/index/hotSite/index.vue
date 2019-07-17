@@ -1,9 +1,9 @@
-<!-- 热门城市 -->
+<!-- 热门城市/推荐/我的收藏 -->
 <template>
    <div class="container">
      <div class="site-box">
        <div class="scroll" v-if="mystatus">
-          <button v-for="(item,index) in tags" :key="index">{{ item }}</button>
+          <button v-for="(item,index) in tags" :key="index" @click="chooseTags(item)">{{ item }}</button>
        </div>
         <ul>
           <li v-for="(item,index) in siteList" :key="index">
@@ -35,8 +35,8 @@ export default {
           {name:'朝阳公园', price:'12000', num:'700人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
           {name:'朝阳公园', price:'12000', num:'800人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
         ],
-        tags:[ '全部(6)', '体育场馆(6)', '会议中心(6)', '酒店(6)', '泳池(6)', '户外(6)', '健身(6)'],
-        mystatus:false,//我的收藏、我的足迹 状态
+        tags:[ '全部(6)', '体育场馆(1)','酒店(3)',  '会议中心(2)', '泳池(4)', '户外(6)', '健身(6)'],
+        mystatus:false,//我的收藏状态
        }
    },
   components: {},
@@ -47,13 +47,19 @@ export default {
       const pages = getCurrentPages();
       const currentPage = pages[pages.length - 1];
       const options = currentPage.options;
-      if (options.title == '我的收藏' || options.title == '我的足迹') {
+      if (options.title == '我的收藏') {
         this.mystatus = true;
+      }else{
+        this.mystatus = false;
       }
       // 设置页面标题
       wx.setNavigationBarTitle({
         title: options.title
       })
+    },
+    // 选择查询条件
+    chooseTags(item){
+
     },
   },
   mounted () {
@@ -159,9 +165,8 @@ export default {
     }
   }
   .scroll{
-    width 100%
-    overflow hidden
-    // overflow-x: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
     button{
       display inline-block
       font-size 12px
