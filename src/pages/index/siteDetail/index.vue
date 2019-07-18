@@ -21,13 +21,13 @@
         </span>
       </div>
       <div class="address">
-        <i class="result-title"><van-icon name="location-o" />北京市五道口和平路128号<br><span>距市中心2.32千米</span></i>
+        <i class="result-title"><img class="address-icon" src="/static/images/address.png" />北京市五道口和平路128号<br><span>距市中心2.32千米</span></i>
         <img src="/static/images/map.png" alt="">
       </div>
     </div>
     <!--场地主官宣 -->
     <div class="site-declare">
-      <p class="title-p">场地主官宣 <span class="num">2</span><i>更多<van-icon name="arrow" size="10px" /></i></p>
+      <p class="title-p">场地主官宣 <span class="num">2</span><i @click="goSiteDeclare">更多<van-icon name="arrow" size="10px" /></i></p>
       <div class="person">
         <img class="avatar" src="/static/images/avatar.jpg" alt="">
         <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
@@ -41,7 +41,7 @@
       <p class="title-p">场地空间 <span class="num">5间</span></p>
        <div class="site-box">
         <ul>
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.name)">
             <img src="/static/images/default.png">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
@@ -56,7 +56,7 @@
     </div>
     <!-- 场地介绍 -->
     <div class="site-introduce">
-      <p class="title-p">场地介绍 <i>更多<van-icon name="arrow" size="10px" /></i></p>
+      <p class="title-p">场地介绍 <i @click="goSiteIntroduce">更多<van-icon name="arrow" size="10px" /></i></p>
       <p class="text">美食荟萃的演艺秀场大戏楼坐落于北京东五环京城梨园公园内。是国家一流京剧表演团体演出大戏楼大戏楼将传统的北京戏楼文化重彰于世，
         是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
       </p>
@@ -70,7 +70,7 @@
           <div class="right-box">
             <p class="title">{{ item.name }}</p>
             <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-            <i class="result-title"><van-icon name="location-o" />{{ item.far + item.addr }}</i>
+            <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ item.far + item.addr }}</i>
           </div>
         </div>
       </div>
@@ -137,6 +137,24 @@ export default {
         {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
         {name:'朝阳公园第二宴会厅', price:'12000', num:'500人', count:'8间', area:'2400m',  tag:'无柱'})
     },
+    // 跳转场地介绍
+    goSiteIntroduce(){
+      wx.navigateTo({
+        url: '/pages/index/siteIntroduce/main',
+      })
+    },
+    // 跳转场地主官宣
+    goSiteDeclare(){
+      wx.navigateTo({
+        url: '/pages/index/siteDeclare/main',
+      })
+    },
+    // 跳转场地空间详情
+    goSiteSpace(data){
+      wx.navigateTo({
+        url: '/pages/index/siteSpace/main?title=' + data,
+      })
+    }
   },
   created(){}
 }
@@ -167,7 +185,7 @@ export default {
   }
   .num{
     font-size 16px
-    margin-left:10px;
+    margin-left:5px;
     color #8e9398
   }
   i{

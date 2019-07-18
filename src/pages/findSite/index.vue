@@ -191,13 +191,13 @@ export default {
     },
     // 智能推荐
     recommendSite(){
-      if (this.area == '' || this.sitetype == '' || this.date == '' || this.num == '' || this.price == '' || this.addrask == '' || this.needs == ''){
-        this.showToast = true;
-        this.toastMsg = '请填写完整的活动信息！';
-        setTimeout(() => {
-          this.showToast = false;
-        }, 2000);
-      }else{
+      // if (this.area == '' || this.sitetype == '' || this.date == '' || this.num == '' || this.price == '' || this.addrask == '' || this.needs == ''){
+      //   this.showToast = true;
+      //   this.toastMsg = '请填写完整的活动信息！';
+      //   setTimeout(() => {
+      //     this.showToast = false;
+      //   }, 2000);
+      // }else{
         // 跳转至智能推荐页面
         let form = {
           area: this.area,
@@ -211,7 +211,7 @@ export default {
         wx.navigateTo({
           url: '/pages/findSite/mindRecommend/main?form=' + JSON.stringify(form)
         })
-      }
+      // }
     },
     // 查看订单详情
     goDetail(data){

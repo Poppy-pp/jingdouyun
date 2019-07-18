@@ -1,17 +1,20 @@
 <!--图片左右滑动  -->
 <template>
-    <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" >
+  <div class="container">
+    <swiper :class="status ? 'swiper declare' : 'swiper'" :indicator-dots="indicatorDots" :autoplay="autoplay" >
         <block v-for="(item, index) in images" :key="index">
             <swiper-item>
                 <image :src="item.url" class="slide-image" mode="aspectFill"/>
                 <span class="tag">{{ index+1 +'/' + images.length }}</span>
-                <div v-if="index == 0" class="play">
+                <div v-if="index == 0 && noplay == false" class="play">
                   <img src="/static/images/play.png" alt="">
                   <span>00'30'</span>
                 </div>
             </swiper-item>
         </block>
-    </swiper> 
+    </swiper>
+  </div>
+      
 </template>
 
 <script>
@@ -19,16 +22,24 @@ export default {
   props: {
     images: {
       type: Array
-    }
+    },
+    status:{
+      type: Boolean
+    },
+    noplay:{
+      type: Boolean
+    },
   },
   data() {
     return {
       indicatorDots: false,
       autoplay: false,
+      showBigImg:false,
+      active: 0,
     };
   },
   methods: {
-  }
+  },
 };
 </script>
 
@@ -77,6 +88,12 @@ export default {
       border-top-right-radius 10px
       border-bottom-right-radius 10px
     }
+  }
+}
+.declare{
+  height: 214px;
+  swiper-item{
+    border-radius 10px
   }
 }
 </style>

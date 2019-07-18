@@ -12,7 +12,7 @@
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
               <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-              <i class="result-title"><van-icon name="location-o" />{{ item.far }}</i>
+              <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ item.far }}</i>
               <i class="result-title">{{item.addr }}</i>
             </div>
           </li>

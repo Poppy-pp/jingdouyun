@@ -14,7 +14,7 @@
     <Swiper :images="images"/>
     <!-- 鲸鸿一撇 -->
     <div class="hot-box" >
-      <p class="title-box"> <img src="../../../static/images/qipao.png" > 鲸鸿一撇</p>
+      <p class="title-box"> <img src="../../../static/images/qipao.png" > 鲸鸿·一瞥</p>
       <div class="hot-item" v-for="(item,index) in hotList" :key="index" @click="goHot(item.title)">
         <image :src="item.url" />
         <span>{{ item.title }}</span>
@@ -34,7 +34,7 @@
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
               <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-              <i class="result-title"><van-icon name="location-o" />{{ item.far }}</i>
+              <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ item.far }}</i>
               <i class="result-title">{{item.addr }}</i>
             </div>
 
@@ -90,10 +90,9 @@ export default {
         { url: "../../static/images/banner.png" }
       ],
       hotList: [
-        { url :'../../static/images/hot-1.png', title: '热门场地' },
-        { url :'../../static/images/hot-2.png', title: '特价专区' },
-        { url :'../../static/images/hot-3.png', title: '点击榜' },
-        { url :'../../static/images/hot-4.png', title: '城市地标' }
+        { url :'../../static/images/hot-1.png', title: '合作案例' },
+        { url :'../../static/images/hot-2.png', title: '热门场地' },
+        { url :'../../static/images/hot-3.png', title: '城市地标' }
       ],
       searchTitle: ['区域','类型','面积','人数','价格'],
       siteList: [
@@ -140,11 +139,17 @@ export default {
         url: '/pages/index/cityIndex/main',
       })
     },
-    // 跳转到热门
+    // 跳转到热门/合作案例
     goHot(data){
-      wx.navigateTo({
-        url: '/pages/index/hotSite/main?title=' + data,
-      })
+      if (data == '合作案例') {
+        wx.navigateTo({
+          url: '/pages/index/cooperateCase/main?title=' + data,
+        })
+      }else{
+        wx.navigateTo({
+          url: '/pages/index/hotSite/main?title=' + data,
+        })
+      }
     },
     // 跳转至场地详情
     goSiteDetail(){
@@ -284,10 +289,11 @@ export default {
 .hot-box{
   padding 42px 15px 11px
   .hot-item{
-    width 50%
-    height 132px
+    width 130px
+    height 83px
     display inline-block
     position relative
+    margin-top 10px
     image{
       width 100%
       height 100%
@@ -297,27 +303,36 @@ export default {
       left 10px
       bottom 10px
       color #ffffff
-      font-size 16px
+      font-size 18px
     }
   }
-  :nth-child(2) image{
-    border-top-left-radius 10px
-  }
-  :nth-child(3) image{
-    border-top-right-radius 10px
-  }
-  :nth-child(4){
-    top:-5px;
+  :nth-child(2).hot-item{
+    width 208px
+    height 170px
+    margin-right:5px;
     image{
+      border-top-left-radius 10px
       border-bottom-left-radius 10px
     }
-  } 
-  :nth-child(5){
-    top:-5px;
+  }
+  :nth-child(3).hot-item{
+    position:absolute;
+    margin-bottom:5px;
+    image{
+      border-top-right-radius 10px
+    }
+    span{
+      font-size 14px
+    }
+  }
+  :nth-child(4).hot-item {
     image{
       border-bottom-right-radius 10px
     }
-  } 
+    span{
+      font-size 14px
+    }
+  }
 }
 .site{
   padding 20px 10px

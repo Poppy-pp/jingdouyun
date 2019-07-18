@@ -70,4 +70,10 @@ export default {
   color: #333333;
   font-weight: 600;
 }
+.address-icon{
+  width: 15px !important;
+  height: 15px !important;
+  margin-bottom: -2px;
+  margin-right: 0 !important;
+}
 </style>

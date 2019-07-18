@@ -15,8 +15,15 @@
     "pages/index/cityIndex/main",
     "pages/index/hotSite/main",
     "pages/index/articleDetail/main",
-    "pages/index/siteDetail/main"
-    
+    "pages/index/siteDetail/main",
+    "pages/index/siteIntroduce/main",
+    "pages/index/siteDeclare/main",
+    "pages/index/siteSpace/main",
+    "pages/index/cooperateCase/main",
+    "pages/index/caseDetail/main",
+    "pages/myCenter/backMatter/main",
+    "pages/myCenter/myInfo/main",
+    "pages/myCenter/myOrder/main"
   ],
   "usingComponents": {
     "van-button": "vant-weapp/dist/button/index",
