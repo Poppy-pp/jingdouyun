@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="card">
-      <div class="item">
+      <div class="item" @click="goMyOrder">
         <image src="/static/images/order.png" class="_tabimage"></image>
         <text class="tabText">订单</text>
       </div>
@@ -36,7 +36,7 @@
         <div class="item_metion">客服电话</div>
         <div class="item_value">010-1234151  <image src="/static/images/phone.png" class="_phone"></image></div>
       </div> 
-      <div class="Navitem">
+      <div class="Navitem" @click="goAboutUs">
         <div class="item_metion">关于我们</div>
         <div class="item_value"><van-icon name="arrow" size="10px" /></div>
       </div>
@@ -70,6 +70,18 @@ export default {
     },
     // 选择呼叫
     onSelectContact(val){ },
+    // 跳转到我的订单
+    goMyOrder(){
+      wx.navigateTo({
+        url: '/pages/myCenter/myOrder/main',
+      })
+    },
+    // 跳转到关于我们
+    goAboutUs(){
+      wx.navigateTo({
+        url: '/pages/myCenter/aboutUs/main',
+      })
+    },
   },
   created(){}
 }
@@ -145,6 +157,7 @@ export default {
   display:flex;
   flex-direction:row;
   justify-content:space-between;
+  align-items:center;
 }
 .Navitem:last-child{
   border-bottom none

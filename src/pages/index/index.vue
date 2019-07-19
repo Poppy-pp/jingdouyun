@@ -6,7 +6,7 @@
       <span @click="goCityIndex">{{ addr }}<img src="../../../static/images/jiantou-white.png"></span>
       <p class="input">
         <van-icon name="search" />
-        <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff">
+        <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff" @focus="goSearch">
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt="" @click="showContact = true">
     </div>
@@ -25,9 +25,10 @@
       <p class="title-box"> <img src="../../../static/images/qipao.png" > 场地筛选</p>
       <div class="search">
         <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)">{{ item }}<img src="../../../static/images/jiantou-gray.png"></span>
+        <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
       </div>
       <div class="site-box">
-        <ul>
+        <ul v-if="siteList.length != 0">
           <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
             <img src="../../../static/images/default.png">
             <div class="right-box">
@@ -45,13 +46,19 @@
             </div>
           </li>
         </ul>
+        <div v-else class="no-data-search">
+          <p>没有找到心仪的场地？</p>
+          <p>让场地顾问1对1免费帮您找~</p>
+          <button @click="goFindForm">免费帮我找场地</button>
+        </div>
       </div>
-      <div class="no-data">
+      <div v-if="siteList.length != 0" class="no-data">
         <p class="black">没有找到心仪的场地？</p>
         <p class="desc">更多场地资源，让场地顾问1对1免费帮您找</p>
         <button @click="goFindForm">免费帮我找场地</button>
       </div>
     </div>
+    
     
     <!-- 弹窗 -->
     <van-popup :show="showPopup" position="top" @close="showPopup = false" >
@@ -72,6 +79,8 @@
     </van-popup>
     <!-- 电话 弹出层-->
     <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
+    <!-- 搜索提示 -->
+    <van-toast :show="showToast" :message="toastMsg"/>
   </div>
 </template>
 
@@ -83,6 +92,9 @@ export default {
     return {
       addr:'北京',
       showContact: false,
+      showNotify: false,
+      showToast: false,
+      toastMsg: '',//提示文字信息
       contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
       images: [
         { url: "../../static/images/banner.png" },
@@ -157,6 +169,12 @@ export default {
         url: '/pages/index/siteDetail/main',
       })
     },
+    // 跳转至搜索
+    goSearch(){
+      wx.navigateTo({
+        url: '/pages/index/search/main',
+      })
+    },
     // 点击筛选下拉菜单
     chooseSearch(data){
       this.chooseSearchTitle = data;
@@ -191,6 +209,7 @@ export default {
       this.activeId = e.mp.detail.id;
       this.showPopup = false;
       // this.area = this.activeId;
+      this.siteList = [];
     },
     // 类型——点击选择类型
     selectType(index) {
@@ -212,6 +231,14 @@ export default {
       }else if(this.chooseSearchTitle == '价格'){
         this.price = item.name;
       }
+      // 显示提示
+      this.showToast = true;
+      this.showNotify = true;
+      this.toastMsg = '共找到12个场地';
+      setTimeout(() => {
+        this.showToast = false;
+        this.showNotify = false;
+      }, 2000);
     },
     // 选择呼叫
     onSelectContact(val){ },
@@ -335,11 +362,15 @@ export default {
   }
 }
 .site{
-  padding 20px 10px
+  padding 20px 0
+  .title-box{
+    padding 0 15px
+  }
   .search{
     border-top 1px solid #f3f3f3
     border-bottom 1px solid #f3f3f3
     padding 18px 0
+    position relative
     span{
       width 20%
       text-align center
@@ -351,6 +382,16 @@ export default {
         height 8px
       }
     }
+    .notify{
+      position absolute
+      color:#fff;
+      text-align:center;
+      font-size 12px
+      background rgba(0,0,0,0.5)
+      width:100%;
+      padding:10px 0;
+      margin-top:18px;
+    }
   }
   .site-box{
     display: block;
@@ -358,6 +399,7 @@ export default {
     width: 95%;
     border-radius: 7px;
     background-color: #fff;
+    padding 0 15px
     .result-title{
       font-size 13px
       color #90959a
@@ -489,7 +531,7 @@ export default {
   display: inline-block;
   background: #f0f1f1;
   color: #11bcfd;
-  font-size: 22rpx;
+  font-size: 24rpx;
   padding: 14rpx 26rpx;
   margin: 10rpx 10rpx;
   border-radius: 16rpx;
@@ -507,6 +549,25 @@ export default {
       font-size:15px;
       color:#4f575e;
     }
+  }
+}
+.no-data-search{
+  width 100%
+  text-align center
+  font-size 12px
+  color #90959a
+  margin:50% 0;
+  p{
+    margin-bottom 5px
+  }
+  button{
+    color #11bcfd
+    border 1px solid #11bcfd
+    border-radius 20px
+    background-color #ffffff
+    width 35%
+    font-size 12px
+    margin-top 20px
   }
 }
 </style>
