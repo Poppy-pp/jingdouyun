@@ -6,7 +6,7 @@
       <span @click="goCityIndex">{{ addr }}<img src="../../../static/images/jiantou-white.png"></span>
       <p class="input">
         <van-icon name="search" />
-        <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff" @focus="goSearch">
+        <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff" @click="goSearch">
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt="" @click="showContact = true">
     </div>

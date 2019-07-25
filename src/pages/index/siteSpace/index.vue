@@ -52,8 +52,10 @@ export default {
           { url: "/static/images/more1.png", title:'剧院式', value:'300人' },
           { url: "/static/images/more2.png", title:'课桌式', value:'120人' },
           { url: "/static/images/more3.png", title:'宴会式', value:'340人' },
-          { url: "/static/images/more4.png", title:'影院式', value:'300人' },
-          { url: "/static/images/more5.png", title:'大厅式', value:'300人' },
+          { url: "/static/images/more4.png", title:'U型', value:'300人' },
+          { url: "/static/images/more5.png", title:'鱼骨式', value:'300人' },
+          { url: "/static/images/more6.png", title:'董事会', value:'300人' },
+          { url: "/static/images/more7.png", title:'酒会式', value:'300人' },
          ],
        }
    },
@@ -155,7 +157,7 @@ export default {
           height 30px
           border-radius 50%
           border 1px solid #dddddd
-          padding 5px
+          padding 15rpx
           position absolute
           top:-35%;
           left:50%;

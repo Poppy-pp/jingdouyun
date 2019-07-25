@@ -12,7 +12,7 @@
         <p class="title">搜索历史<img src="/static/images/delete.png" alt="" @click="showDialog = true"></p>
         <ul>
           <li v-for="(item,index) in showHistory" :key="index">
-            <van-icon name="clock-o" class="clock" /> <span>{{item }}</span><van-icon class="cha" name="cross"  />
+            <van-icon name="clock-o" class="clock" /> <span @click='selectHot(item)'>{{item }}</span><van-icon class="cha" name="cross" @click="deleteItem(index)" />
           </li>
           <p class="more" v-if="searchHistory.length > 5" @click="seeMore">{{ morestatus ? '收起' : '查看更多搜索历史' }}</p>
         </ul>
@@ -81,7 +81,8 @@ export default {
       if (e.target.value.length > 0) {
         this.inputstatus = true;//显示清空按钮
       }else{
-        this.inputstatus = false
+        this.inputstatus = false;
+        this.resultstatus = false;
       }
     },
     // 回车
@@ -105,6 +106,11 @@ export default {
       this.searchHistory = '';
       this.showHistory = '';
     },
+    // 删除某一项
+    deleteItem(index){
+      this.searchHistory.splice(index,1);
+      this.showHistory = this.searchHistory.slice(0,5);
+    },
     // 清空
     clearInput(){
       this.inputstatus = false;
@@ -114,7 +120,6 @@ export default {
   },
   created(){
     this.showHistory = this.searchHistory.slice(0,5);
-
   }
 }
 </script>
@@ -154,6 +159,7 @@ export default {
       color: #8e9398; 
       transform:translateY(-50%);
       height:16px;
+      z-index:10;
     }
     span{
       font-size 12px

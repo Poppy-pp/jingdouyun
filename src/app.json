@@ -22,7 +22,9 @@
     "pages/index/cooperateCase/main",
     "pages/index/caseDetail/main",
     "pages/index/search/main",
-    "pages/myCenter/backMatter/main",
+    "pages/myCenter/optionBack/main",
+    "pages/myCenter/optionBack/optionDetail/main",
+    "pages/myCenter/optionBack/optionOk/main",
     "pages/myCenter/myInfo/main",
     "pages/myCenter/myOrder/main",
     "pages/myCenter/aboutUs/main"

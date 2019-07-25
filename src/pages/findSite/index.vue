@@ -22,8 +22,8 @@
             <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
-            <van-field v-model="sms" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
+            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
+            <van-field v-model="sms" type="number" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
             <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
                 <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
@@ -66,7 +66,7 @@
     </div>
 
     <!-- 分割线 -->
-    <div @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd'>
+    <div class="footer-box" @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd'>
       <p class="divider">— 鲸抖云·让活动变得简单 —</p>
       <i class="pull-down" v-if="!showHistory">上划查看历史需求订单</i>
     </div>
@@ -493,7 +493,12 @@ export default {
     }
   }
 }
-
+.footer-box{
+  position:absolute;
+  bottom 10px
+  left 50%
+  transform translateX(-50%)
+}
 </style>
 
 
