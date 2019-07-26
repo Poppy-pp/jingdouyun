@@ -136,7 +136,14 @@ if (false) {(function () {
     },
 
     // 选择查询条件
-    chooseTags: function chooseTags(item) {}
+    chooseTags: function chooseTags(item) {},
+
+    // 跳转至场地详情
+    goSiteDetail: function goSiteDetail() {
+      wx.navigateTo({
+        url: '/pages/index/siteDetail/main'
+      });
+    }
   },
   mounted: function mounted() {
     this.getQuery();
@@ -171,7 +178,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(item))])
   })) : _vm._e(), _vm._v(" "), _c('ul', _vm._l((_vm.siteList), function(item, index) {
     return _c('li', {
-      key: index
+      key: index,
+      attrs: {
+        "eventid": '1_' + index
+      },
+      on: {
+        "click": _vm.goSiteDetail
+      }
     }, [_c('img', {
       attrs: {
         "src": "../../../../static/images/default.png"

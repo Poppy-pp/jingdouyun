@@ -3,7 +3,7 @@
     <view class="_div data-v-0e3f5bb7 site-box">
       <view class="_div data-v-0e3f5bb7 scroll" wx:if="{{mystatus}}"><button wx:key="index" key="{{index}}" bindtap="handleProxy" data-eventid="{{'0_'+index}}" data-comkey="{{$k}}" wx:for="{{tags}}" wx:for-index="index" wx:for-item="item" class="_button data-v-0e3f5bb7">{{ item }}</button></view>
       <view class="_ul data-v-0e3f5bb7">
-        <view wx:key="index" key="{{index}}" wx:for="{{siteList}}" wx:for-index="index" wx:for-item="item" class="_li data-v-0e3f5bb7">
+        <view wx:key="index" key="{{index}}" bindtap="handleProxy" data-eventid="{{'1_'+index}}" data-comkey="{{$k}}" wx:for="{{siteList}}" wx:for-index="index" wx:for-item="item" class="_li data-v-0e3f5bb7">
           <image src="/static/images/default.png" class="_img data-v-0e3f5bb7"></image>
           <view class="_div data-v-0e3f5bb7 right-box">
             <view class="_p data-v-0e3f5bb7 title">{{ item.name }}</view>

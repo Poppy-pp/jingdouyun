@@ -114,7 +114,7 @@ export default {
   margin: 0 auto;
   width: 85%;
   border-radius: 7px;
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
   background-color: #fff;
   padding: 10px 15px;
   .title{

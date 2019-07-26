@@ -116,7 +116,8 @@
 .van-right-enter-active,
 .van-right-leave-active,
 .van-top-enter-active,
-.van-top-leave-active {
+.van-top-leave-active 
+{
   transition-property: -webkit-transform;
   transition-property: transform;
   transition-property: transform, -webkit-transform
@@ -128,11 +129,11 @@
   transform: translate3d(-50%, 100%, 0)
 }
 
-.van-top-enter,
+/* .van-top-enter,
 .van-top-leave-to {
   -webkit-transform: translate3d(-50%, -100%, 0);
   transform: translate3d(-50%, -100%, 0)
-}
+} */
 
 .van-left-enter,
 .van-left-leave-to {

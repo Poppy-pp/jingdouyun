@@ -73,7 +73,7 @@ export default {
 .address-icon{
   width: 15px !important;
   height: 15px !important;
-  margin-bottom: -2px;
+  margin-bottom: -3px;
   margin-right: 0 !important;
 }
 </style>

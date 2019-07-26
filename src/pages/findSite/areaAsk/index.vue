@@ -1,6 +1,6 @@
 <!-- 位置要求 -->
 <template>
-   <div class="container">
+   <div class="container" :style="'height:'+ wHeight">
       <van-tree-select :items="areas" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
    </div>
 </template>
@@ -20,6 +20,7 @@ export default {
           ],
           mainActiveIndex: 0,// 左侧高亮元素的index
           activeId: 1,// 被选中元素的id
+          wHeight:'',
        }
    },
   components: {},
@@ -45,6 +46,14 @@ export default {
         delta: 1
       })
     },
+  },
+  mounted(){
+    wx.getSystemInfo({
+      success:  (res) => {
+        this.wHeight = res.windowHeight + 'px'
+      }
+    })
+
   },
   created(){},
 }

@@ -97,7 +97,8 @@ if (false) {(function () {
       area: '',
       areas: [{ text: '不限', children: [{ text: '不限', id: 1, disabled: false }] }, { text: '附近', children: [{ text: '不限', id: 2, disabled: false }, { text: '500m以内', id: 3, disabled: false }, { text: '1000m以内', id: 4, disabled: false }] }, { text: '区域', children: [{ text: '不限', id: 5, disabled: false }, { text: '东城区', id: 6, disabled: false }, { text: '武侯区', id: 7, disabled: false }] }, { text: '地铁', children: [{ text: '不限', id: 8, disabled: false }, { text: '1号线', id: 9, disabled: false }, { text: '3号线', id: 10, disabled: false }] }, { text: '道路', children: [{ text: '不限', id: 12, disabled: false }, { text: '一环', id: 13, disabled: false }, { text: '四环', id: 14, disabled: false }] }, { text: '商圈', children: [{ text: '总部基地', id: 15, disabled: false }, { text: '中关村', id: 16, disabled: false }, { text: '软件园', id: 17, disabled: false }] }],
       mainActiveIndex: 0, // 左侧高亮元素的index
-      activeId: 1 // 被选中元素的id
+      activeId: 1, // 被选中元素的id
+      wHeight: ''
     };
   },
 
@@ -126,6 +127,15 @@ if (false) {(function () {
       });
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    wx.getSystemInfo({
+      success: function success(res) {
+        _this.wHeight = res.windowHeight + 'px';
+      }
+    });
+  },
   created: function created() {}
 });
 
@@ -137,7 +147,8 @@ if (false) {(function () {
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container"
+    staticClass: "container",
+    style: ('height:' + _vm.wHeight)
   }, [_c('van-tree-select', {
     attrs: {
       "items": _vm.areas,

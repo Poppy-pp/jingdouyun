@@ -29,12 +29,12 @@
   bottom: 0;
   left: 0;
   width: 3.6px;
-  background-color: #11bcfd;
+  /* background-color: #11bcfd; */
   content: ""
 }
 
 .van-tree-select__nitem--active {
-  background-color: #fff;
+  /* background-color: #fff; */
   color: #11bcfd
 }
 

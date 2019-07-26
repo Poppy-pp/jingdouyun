@@ -27,7 +27,8 @@
         <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)">{{ item }}<img src="../../../static/images/jiantou-gray.png"></span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
         <!-- 弹窗 -->
-        <van-popup :show="showPopup" position="top" @close="showPopup = false" class="search-popup" overlay-style="position:absolute;top:60px;height:1400px;" >
+        <van-popup :show="showPopup" position="top" @close="showPopup = false" class="search-popup" 
+        overlay-style="position:absolute;top:60px;height:1400px;" >
           <!-- 区域 -->
           <van-tree-select v-if="chooseSearchTitle == '区域'" :items="areas" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
           <!-- 类型 -->

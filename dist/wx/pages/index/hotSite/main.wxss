@@ -51,11 +51,13 @@
   margin-left: 20rpx;
 }
 .site-box ._ul ._li .right-box .result-title.data-v-0e3f5bb7 {
-  margin-left: 8rpx;
   margin-bottom: 6rpx;
   padding: 0;
   font-size: 24rpx;
   color: #91969b;
+}
+.site-box ._ul ._li .right-box :nth-child(3).result-title.data-v-0e3f5bb7 {
+  margin-left: 8rpx;
 }
 .site-box ._ul ._li .right-box .result-title.data-v-0e3f5bb7:last-child {
   margin-left: 34rpx;

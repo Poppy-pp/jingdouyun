@@ -20,7 +20,7 @@ VantComponent({
         },
         maxHeight: {
             type: Number,
-            value: 300
+            value: 600
         }
     },
     data: {

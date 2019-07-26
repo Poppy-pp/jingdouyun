@@ -35,6 +35,6 @@
 .address-icon {
   width: 30rpx !important;
   height: 30rpx !important;
-  margin-bottom: -4rpx;
+  margin-bottom: -6rpx;
   margin-right: 0 !important;
 }

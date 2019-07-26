@@ -6,7 +6,7 @@
           <button v-for="(item,index) in tags" :key="index" @click="chooseTags(item)">{{ item }}</button>
        </div>
         <ul>
-          <li v-for="(item,index) in siteList" :key="index">
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
             <img src="../../../../static/images/default.png">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
@@ -60,6 +60,12 @@ export default {
     // 选择查询条件
     chooseTags(item){
 
+    },
+    // 跳转至场地详情
+    goSiteDetail(){
+      wx.navigateTo({
+        url: '/pages/index/siteDetail/main',
+      })
     },
   },
   mounted () {
@@ -121,11 +127,13 @@ export default {
           }
         }
         .result-title{
-          margin-left 4px
           margin-bottom 3px
           padding 0
           font-size 12px
           color #91969b
+        }
+       :nth-child(3).result-title{
+          margin-left 4px
         }
         .result-title:last-child{
           margin-left 17px
