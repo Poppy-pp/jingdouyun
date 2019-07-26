@@ -30,11 +30,9 @@
       </div>
      </div>
      <!-- 免费咨询按钮 -->
-     <p class="btn"><button class="free-btn" @click="showContact = true">免费咨询场地详情/报价</button></p>
+     <p class="btn"><button class="free-btn" @click="onPhoneCall">免费咨询场地详情/报价</button></p>
       
 
-      <!-- 电话 弹出层-->
-      <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
    </div>
 </template>
 
@@ -42,7 +40,6 @@
 export default {
    data() {
        return {
-         showContact:false,
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
          title:'',
          info:[
@@ -72,6 +69,12 @@ export default {
         title: options.title
       })
       this.title = options.title;
+    },
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
     },
   },
   mounted () {

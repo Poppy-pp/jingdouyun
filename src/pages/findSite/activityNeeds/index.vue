@@ -25,7 +25,7 @@ export default {
             {title: "地铁沿线", isSelect: false}, {title: "声光电设备", isSelect: false}
           ],
           needs:[],
-          showeneeds:'',
+          showneeds:'',
        }
    },
   components: {},
@@ -45,18 +45,25 @@ export default {
     // 确认选择活动需求
     submitNeeds(){
       this.needs = [];//初始化
-      this.showeneeds = '';
+      this.showneeds = '';
       this.needsList.forEach((v,i)=>{
         if(v.isSelect){
           this.needs.push(v)
         }
       })
       this.needs.forEach((item,index) =>{
-        this.showeneeds += item.title + '/';//页面显示
+        this.showneeds += item.title + '/';//页面显示
       })
 
+      // 带参返回上一页
+      var pages = getCurrentPages();
+      var prevPage = pages[pages.length - 2];  //上一个页面
+      prevPage.setData({//往上一页传递的参数值
+        needs: this.needs,
+        showneeds: this.showneeds
+      })
       wx.navigateBack({
-        delta:1
+        delta: 1
       })
     },
   },

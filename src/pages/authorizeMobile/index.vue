@@ -1,6 +1,6 @@
 <!-- 授权 手机号码 -->
 <template>
-  <van-popup :show="show" position="bottom">
+  <van-popup :show="show" position="bottom" round>
     <div class="pop">
       <p class="title">
         <img src="../../../static/images/logo.png" />鲸抖云官方版 申请获得

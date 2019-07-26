@@ -1,0 +1,17 @@
+<template name="35a2dde0">
+  <view class="_div data-v-6f32b26b container">
+    <view class="_div data-v-6f32b26b header">
+      <image src="/static/images/cooperate.png" alt class="_img data-v-6f32b26b"></image>
+      <view class="_p data-v-6f32b26b title">介绍鲸抖云合作案例优势、实力的文案</view>
+    </view>
+    <view class="_div data-v-6f32b26b content" wx:key="index" key="{{index}}" bindtap="handleProxy" data-eventid="{{'0_'+index}}" data-comkey="{{$k}}" wx:for="{{coopList}}" wx:for-index="index" wx:for-item="item">
+      <image src="{{item.url}}" class="_img data-v-6f32b26b"></image>
+      <view class="_div data-v-6f32b26b right-box">
+        <view class="_p data-v-6f32b26b title">{{ item.title }}</view>
+        <view class="_i data-v-6f32b26b result-title">{{ item.type }}</view>
+        <view class="_i data-v-6f32b26b result-title">{{ item.other }}</view>
+        <view class="_i data-v-6f32b26b result-title">{{ item.num }}</view>
+      </view>
+    </view>
+  </view>
+</template>

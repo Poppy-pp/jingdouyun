@@ -32,7 +32,7 @@
         <div class="item_metion">下载鲸抖云App</div>
         <div class="item_value">全方位活动服务平台  <van-icon name="arrow" size="10px" /></div>
       </div>
-      <div class="Navitem" @click="showContact = true">
+      <div class="Navitem" @click="onPhoneCall">
         <div class="item_metion">客服电话</div>
         <div class="item_value">010-1234151  <image src="/static/images/phone.png" class="_phone"></image></div>
       </div> 
@@ -46,8 +46,6 @@
       </div>
     </div>
     <div class="my-metion">— 鲸抖云·让活动变的简单 —</div>
-    <!-- 电话 弹出层-->
-    <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
   </div>
 </template>
 
@@ -55,7 +53,6 @@
 export default {
   data() {
     return {
-      showContact:false,
       contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
     }
   },
@@ -68,8 +65,12 @@ export default {
         url: '/pages/index/hotSite/main?title=' + data,
       })
     },
-    // 选择呼叫
-    onSelectContact(val){ },
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
     // 跳转到我的订单
     goMyOrder(){
       wx.navigateTo({

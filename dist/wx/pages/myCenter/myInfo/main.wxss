@@ -1,0 +1,15 @@
+@import "../../../common/vendor.wxss";
+
+.container .free-btn.data-v-a16ff530 {
+  background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
+  width: 95%;
+  color: #fff;
+  padding: 12rpx 0;
+  margin-top: 30rpx;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+}
+.container .free-btn.data-v-a16ff530::after {
+  border: none;
+  outline: none;
+}

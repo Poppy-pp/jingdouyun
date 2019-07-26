@@ -2,7 +2,7 @@
 <template>
    <div class="container">
       <van-field v-model="phone" label="手机号" readonly="true"  />
-      <button class="free-btn" @click="showContact = true">退出登录</button>
+      <button class="free-btn">退出登录</button>
    </div>
 </template>
 

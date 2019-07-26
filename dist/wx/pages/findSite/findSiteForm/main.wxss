@@ -1,0 +1,29 @@
+@import "../../../common/vendor.wxss";
+
+.sms-code.data-v-36d84d53 {
+  font-size: 28rpx;
+  background-color: #fff;
+  color: #1bbffe;
+}
+.free-btn.data-v-36d84d53 {
+  background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
+  width: 84%;
+  color: #fff;
+  padding: 20rpx 0;
+  margin-top: 76rpx;
+  border-radius: 6rpx;
+  line-height: 50rpx;
+}
+.free-btn.data-v-36d84d53::after {
+  border: none;
+  outline: none;
+}
+.free-btn .title.data-v-36d84d53 {
+  font-size: 26rpx;
+}
+.desc.data-v-36d84d53 {
+  font-size: 24rpx;
+  color: #8e9398;
+  text-align: center;
+  margin-top: 50rpx;
+}

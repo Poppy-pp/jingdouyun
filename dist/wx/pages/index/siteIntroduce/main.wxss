@@ -1,0 +1,22 @@
+@import "../../../common/vendor.wxss";
+
+.container.data-v-b3e95dca {
+  padding: 50rpx 30rpx;
+}
+.container .title-p.data-v-b3e95dca {
+  font-size: 38rpx;
+  font-weight: 600;
+  margin-bottom: 14rpx;
+}
+.container .text.data-v-b3e95dca {
+  font-size: 28rpx;
+  color: #4f575e;
+  line-height: 48rpx;
+  margin-top: 24rpx;
+}
+.container ._img.data-v-b3e95dca {
+  width: 100%;
+  height: 424rpx;
+  border-radius: 20rpx;
+  margin-top: 26rpx;
+}

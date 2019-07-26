@@ -1,6 +1,6 @@
 <!-- 授权 位置 信息-->
 <template>
-  <van-popup :show="show" position="bottom">
+  <van-popup :show="show" position="bottom" round>
     <div class="pop">
       <p class="title"><img src="../../../static/images/logo.png">鲸抖云官方版 申请获得</p>
       <p class="type">获取你的位置信息</p>

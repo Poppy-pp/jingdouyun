@@ -1,0 +1,10 @@
+<template name="2fe0eaf0">
+  <view class="_div data-v-672dfce8 container">
+    <view class="_div data-v-672dfce8 box">
+      <image src="/static/images/ok.png" class="_img data-v-672dfce8 _okimage"></image>
+    </view>
+    <view class="_div data-v-672dfce8 ok">反馈已提交</view>
+    <view class="_div data-v-672dfce8 text">已将您的反馈内容提交给开发者</view>
+    <view class="_div data-v-672dfce8 close" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">关闭</view>
+  </view>
+</template>

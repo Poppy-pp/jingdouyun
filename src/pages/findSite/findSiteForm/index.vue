@@ -16,11 +16,11 @@
       </van-cell-group>
 
       <!-- 省市区 弹出层 -->
-      <van-popup :show="showArea" position="bottom" @close="showArea = false">
+      <van-popup :show="showArea" position="bottom" @close="showArea = false" round>
           <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel"/>
       </van-popup>
       <!-- 选择时间 弹出层 -->
-      <van-popup :show="showDate" position="bottom" @close="showDate = false">
+      <van-popup :show="showDate" position="bottom" @close="showDate = false" round>
           <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
       </van-popup>
       <!-- 活动类型 弹出层-->
@@ -90,12 +90,34 @@ export default {
   methods:{
     // 免费找场地
     findSite(){
-      if (this.area == '' || this.type == '' || this.date == '' || this.num == '' || this.price == '' || this.phone == '' || this.sms == ''){
+       if (this.area == ''){
         this.showToast = true;
-        this.toastMsg = '请填写完整的活动信息！';
-        setTimeout(() => {
-          this.showToast = false;
-        }, 2000);
+        this.toastMsg = '请选择活动城市';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.type == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动类型';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.date == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动时间';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.num == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动人数';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.price == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动预算';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.phone == ''){
+        this.showToast = true;
+        this.toastMsg = '请输入联系电话';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.sms == ''){
+        this.showToast = true;
+        this.toastMsg = '请输入验证码';
+        setTimeout(() => { this.showToast = false; }, 2000);
       }else{
         // 跳转至订单详情页面
         let form = {

@@ -1,0 +1,52 @@
+@import "../../../common/vendor.wxss";
+
+.header.data-v-6f32b26b {
+  position: relative;
+  height: 500rpx;
+}
+.header ._img.data-v-6f32b26b {
+  width: 100%;
+  height: 500rpx;
+}
+.header .title.data-v-6f32b26b {
+  font-size: 46rpx;
+  color: #fff;
+  position: absolute;
+  bottom: 10%;
+  left: 30rpx;
+}
+.content.data-v-6f32b26b {
+  padding: 30rpx 30rpx 22rpx;
+  border-bottom: 2rpx solid #f3f3f3;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.content ._img.data-v-6f32b26b {
+  width: 200rpx;
+  height: 156rpx;
+  border-radius: 20rpx;
+  margin-right: 20rpx;
+}
+.content .right-box .title.data-v-6f32b26b {
+  padding: 4rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+  margin-bottom: 6rpx;
+}
+.content .right-box .result-title.data-v-6f32b26b {
+  margin-left: 8rpx;
+  margin-bottom: 6rpx;
+  padding: 0;
+  font-size: 22rpx;
+  color: #91969b;
+}
+.content .right-box .result-title.data-v-6f32b26b:nth-child(3) {
+  color: #000;
+}
+.content .right-box .result-title.data-v-6f32b26b:nth-child(4) {
+  font-size: 24rpx;
+}
+:last-child.content.data-v-6f32b26b {
+  border-bottom: none;
+}

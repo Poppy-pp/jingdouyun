@@ -1,0 +1,35 @@
+<template name="7b5e990c">
+  <view class="_div data-v-5a3c7d4a container">
+    <view class="_div data-v-5a3c7d4a header">
+      <van-icon class="_van-icon data-v-5a3c7d4a search" name="search"></van-icon> <input value="{{inputvalue}}" bindinput="handleProxy" type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#8e9398" bindconfirm="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_input data-v-5a3c7d4a" />
+      <van-icon wx:if="{{inputstatus}}" class="_van-icon data-v-5a3c7d4a clear" name="cross" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></van-icon> <label bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}" class="_span data-v-5a3c7d4a">取消</label>
+    </view>
+    <view wx:if="{{!resultstatus && searchHistory.length != 0}}" class="_div data-v-5a3c7d4a search-history">
+      <view class="_p data-v-5a3c7d4a title">搜索历史<image src="/static/images/delete.png" alt bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}" class="_img data-v-5a3c7d4a"></image>
+      </view>
+      <view class="_ul data-v-5a3c7d4a">
+        <view wx:key="index" key="{{index}}" wx:for="{{showHistory}}" wx:for-index="index" wx:for-item="item" class="_li data-v-5a3c7d4a">
+          <van-icon name="clock-o" class="_van-icon data-v-5a3c7d4a clock"></van-icon> <label bindtap="handleProxy" data-eventid="{{'4_'+index}}" data-comkey="{{$k}}" class="_span data-v-5a3c7d4a">{{item }}</label>
+          <van-icon class="_van-icon data-v-5a3c7d4a cha" name="cross" bindtap="handleProxy" data-eventid="{{'5_'+index}}" data-comkey="{{$k}}"></van-icon>
+        </view>
+        <view class="_p data-v-5a3c7d4a more" wx:if="{{searchHistory.length > 5}}" bindtap="handleProxy" data-eventid="{{'6'}}" data-comkey="{{$k}}">{{ morestatus ? '收起' : '查看更多搜索历史' }}</view>
+      </view>
+    </view>
+    <view wx:if="{{!resultstatus}}" class="_div data-v-5a3c7d4a hot-search">
+      <view class="_p data-v-5a3c7d4a title">热搜场地</view>
+      <block wx:key="index" key="{{index}}" wx:for="{{hotList}}" wx:for-index="index" wx:for-item="item"><text class="_text data-v-5a3c7d4a needs-select" bindtap="handleProxy" data-eventid="{{'7_'+index}}" data-comkey="{{$k}}">{{item}}</text></block>
+    </view>
+    <view wx:if="{{resultstatus}}" class="_div data-v-5a3c7d4a search-result">
+      <view class="_p data-v-5a3c7d4a">名称包含{{ inputvalue }}的场地</view>
+      <view class="_div data-v-5a3c7d4a content" wx:key="index" key="{{index}}" bindtap="handleProxy" data-eventid="{{'8_'+index}}" data-comkey="{{$k}}" wx:for="{{resultList}}" wx:for-index="index" wx:for-item="item">
+        <image src="{{item.url}}" class="_img data-v-5a3c7d4a"></image>
+        <view class="_div data-v-5a3c7d4a right-box">
+          <view class="_p data-v-5a3c7d4a title">{{ item.title }}</view>
+          <view class="_i data-v-5a3c7d4a result-title">{{ item.other }}</view>
+          <view class="_i data-v-5a3c7d4a result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</view>
+        </view>
+      </view>
+    </view>
+    <van-dialog show="{{showDialog}}" message="{{dialogMsg}}" title="清除搜索历史" showCancelButton="{{true}}" bindconfirm="handleProxy" bindcancel="handleProxy" data-eventid="{{'9'}}" data-comkey="{{$k}}" class="_van-dialog data-v-5a3c7d4a"></van-dialog>
+  </view>
+</template>

@@ -1,0 +1,14 @@
+<template name="70ff7b73">
+  <view class="_div data-v-58a04f2c container">
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" class="_swiper data-v-58a04f2c {{status ? 'swiper declare' : 'swiper'}}">
+      <block wx:key="index" key="{{index}}" wx:for="{{images}}" wx:for-index="index" wx:for-item="item">
+        <swiper-item class="_swiper-item data-v-58a04f2c">
+          <image src="{{item.url}}" class="_image data-v-58a04f2c slide-image" mode="aspectFill"></image> <label class="_span data-v-58a04f2c tag">{{ index+1 +'/' + images.length }}</label>
+          <view wx:if="{{index == 0 && noplay == false}}" class="_div data-v-58a04f2c play">
+            <image src="/static/images/play.png" alt class="_img data-v-58a04f2c"></image> <label class="_span data-v-58a04f2c">00'30'</label>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</template>

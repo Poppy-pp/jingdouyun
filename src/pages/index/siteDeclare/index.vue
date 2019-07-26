@@ -5,7 +5,7 @@
          <div class="person">
             <img class="avatar" src="/static/images/avatar.jpg" alt="">
             <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
-            <div class="circle" @click="showContact = true"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+            <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
          <span @click="showBigImg = true"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
@@ -15,14 +15,12 @@
          <div class="person">
             <img class="avatar" src="/static/images/avatar.jpg" alt="">
             <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
-            <div class="circle" @click="showContact = true"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+            <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
          <span @click="showBigImg = true"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
       </div>
 
-      <!-- 电话 弹出层-->
-      <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
       <!-- 查看图片弹窗 -->
       <div class="tabs" v-show="showBigImg" >
          <div class="title">
@@ -48,7 +46,6 @@ export default {
    data() {
        return {
          needs:[ "实名认证","企业认证"],
-         showContact:false,
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
          images: [
             { url: "/static/images/site-introduce.png" },
@@ -64,6 +61,12 @@ export default {
   components: { Swiperdetail },
   computed:{},
   methods:{
+     // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
   },
   created(){}
 }

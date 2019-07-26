@@ -26,7 +26,7 @@
       </div>
 
       <!-- 分享好友 弹出层 -->
-      <van-popup :show="showShare" position="bottom" class="share-pop" @close="showShare = false">
+      <van-popup :show="showShare" position="bottom" class="share-pop" @close="showShare = false" round>
         <p class="title">分享至</p>
         <div class="share-item">
           <div class="icon-box">

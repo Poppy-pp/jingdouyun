@@ -24,7 +24,7 @@
         <ul>
           <li>{{ '· 订单号：' + infoList.ordernum }}</li>
           <li>{{ '· 活动城市：' + infoList.area }}</li>
-          <li>{{ '· 活动类型：' + infoList.sitetype }}</li>
+          <li>{{ '· 活动类型：' + infoList.type }}</li>
           <li>{{ '· 举办时间：' + infoList.date }}</li>
           <li>{{ '· 活动人数：' + infoList.num }}</li>
           <li>{{ '· 活动预算：' + infoList.price }}</li>
@@ -32,14 +32,12 @@
       </div>
       <div class="btn-detail" v-if="orderStatus">
         <button class="cancel" @click="showDialog = true">取消订单</button>
-        <button class="confirm" @click="showContact = true">联系顾问</button>
+        <button class="confirm" @click="onPhoneCall">联系顾问</button>
       </div>
       <div class="btn-detail" v-else>
         <button class="again" @click="againPublish">重新发布需求</button>
       </div>
 
-      <!-- 联系顾问 弹出层-->
-      <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
       <!-- 确认框 -->
       <van-dialog :show="showDialog" :message="dialogMsg" :showCancelButton="true" @confirm="confirmCancel" @cancel="showDialog = false"/>
    </div>
@@ -52,7 +50,6 @@ export default {
           infoList:[
             // { key:'订单号', value:'JDY12312' }, { key:'活动城市', value:'北京' }, { key:'活动类型', value:'发布会/颁奖/庆典' }, { key:'举办时间', value:'2019.09.01-2019.10.03' }, { key:'活动人数', value:'100人以下' }, { key:'活动预算', value:'5000以下' }, 
           ],
-          showContact: false,
           showDialog: false,
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           orderStatus: true,//订单状态【true：生效，false：已取消】
@@ -66,8 +63,12 @@ export default {
     confirmCancel(){
       this.orderStatus = false;//订单状态改为 失效
     },
-    // 选择呼叫
-    onSelectContact(val){ },
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
     // 重新发布需求
     againPublish(){
       wx.switchTab({

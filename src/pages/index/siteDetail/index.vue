@@ -1,6 +1,6 @@
 <!-- 场地详情 -->
 <template>
-   <div class="container">
+   <div class="container" id="container">
     <!-- 头部 -->
     <div class="header">
       <Swiperdetail :images="images"></Swiperdetail>
@@ -31,7 +31,7 @@
       <div class="person">
         <img class="avatar" src="/static/images/avatar.jpg" alt="">
         <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
-        <div class="circle" @click="showContact = true"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+        <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
       </div>
       <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
       <div class="img-group"><img v-for="(item,index) in smallImgs" :key="index" :src="item.url" alt=""></div>
@@ -76,10 +76,8 @@
       </div>
     </div>
     <!-- 免费咨询按钮 -->
-    <button class="free-btn" @click="showContact = true">免费咨询场地详情/报价</button>
+    <p class="btn-box" v-if="showBtn"><button class="free-btn" @click="onPhoneCall">免费咨询场地详情/报价</button></p>
 
-    <!-- 电话 弹出层-->
-    <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
    </div>
 </template>
 
@@ -88,7 +86,9 @@ import Swiperdetail from "@/components/swiperdetail";
 export default {
    data() {
        return {
-          showContact:false,
+          touchS: [0, 0],//滑动开始位置x,y
+          touchE: [0, 0],//滑动结束位置x,y
+          showBtn:false,
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           images: [
             { url: "/static/images/site-detail.png" },
@@ -126,8 +126,12 @@ export default {
   components: {Swiperdetail},
   computed:{},
   methods:{
-    // 选择呼叫
-    onSelectContact(val){ },
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
     // 查看更多场地空间
     getMore(){
       this.siteList.push(
@@ -154,9 +158,25 @@ export default {
       wx.navigateTo({
         url: '/pages/index/siteSpace/main?title=' + data,
       })
-    }
+    },
   },
-  created(){}
+  created(){},
+  //监听屏幕滚动 判断上下滚动
+  onPageScroll(ev) {
+    var query = wx.createSelectorQuery()
+    query.select('#container').boundingClientRect()
+    query.exec((res) => {
+      var height = '';//view的高度
+      var bottom = '';//滑动到底部的距离
+      height = res[0].height - wx.getSystemInfoSync().windowHeight;
+      bottom = res[0].bottom - wx.getSystemInfoSync().windowHeight;
+      if( bottom < height/2){//滑动过半屏
+        this.showBtn = true;
+      }else{
+        this.showBtn = false;
+      }
+   })
+  }
 }
 </script>
 
@@ -422,6 +442,7 @@ export default {
 }
 .site-near{
   padding 43px 15px 0
+  margin-bottom:170rpx;
   .scroll{
     overflow-x: scroll;
     white-space: nowrap;
@@ -471,18 +492,29 @@ export default {
     display: none;
   }
 }
-.free-btn{
+.container{
+  position relative
+}
+.btn-box{
+  width 100%
+  height 65px;
+  background-color #ffffff
+  position fixed 
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  .free-btn{
     background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
     width: 92%;
     color: #fff;
     padding: 6px 0;
-    margin-top: 19px;
-    margin-bottom: 15px;
     border-radius: 3px;
     font-size 14px
+  }
+  .free-btn::after{ 
+      border: none; 
+      outline: none;
+  }
 }
-.free-btn::after{ 
-    border: none; 
-    outline: none;
-}
+
 </style>

@@ -6,42 +6,10 @@
         <div class="content-item-title">请选择反馈内容</div>
     </div>
 
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">无法打开小程序</div>
+    <div v-for="i in question" :key="index" class="content-item" @click="goDetail(i)">
+        <div class="content-item-title">{{i}}</div>
         <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">小程序闪退</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">卡顿</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">黑屏白屏</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">界面错位</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">界面加载慢</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">死机</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">其他异常</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
-    <navigator url="/pages/myCenter/optionBack/optionDetail/main" class="content-item" hover-class="none">
-        <div class="content-item-title">意见与建议</div>
-        <van-icon name="arrow" size="12px" color="#D9D9D9" />
-    </navigator>
+    </div>
 
   </div>
 </template>
@@ -49,13 +17,17 @@
 export default {
   data() {
     return {
-
+        question:["无法打开小程序","小程序闪退","卡顿","黑屏白屏","界面错位","界面加载慢","死机","其他异常","意见与建议"]
     }
   },
   components: {},
   computed:{},
   methods:{
-
+    goDetail:function(title){
+        wx.navigateTo({
+            url: '/pages/myCenter/optionBack/optionDetail/main?title=' +title,
+        })
+    }
   },
   created(){}
 }

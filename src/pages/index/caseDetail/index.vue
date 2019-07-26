@@ -23,9 +23,7 @@
           是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
         </p>
      </div>
-     <button class="free-btn" @click="showContact = true">联系场地顾问</button>
-     <!-- 电话 弹出层-->
-      <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
+     <button class="free-btn" @click="onPhoneCall">联系场地顾问</button>
    </div>
 </template>
 
@@ -38,13 +36,18 @@ export default {
            { url:'/static/images/case2.png',type:'活动场地', value:'五星酒店'},
            { url:'/static/images/case3.png',type:'活动人数', value:'200'},
          ],
-         showContact:false,
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
        }
    },
   components: {},
   computed:{},
   methods:{
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
   },
   created(){}
 }

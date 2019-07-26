@@ -1,6 +1,6 @@
 <!-- 鲸选-首页 -->
 <template>
-  <div class="container" >
+  <div class="container">
     <!-- 头部搜索框 -->
     <div class="search-box">
       <span @click="goCityIndex">{{ addr }}<img src="../../../static/images/jiantou-white.png"></span>
@@ -8,7 +8,7 @@
         <van-icon name="search" />
         <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff" @click="goSearch">
       </p>
-      <img class="adviser" src="../../../static/images/adviser.png" alt="" @click="showContact = true">
+      <img class="adviser" src="../../../static/images/adviser.png" alt="" @click="onPhoneCall">
     </div>
     <!-- 轮播 --> 
     <Swiper :images="images"/>
@@ -23,9 +23,26 @@
     <!-- 场地筛选 -->
     <div class="site">
       <p class="title-box"> <img src="../../../static/images/qipao.png" > 场地筛选</p>
-      <div class="search">
+      <div :class="isTop ? 'search searchTop' : 'search'">
         <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)">{{ item }}<img src="../../../static/images/jiantou-gray.png"></span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
+        <!-- 弹窗 -->
+        <van-popup :show="showPopup" position="top" @close="showPopup = false" class="search-popup" overlay-style="position:absolute;top:60px;height:1400px;" >
+          <!-- 区域 -->
+          <van-tree-select v-if="chooseSearchTitle == '区域'" :items="areas" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
+          <!-- 类型 -->
+          <div class="needs-box" v-if="chooseSearchTitle == '类型'">
+            <block v-for="(item, index) in typeList" :key="index">
+              <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectType(index)'>{{item.title}}</text>
+            </block>
+          </div>
+          <!-- 面积/人数/价格 -->
+          <div class="action-box" v-if="chooseSearchTitle != '区域' && chooseSearchTitle != '类型'">
+            <ul>
+              <li v-for="(item,index) in actions" :key="index" @click="selectAction(item)">{{ item.name }}</li>
+            </ul>
+          </div>
+        </van-popup>
       </div>
       <div class="site-box">
         <ul v-if="siteList.length != 0">
@@ -57,28 +74,11 @@
         <p class="desc">更多场地资源，让场地顾问1对1免费帮您找</p>
         <button @click="goFindForm">免费帮我找场地</button>
       </div>
+      <!-- 吸顶时 显示悬浮按钮 -->
+      <button v-if="isTop" class="suspensionBtn" @click="goFindForm">发布场地需求</button>
     </div>
     
     
-    <!-- 弹窗 -->
-    <van-popup :show="showPopup" position="top" @close="showPopup = false" >
-      <!-- 区域 -->
-      <van-tree-select v-if="chooseSearchTitle == '区域'" :items="areas" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
-      <!-- 类型 -->
-      <div class="needs-box" v-if="chooseSearchTitle == '类型'">
-        <block v-for="(item, index) in typeList" :key="index">
-          <text :class="item.isSelect ? 'needs-active' : 'needs-select'" @click='selectType(index)'>{{item.title}}</text>
-        </block>
-      </div>
-      <!-- 面积/人数/价格 -->
-      <div class="action-box" v-if="chooseSearchTitle != '区域' && chooseSearchTitle != '类型'">
-        <ul>
-          <li v-for="(item,index) in actions" :key="index" @click="selectAction(item)">{{ item.name }}</li>
-        </ul>
-      </div>
-    </van-popup>
-    <!-- 电话 弹出层-->
-    <van-action-sheet :show="showContact" :actions="contactActions" @select="onSelectContact" @cancel="showContact = false" cancel-text="取消" /> 
     <!-- 搜索提示 -->
     <van-toast :show="showToast" :message="toastMsg"/>
   </div>
@@ -90,8 +90,8 @@ export default {
   components: { Swiper },
   data() {
     return {
+      isTop:false,//是否置顶
       addr:'北京',
-      showContact: false,
       showNotify: false,
       showToast: false,
       toastMsg: '',//提示文字信息
@@ -240,16 +240,40 @@ export default {
         this.showNotify = false;
       }, 2000);
     },
-    // 选择呼叫
-    onSelectContact(val){ },
+    // 调出拨打电话
+    onPhoneCall(){ 
+      wx.makePhoneCall({
+        phoneNumber: '010-12345323'
+      })
+    },
     
   },
   created() {
+  },
+  //监听屏幕滚动
+  onPageScroll(ev) {
+    var query = wx.createSelectorQuery()
+    query.select('.container').boundingClientRect()
+    query.exec((res) => {
+      var height = '';//view的高度
+      var top = '';//滑动到顶部的距离
+      height = res[0].height - wx.getSystemInfoSync().windowHeight;
+      top = res[0].top;
+      if( top <= -540 ){
+        this.isTop = true;
+      } 
+      if(top > -500){
+        this.isTop = false;
+      }
+   })
   }
 };
 </script>
 
 <style scoped lang="stylus">
+.container{
+  position relative
+}
 .search-box{
   width 95%
   height 30px
@@ -370,6 +394,7 @@ export default {
     border-top 1px solid #f3f3f3
     border-bottom 1px solid #f3f3f3
     padding 18px 0
+    background-color #ffffff
     position relative
     span{
       width 20%
@@ -392,11 +417,20 @@ export default {
       padding:10px 0;
       margin-top:18px;
     }
+    .search-popup{
+      // position absolute
+    }
+  }
+  .searchTop{
+    position:fixed;
+    top:50px;
+    z-index:10;
+    width 100%
   }
   .site-box{
     display: block;
     margin: 0 auto;
-    width: 95%;
+    width: 92%;
     border-radius: 7px;
     background-color: #fff;
     padding 0 15px
@@ -569,5 +603,19 @@ export default {
     font-size 12px
     margin-top 20px
   }
+}
+.suspensionBtn{
+  position fixed
+  bottom 3%
+  left 50%
+  transform translateX(-50%)
+  color:#ffffff;
+  border:3px solid #a9e5fc;
+  background linear-gradient(to right, #02d6fc 0%,#1fa5ff 100%);
+  border-radius:40rpx;
+  background-color:#fff;
+  width:45%;
+  font-size:26rpx;
+  padding:2px 0;
 }
 </style>

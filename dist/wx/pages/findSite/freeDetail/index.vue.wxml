@@ -1,0 +1,38 @@
+<template name="10be295b">
+  <view class="_div data-v-5fb0f36c container">
+    <view class="_div data-v-5fb0f36c title-radius">
+      <view class="_div data-v-5fb0f36c icon" wx:if="{{orderStatus}}">
+        <view class="_div data-v-5fb0f36c icon-box">
+          <image src="/static/images/needs.png" class="_img data-v-5fb0f36c circle"></image>
+          <view class="_i data-v-5fb0f36c">提交需求</view>
+        </view>
+        <image src="/static/images/circle.png" class="_img data-v-5fb0f36c"></image>
+        <view class="_div data-v-5fb0f36c icon-box">
+          <image src="/static/images/adviser.png" class="_img data-v-5fb0f36c circle"></image>
+          <view class="_i data-v-5fb0f36c">顾问受理</view>
+        </view>
+      </view>
+      <view class="_div data-v-5fb0f36c icon cancel" wx:else>
+        <image src="/static/images/cancel-order.png" class="_img data-v-5fb0f36c circle"></image>
+      </view>
+      <view class="_p data-v-5fb0f36c icon-title" wx:if="{{orderStatus}}">顾问已受理，将与您沟通确认需求<view class="_i data-v-5fb0f36c icon-desc">顾问将在10分钟左右致电您，请保持手机畅通</view>
+      </view>
+      <view class="_p data-v-5fb0f36c icon-title" wx:else>订单已取消</view>
+    </view>
+    <view class="_div data-v-5fb0f36c card">
+      <view class="_p data-v-5fb0f36c divider">— 鲸抖云·让活动变得简单 —<view class="_i data-v-5fb0f36c card-desc">2019.5.27 12:32提交</view>
+      </view>
+      <view class="_ul data-v-5fb0f36c">
+        <view class="_li data-v-5fb0f36c">{{ '· 订单号：' + infoList.ordernum }}</view>
+        <view class="_li data-v-5fb0f36c">{{ '· 活动城市：' + infoList.area }}</view>
+        <view class="_li data-v-5fb0f36c">{{ '· 活动类型：' + infoList.type }}</view>
+        <view class="_li data-v-5fb0f36c">{{ '· 举办时间：' + infoList.date }}</view>
+        <view class="_li data-v-5fb0f36c">{{ '· 活动人数：' + infoList.num }}</view>
+        <view class="_li data-v-5fb0f36c">{{ '· 活动预算：' + infoList.price }}</view>
+      </view>
+    </view>
+    <view class="_div data-v-5fb0f36c btn-detail" wx:if="{{orderStatus}}"><button class="_button data-v-5fb0f36c cancel" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">取消订单</button> <button class="_button data-v-5fb0f36c confirm" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">联系顾问</button></view>
+    <view class="_div data-v-5fb0f36c btn-detail" wx:else><button class="_button data-v-5fb0f36c again" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">重新发布需求</button></view>
+    <van-dialog show="{{showDialog}}" message="{{dialogMsg}}" showCancelButton="{{true}}" bindconfirm="handleProxy" bindcancel="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}" class="_van-dialog data-v-5fb0f36c"></van-dialog>
+  </view>
+</template>

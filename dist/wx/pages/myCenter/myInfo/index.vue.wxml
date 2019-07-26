@@ -1,0 +1,5 @@
+<template name="41a25957">
+  <view class="_div data-v-a16ff530 container">
+    <van-field value="{{phone}}" bindchange="handleProxy" label="手机号" readonly="true" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_van-field data-v-a16ff530"></van-field> <button class="_button data-v-a16ff530 free-btn">退出登录</button>
+  </view>
+</template>

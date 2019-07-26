@@ -1,0 +1,112 @@
+@import "../../../common/vendor.wxss";
+
+.container .title-radius.data-v-5fb0f36c {
+  height: 300rpx;
+  flex-wrap: wrap;
+  padding-top: 0;
+}
+.container .title-radius .icon.data-v-5fb0f36c {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 80rpx;
+}
+.container .title-radius .icon ._img.data-v-5fb0f36c {
+  display: inline-block;
+  width: 50rpx;
+  height: 50rpx;
+  padding: 10rpx;
+}
+.container .title-radius .icon .circle.data-v-5fb0f36c {
+  border: 2rpx solid #fff;
+  border-radius: 50%;
+  margin: 0 20rpx;
+}
+.container .title-radius .icon .icon-box.data-v-5fb0f36c {
+  font-size: 24rpx;
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+}
+.container .title-radius .icon-title.data-v-5fb0f36c {
+  font-size: 28rpx;
+  color: #fff;
+  margin-top: -40rpx;
+  text-align: center;
+}
+.container .title-radius .icon-desc.data-v-5fb0f36c {
+  font-size: 20rpx;
+  color: #fff;
+  text-align: center;
+  margin-top: 6rpx;
+}
+.container .title-radius .icon.cancel ._img.data-v-5fb0f36c {
+  width: 40rpx;
+  height: 40rpx;
+  padding: 20rpx;
+  margin-top: 40rpx;
+}
+.card.data-v-5fb0f36c {
+  position: relative;
+  top: -140rpx;
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  border-radius: 14rpx;
+  box-shadow: 0 2rpx 40rpx rgba(0,0,0,0.2);
+  background-color: #fff;
+  padding: 0 40rpx 140rpx 40rpx;
+}
+.card .divider.data-v-5fb0f36c {
+  padding: 40rpx 0 20rpx 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000;
+  border-bottom: 2rpx solid #f3f3f3;
+}
+.card .divider .card-desc.data-v-5fb0f36c {
+  font-size: 24rpx;
+  text-align: center;
+  color: #cdcdcd;
+  margin-top: 10rpx;
+  font-weight: 300;
+}
+.card ._ul.data-v-5fb0f36c {
+  padding-top: 20rpx;
+}
+.card ._ul ._li.data-v-5fb0f36c {
+  font-size: 28rpx;
+  color: #1b233c;
+  padding: 16rpx 0;
+}
+.btn-detail.data-v-5fb0f36c {
+  display: flex;
+  justify-content: space-between;
+  align-self: flex-end;
+}
+.btn-detail .confirm.data-v-5fb0f36c,
+.btn-detail .cancel.data-v-5fb0f36c,
+.btn-detail .again.data-v-5fb0f36c {
+  width: 40%;
+  display: inline-block;
+  font-size: 26rpx;
+  line-height: 70rpx;
+  border-radius: 6rpx;
+}
+.btn-detail .cancel.data-v-5fb0f36c {
+  background-color: #9aa0a6;
+  color: #fff;
+}
+.btn-detail .confirm.data-v-5fb0f36c,
+.btn-detail .again.data-v-5fb0f36c {
+  background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
+  color: #fff;
+}
+.btn-detail .again.data-v-5fb0f36c {
+  width: 90%;
+  font-size: 26rpx;
+  line-height: 70rpx;
+}
+._button.data-v-5fb0f36c::after {
+  border: none;
+}

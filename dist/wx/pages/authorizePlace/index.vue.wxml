@@ -1,0 +1,12 @@
+<template name="69541c90">
+  <van-popup show="{{show}}" position="bottom" round class="_van-popup data-v-4216bf18">
+    <view class="_div data-v-4216bf18 pop">
+      <view class="_p data-v-4216bf18 title">
+        <image src="/static/images/logo.png" class="_img data-v-4216bf18"></image>鲸抖云官方版 申请获得
+      </view>
+      <view class="_p data-v-4216bf18 type">获取你的位置信息</view>
+      <view class="_i data-v-4216bf18 other">您的位置用于小程序位置接口的效果展示</view>
+      <view class="_div data-v-4216bf18 btn"><button class="_button data-v-4216bf18 refuse">拒绝</button> <button class="_button data-v-4216bf18 allow">允许</button></view>
+    </view>
+  </van-popup>
+</template>

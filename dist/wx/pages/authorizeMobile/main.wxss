@@ -1,0 +1,63 @@
+@import "../../common/vendor.wxss";
+
+.pop.data-v-02120b2a {
+  padding: 44rpx 0 100rpx 0;
+}
+.pop .title.data-v-02120b2a,
+.pop .type.data-v-02120b2a,
+.pop .other.data-v-02120b2a,
+.pop .btn.data-v-02120b2a {
+  padding: 0 34rpx;
+}
+.pop .title.data-v-02120b2a {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333;
+}
+.pop .title ._img.data-v-02120b2a {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+.pop .type.data-v-02120b2a {
+  font-size: 40rpx;
+  margin-top: 40rpx;
+}
+.pop .label.data-v-02120b2a {
+  float: left;
+  font-size: 24rpx;
+}
+van-cell.data-v-02120b2a {
+  margin-top: 20rpx;
+  display: block;
+}
+.pop .other.data-v-02120b2a {
+  color: #4f7cc1;
+  margin-top: 30rpx;
+  font-size: 24rpx;
+}
+.pop .btn.data-v-02120b2a {
+  margin-top: 80rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.pop .refuse.data-v-02120b2a,
+.pop .allow.data-v-02120b2a {
+  width: 47%;
+  display: inline-block;
+  font-size: 28rpx;
+  line-height: 70rpx;
+  border-radius: 6rpx;
+}
+.pop .refuse.data-v-02120b2a {
+  background-color: #f2f2f2;
+  color: #06ae56;
+}
+.pop .allow.data-v-02120b2a {
+  background-color: #05c160;
+  color: #fff;
+}
+.pop ._button.data-v-02120b2a::after {
+  border: none;
+}

@@ -39,7 +39,7 @@
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
             <van-field v-model="addrask" label="位置要求*" is-link @click="goAreaAsk" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="showeneeds" label="活动需求*" is-link @click="goActivityNeeds" readonly="readonly" placeholder="请选择活动需求"/>
+            <van-field v-model="showneeds" label="活动需求*" is-link @click="goActivityNeeds" readonly="readonly" placeholder="请选择活动需求"/>
             <button class="free-btn" @click="recommendSite">
                 <p class="title">智能速配</p>
                 <p class="desc">5s生成场地方案</p>
@@ -72,11 +72,11 @@
     </div>
 
     <!-- 省市区 弹出层 -->
-    <van-popup :show="showArea" position="bottom" @close="showArea = false">
+    <van-popup :show="showArea" position="bottom" @close="showArea = false" round>
         <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel"/>
     </van-popup>
     <!-- 选择时间 弹出层 -->
-    <van-popup :show="showDate" position="bottom" @close="showDate = false">
+    <van-popup :show="showDate" position="bottom" @close="showDate = false" round>
         <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
     </van-popup>
     <!-- 活动类型 弹出层-->
@@ -159,7 +159,7 @@ export default {
       sitetype:'',//场地类型
       addrask:'',//位置要求
       needs:[],//活动需求
-      showeneeds:'',//页面显示活动需求
+      showneeds:'',//页面显示活动需求
     };
   },
   components: {},
@@ -167,12 +167,34 @@ export default {
   methods: {
     // 免费找场地
     findSite(){
-      if (this.area == '' || this.type == '' || this.date == '' || this.num == '' || this.price == '' || this.phone == '' || this.sms == ''){
+      if (this.area == ''){
         this.showToast = true;
-        this.toastMsg = '请填写完整的活动信息！';
-        setTimeout(() => {
-          this.showToast = false;
-        }, 2000);
+        this.toastMsg = '请选择活动城市';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.type == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动类型';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.date == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动时间';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.num == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动人数';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.price == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动预算';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.phone == ''){
+        this.showToast = true;
+        this.toastMsg = '请输入联系电话';
+        setTimeout(() => { this.showToast = false; }, 2000);
+      }else if(this.sms == ''){
+        this.showToast = true;
+        this.toastMsg = '请输入验证码';
+        setTimeout(() => { this.showToast = false; }, 2000);
       }else{
         // 跳转至订单详情页面
         let form = {
@@ -191,13 +213,35 @@ export default {
     },
     // 智能推荐
     recommendSite(){
-      // if (this.area == '' || this.sitetype == '' || this.date == '' || this.num == '' || this.price == '' || this.addrask == '' || this.needs == ''){
-      //   this.showToast = true;
-      //   this.toastMsg = '请填写完整的活动信息！';
-      //   setTimeout(() => {
-      //     this.showToast = false;
-      //   }, 2000);
-      // }else{
+      if (this.area == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动城市';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.sitetype == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择场地类型';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.date == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动时间';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.num == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动人数';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.price == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动预算';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.addrask == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择位置要求';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else if(this.showneeds == ''){
+        this.showToast = true;
+        this.toastMsg = '请选择活动需求';
+        setTimeout(() => { this.showToast = false;  }, 2000);
+      }else{
         // 跳转至智能推荐页面
         let form = {
           area: this.area,
@@ -211,7 +255,7 @@ export default {
         wx.navigateTo({
           url: '/pages/findSite/mindRecommend/main?form=' + JSON.stringify(form)
         })
-      // }
+      }
     },
     // 查看订单详情
     goDetail(data){
@@ -350,8 +394,24 @@ export default {
       this.sms = '';
     },
   },
-  created() {
+  mounted () {
     this.clearData();
+  },
+  created() {
+  },
+  onShow(){
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1];
+    if(currPage.data.addrask){ //位置要求
+      this.addrask = '';
+      this.addrask = currPage.data.addrask.text;
+    }
+    if(currPage.data.showneeds){ //活动需求
+      this.needs = [];
+      this.showneeds = '';
+      this.needs = currPage.data.needs;
+      this.showneeds = currPage.data.showneeds;
+    }
   }
 };
 </script>
@@ -494,10 +554,7 @@ export default {
   }
 }
 .footer-box{
-  position:absolute;
-  bottom 10px
-  left 50%
-  transform translateX(-50%)
+  margin-bottom 10px
 }
 </style>
 

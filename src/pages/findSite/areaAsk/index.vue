@@ -34,9 +34,19 @@ export default {
       this.activeId = e.mp.detail.id;
       this.showPopup = false;
       // this.area = this.activeId;
+
+      // 带参返回上一页
+      var pages = getCurrentPages();
+      var prevPage = pages[pages.length - 2];  //上一个页面
+      prevPage.setData({//往上一页传递的参数值
+        addrask: e.mp.detail,
+      })
+      wx.navigateBack({
+        delta: 1
+      })
     },
   },
-  created(){}
+  created(){},
 }
 </script>
 
