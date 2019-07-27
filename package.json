@@ -1,9 +1,9 @@
 {
   "name": "JDY",
   "version": "1.0.0",
-  "mpvueTemplateProjectVersion": "0.1.0",
-  "description": "A Mpvue project",
-  "author": "陈智浥 <921219000@qq.com>",
+  "mpvueTemplateProjectVersion": "2.0.0",
+  "description": "jdy",
+  "author": "wpp",
   "private": true,
   "scripts": {
     "dev:wx": "node build/dev-server.js wx",
