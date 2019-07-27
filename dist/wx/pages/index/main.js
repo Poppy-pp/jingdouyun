@@ -620,6 +620,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [(_vm.chooseSearchTitle == '区域') ? _c('van-tree-select', {
     attrs: {
       "items": _vm.areas,
+      "maxHeight": 300,
       "main-active-index": _vm.mainActiveIndex,
       "active-id": _vm.activeId,
       "eventid": '5',

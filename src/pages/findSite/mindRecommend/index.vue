@@ -115,6 +115,7 @@ export default {
   width: 85%;
   border-radius: 7px;
   box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom 12px
   background-color: #fff;
   padding: 10px 15px;
   .title{
@@ -189,7 +190,7 @@ export default {
   margin: 0 auto;
   width: 85%;
   border-radius: 7px;
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
   background-color: #fff;
   padding: 10px 15px;
   margin-top 10px
@@ -230,10 +231,12 @@ export default {
           }
         }
         .result-title{
-          margin-left 4px
           margin-bottom 3px
           padding 0
           font-size 12px
+        }
+        :nth-child(3).result-title{
+          margin-left 4px
         }
         .result-title:last-child{
           margin-left 17px
