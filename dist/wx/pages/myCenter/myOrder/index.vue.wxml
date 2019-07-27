@@ -1,4 +1,4 @@
-<template name="b16023be">
+<template name="6b03376a">
   <view class="_div data-v-29aa4daa container">
     <view class="_div data-v-29aa4daa Navbar">
       <view bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_div data-v-29aa4daa {{active == 0 ? '_NavTab bold' : '_NavTab'}}">顾问推荐 <view wx:if="{{active == 0}}" class="_div data-v-29aa4daa _NavTabLine"></view>

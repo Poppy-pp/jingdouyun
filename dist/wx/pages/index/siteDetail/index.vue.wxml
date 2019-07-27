@@ -1,6 +1,6 @@
-<import src="/components/swiperdetail.vue.wxml" /><template name="786ca6dc">
+<import src="/components/swiperdetail.vue.wxml" /><template name="c8c9c5f4">
   <view class="_div data-v-51889e2b container" id="container">
-    <view class="_div data-v-51889e2b header"><template data="{{...$root[$kk+'0'], $root}}" is="70ff7b73"></template>
+    <view class="_div data-v-51889e2b header"><template data="{{...$root[$kk+'0'], $root}}" is="09765309"></template>
       <view class="_div data-v-51889e2b right-icon">
         <image src="/static/images/follow.png" alt class="_img data-v-51889e2b"></image>
         <image src="/static/images/share.png" alt class="_img data-v-51889e2b"></image>

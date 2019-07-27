@@ -1,4 +1,4 @@
-<template name="7b5e990c">
+<template name="1c7a9794">
   <view class="_div data-v-5a3c7d4a container">
     <view class="_div data-v-5a3c7d4a header">
       <van-icon class="_van-icon data-v-5a3c7d4a search" name="search"></van-icon> <input value="{{inputvalue}}" bindinput="handleProxy" type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#8e9398" bindconfirm="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_input data-v-5a3c7d4a" />

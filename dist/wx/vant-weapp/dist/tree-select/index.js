@@ -20,7 +20,7 @@ VantComponent({
         },
         maxHeight: {
             type: Number,
-            value: 600
+            value: 300
         }
     },
     data: {
@@ -45,7 +45,7 @@ VantComponent({
         onSelectItem(event) {
             const { item } = event.currentTarget.dataset;
             if (!item.disabled) {
-                this.$emit('clickItem', item);
+                this.$emit('click-item', item);
             }
         },
         // 当一个导航被点击时
@@ -53,7 +53,7 @@ VantComponent({
             const { index } = event.currentTarget.dataset;
             const item = this.data.items[index];
             if (!item.disabled) {
-                this.$emit('clickNav', { index });
+                this.$emit('click-nav', { index });
             }
         },
         // 更新子项列表

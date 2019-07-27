@@ -1,4 +1,4 @@
-<import src="/components/swiperdetail.vue.wxml" /><template name="8ed7384a">
+<import src="/components/swiperdetail.vue.wxml" /><template name="09969a1e">
   <view class="_div data-v-3e41dfe6 container">
     <view class="_div data-v-3e41dfe6 box">
       <view class="_div data-v-3e41dfe6 person">
@@ -9,7 +9,7 @@
           <image class="_img data-v-3e41dfe6 phone" src="/static/images/phone-white.png" alt></image>
         </view>
       </view>
-      <view class="_p data-v-3e41dfe6 text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</view> <label bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}" class="_span data-v-3e41dfe6"><template data="{{...$root[$kk+'0'], $root}}" is="70ff7b73"></template></label>
+      <view class="_p data-v-3e41dfe6 text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</view> <label bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}" class="_span data-v-3e41dfe6"><template data="{{...$root[$kk+'0'], $root}}" is="09765309"></template></label>
     </view>
     <view class="_div data-v-3e41dfe6 box">
       <view class="_div data-v-3e41dfe6 person">
@@ -20,7 +20,7 @@
           <image class="_img data-v-3e41dfe6 phone" src="/static/images/phone-white.png" alt></image>
         </view>
       </view>
-      <view class="_p data-v-3e41dfe6 text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</view> <label bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}" class="_span data-v-3e41dfe6"><template data="{{...$root[$kk+'1'], $root}}" is="70ff7b73"></template></label>
+      <view class="_p data-v-3e41dfe6 text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</view> <label bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}" class="_span data-v-3e41dfe6"><template data="{{...$root[$kk+'1'], $root}}" is="09765309"></template></label>
     </view>
     <view class="_div data-v-3e41dfe6 tabs" hidden="{{!(showBigImg)}}">
       <view class="_div data-v-3e41dfe6 title">
@@ -31,7 +31,7 @@
         <image src="/static/images/site-introduce.png" alt class="_img data-v-3e41dfe6"></image>
         <image class="_img data-v-3e41dfe6 play" src="/static/images/play.png" alt></image>
       </view>
-      <view hidden="{{!(active == 1)}}" class="_div data-v-3e41dfe6 content"><template data="{{...$root[$kk+'2'], $root}}" is="70ff7b73"></template></view>
+      <view hidden="{{!(active == 1)}}" class="_div data-v-3e41dfe6 content"><template data="{{...$root[$kk+'2'], $root}}" is="09765309"></template></view>
     </view>
   </view>
 </template>
