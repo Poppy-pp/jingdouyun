@@ -38,7 +38,6 @@ Component({
         loop(){},
         _updateDataChange( ){
             const indexItems = this.getRelationNodes('../index-item/index');
-            console.log(indexItems)
             const len = indexItems.length;
             const fixedData = this.data.fixedData;
             /*

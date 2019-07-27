@@ -1,16 +1,18 @@
 <!-- 城市索引 -->
 <template>
   <div class="container indexMenu">
-    <i-index height="100%" @change="onChange">
-      <i-index-item v-for="(item,index) in city" :name="item.key" :key="index">
-        <view
-          class="i-index-demo-item"
-          v-for="(it,ind) in item.list"
-          @click="itemClick(it)"
-          :key="ind"
-        >{{it.name}}</view>
-      </i-index-item>
-    </i-index>
+    <div class="view">
+      <i-index height="100%" @change="onChange">
+        <i-index-item v-for="(item,index) in city" :name="item.key" :key="index">
+          <view
+            class="i-index-demo-item"
+            v-for="(it,ind) in item.list"
+            @click="itemClick(it)"
+            :key="ind"
+          >{{it.name}}</view>
+        </i-index-item>
+      </i-index>
+    </div>
   </div>
 </template>
 
@@ -25,13 +27,20 @@ export default {
   components: {},
   computed: {},
   methods: {
-    itemClick(item){
-      console.log(item)
+    itemClick(item) {
+      wx.setStorage({
+        key:"cname",
+        data:item.name
+      })
+      wx.navigateBack({
+        delta: 2
+      });
+      // wx.redirectTo({
+      //   url: "/pages/index/main?name=" + item.name
+      // });
     },
     onChange(event) {
-      const detail = event.mp.detail
-      const scrollTop = detail.scrollTop;
-      console.log(event,event.mp.detail,scrollTop,'click right menu callback data')
+      const detail = event.mp.detail;
     },
     formatCity() {
       let storeCity = new Array(26);
@@ -87,10 +96,28 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
 .indexMenu {
+  view {
+    overflow: visible;
+  }
+
+  .view {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+
   .i-index-demo-item {
-    padding 10px 0 10px 10px;
-    border-bottom 1px solid #ddd;
+    padding: 10px 0 10px 10px;
+    border-bottom: 1px solid #ddd;
   }
 }
 </style>
