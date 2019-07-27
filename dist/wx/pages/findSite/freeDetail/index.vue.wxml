@@ -1,4 +1,4 @@
-<template name="10be295b">
+<template name="603265e2">
   <view class="_div data-v-5fb0f36c container">
     <view class="_div data-v-5fb0f36c title-radius">
       <view class="_div data-v-5fb0f36c icon" wx:if="{{orderStatus}}">

@@ -30,7 +30,7 @@
         <van-popup :show="showPopup" position="top" @close="showPopup = false" class="search-popup" 
         overlay-style="position:absolute;top:60px;height:1400px;" >
           <!-- 区域 -->
-          <van-tree-select v-if="chooseSearchTitle == '区域'" :items="areas" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
+          <van-tree-select v-if="chooseSearchTitle == '区域'" :items="areas" :maxHeight="300" :main-active-index="mainActiveIndex" :active-id="activeId" @clickNav="onClickNav" @clickItem="onClickItem"/>
           <!-- 类型 -->
           <div class="needs-box" v-if="chooseSearchTitle == '类型'">
             <block v-for="(item, index) in typeList" :key="index">

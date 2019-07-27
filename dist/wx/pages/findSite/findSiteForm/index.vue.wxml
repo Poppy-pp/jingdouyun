@@ -1,4 +1,4 @@
-<template name="701e9442">
+<template name="991469ee">
   <view class="_div data-v-36d84d53 container">
     <van-cell-group class="_van-cell-group data-v-36d84d53">
       <van-field value="{{area}}" bindchange="handleProxy" label="活动城市*" is-link bindtap="handleProxy" readonly="readonly" placeholder="请选择活动城市" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_van-field data-v-36d84d53"></van-field>

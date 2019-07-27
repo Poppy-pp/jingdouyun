@@ -1,4 +1,4 @@
-<template name="69541c90">
+<template name="3f31bcd1">
   <van-popup show="{{show}}" position="bottom" round class="_van-popup data-v-4216bf18">
     <view class="_div data-v-4216bf18 pop">
       <view class="_p data-v-4216bf18 title">

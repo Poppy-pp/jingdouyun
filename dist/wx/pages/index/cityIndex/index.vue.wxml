@@ -1,4 +1,4 @@
-<template name="01745b5f">
+<template name="0911f366">
   <view class="_div data-v-34f9422c container">
     <i-index height="100%" bindchange="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_i-index data-v-34f9422c">
       <i-index-item name="{{item.key}}" wx:key="index" key="{{index}}" wx:for="{{city}}" wx:for-index="index" wx:for-item="item" class="_i-index-item data-v-34f9422c">

@@ -1,1 +1,1 @@
-<import src="/pages/findSite/areaAsk/index.vue.wxml" /><template is="4b4c250a" data="{{ ...$root['0'], $root }}"/>
+<import src="/pages/findSite/areaAsk/index.vue.wxml" /><template is="37618de3" data="{{ ...$root['0'], $root }}"/>
