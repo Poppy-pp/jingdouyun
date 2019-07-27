@@ -1,8 +1,0 @@
-<template name="49fee356">
-  <view class="_div data-v-40032735 container">
-    <view class="_div data-v-40032735 needs-box">
-      <block wx:key="index" key="{{index}}" wx:for="{{needsList}}" wx:for-index="index" wx:for-item="item"><text bindtap="handleProxy" data-eventid="{{'0_'+index}}" data-comkey="{{$k}}" class="_text data-v-40032735 {{item.isSelect ? 'needs-active' : 'needs-select'}}">{{item.title}}</text></block>
-      <view class="_div data-v-40032735 btn"><button class="_button data-v-40032735 resize" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">重置</button> <button class="_button data-v-40032735 confirm" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">确定</button></view>
-    </view>
-  </view>
-</template>

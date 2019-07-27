@@ -1,5 +1,0 @@
-<template name="6e7a9b34">
-  <view class="_div data-v-64b2f6da container">
-    <van-tree-select items="{{areas}}" main-active-index="{{mainActiveIndex}}" active-id="{{activeId}}" bindclickNav="handleProxy" bindclickItem="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_van-tree-select data-v-64b2f6da"></van-tree-select>
-  </view>
-</template>

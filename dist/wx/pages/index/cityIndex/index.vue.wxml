@@ -1,9 +1,0 @@
-<template name="4ce977f5">
-  <view class="_div data-v-34f9422c container indexMenu">
-    <i-index height="100%" bindchange="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}" class="_i-index data-v-34f9422c">
-      <i-index-item name="{{item.key}}" wx:key="index" key="{{index}}" wx:for="{{city}}" wx:for-index="index" wx:for-item="item" class="_i-index-item data-v-34f9422c">
-        <view class="_view data-v-34f9422c i-index-demo-item" bindtap="handleProxy" wx:key="ind" key="{{ind}}" data-eventid="{{'0_'+index+'-'+ind}}" data-comkey="{{$k}}" wx:for="{{item.list}}" wx:for-index="ind" wx:for-item="it">{{it.name}}</view>
-      </i-index-item>
-    </i-index>
-  </view>
-</template>

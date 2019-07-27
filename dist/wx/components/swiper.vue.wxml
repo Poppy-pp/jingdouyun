@@ -1,9 +1,0 @@
-<template name="5609c338">
-  <swiper bindtap="handleProxy" class="_swiper data-v-15a72559 swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="#eaeaea" indicator-active-color="#ffffff" data-eventid="{{'0'}}" data-comkey="{{$k}}">
-    <block wx:key="index" key="{{index}}" wx:for="{{images}}" wx:for-index="index" wx:for-item="item">
-      <swiper-item class="_swiper-item data-v-15a72559">
-        <image src="{{item.url}}" class="_image data-v-15a72559 slide-image" mode="aspectFill"></image>
-      </swiper-item>
-    </block>
-  </swiper>
-</template>
