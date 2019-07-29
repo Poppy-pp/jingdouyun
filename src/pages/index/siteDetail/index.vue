@@ -20,8 +20,8 @@
         <span v-for="(item,index) in largenfo" :key="index"> {{ item.value }} <i>{{ item.desc }}</i>
         </span>
       </div>
-      <div class="address">
-        <i class="result-title"><img class="address-icon" src="/static/images/address.png" />北京市五道口和平路128号<br><span>距市中心2.32千米</span></i>
+      <div class="address" @click="goMap(addr)">
+        <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ addr.address }}<br><span>{{ addr.desc  }}</span></i>
         <img src="/static/images/map.png" alt="">
       </div>
     </div>
@@ -89,6 +89,10 @@ export default {
           touchS: [0, 0],//滑动开始位置x,y
           touchE: [0, 0],//滑动结束位置x,y
           showBtn:false,
+          addr:{
+            address:'北京市五道口和平路128号',
+            desc:'距市中心2.32千米',
+          },
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           images: [
             { url: "/static/images/site-detail.png" },
@@ -145,6 +149,12 @@ export default {
     goSiteIntroduce(){
       wx.navigateTo({
         url: '/pages/index/siteIntroduce/main',
+      })
+    },
+    // 跳转地图
+    goMap(data){
+      wx.navigateTo({
+        url: '/pages/index/map/main?address=' + JSON.stringify(data),
       })
     },
     // 跳转场地主官宣

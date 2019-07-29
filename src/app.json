@@ -22,6 +22,7 @@
     "pages/index/cooperateCase/main",
     "pages/index/caseDetail/main",
     "pages/index/search/main",
+    "pages/index/map/main",
     "pages/myCenter/optionBack/main",
     "pages/myCenter/optionBack/optionDetail/main",
     "pages/myCenter/optionBack/optionOk/main",
@@ -96,5 +97,12 @@
       "activeIcon": "static/tabs/my-active.png"
     }],
     "position": "bottom"
+  },
+
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于鲸抖云地图位置的展示"
+    }
   }
 }
+

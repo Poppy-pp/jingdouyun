@@ -35,10 +35,10 @@
       <p class="title-box">
         <img src="../../../static/images/qipao.png" /> 场地筛选
       </p>
-      <div :class="isTop ? 'search searchTop' : 'search'">
-        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)">
+      <div :class="isTop ? 'search searchTop' : 'search'" id="search">
+        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)" :class=" chooseSearchTitle == item && showPopup ? 'active-span' : ''">
           {{ item }}
-          <img src="../../../static/images/jiantou-gray.png" />
+          <img :src=" chooseSearchTitle == item && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
         </span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
         <!-- 弹窗 -->
@@ -133,6 +133,7 @@ export default {
   data() {
     return {
       isTop: false, //是否置顶
+      topHeight:'',//筛选框距离顶部的高度
       addr: "北京",
       showNotify: false,
       showToast: false,
@@ -329,6 +330,11 @@ export default {
     },
     // 点击筛选下拉菜单
     chooseSearch(data) {
+      // 两次点击同一个菜单，收起弹出框
+      if (this.chooseSearchTitle == data) {
+        this.showPopup = !this.showPopup;
+        return;
+      }
       this.chooseSearchTitle = data;
       this.showPopup = true;
       this.actions = [];
@@ -429,15 +435,24 @@ export default {
       var top = ""; //滑动到顶部的距离
       height = res[0].height - wx.getSystemInfoSync().windowHeight;
       top = res[0].top;
-      if (top <= -540) {
+      if (top <= -this.topHeight) {
         this.isTop = true;
       }
-      if (top > -500) {
+      if (top > -this.topHeight) {
         this.isTop = false;
       }
     });
   },
   onShow(option) {
+    // 获取筛选框距离顶部的高度
+    wx.createSelectorQuery().select('#search').boundingClientRect((res) =>{
+      if(res.top < 350){//iphone5小机型
+        this.topHeight = res.top + 110;
+      }else{
+        this.topHeight = res.top + 130;
+      }
+    }).exec()
+
     let _self = this;
     wx.getStorage({
       key: "cname",
@@ -608,8 +623,11 @@ export default {
 
       img {
         width: 10px;
-        height: 8px;
+        height: 10px;
       }
+    }
+    .active-span{
+      color: #11bcfd;
     }
 
     .notify {
@@ -630,7 +648,7 @@ export default {
 
   .searchTop {
     position: fixed;
-    top: 50px;
+    top: 49px;
     z-index: 10;
     width: 100%;
   }
