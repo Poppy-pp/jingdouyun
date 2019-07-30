@@ -100,6 +100,7 @@ export default {
 }
 </script>
 
+
 <style scoped lang="stylus">
 .container .title-radius{
   height 120px
@@ -118,6 +119,7 @@ export default {
   height:55px;
   border-radius:50%;
 }
+
 .info{
   color:white;
   line-height:31.5px;
@@ -199,4 +201,6 @@ export default {
   text-align:center;
   padding-bottom:10px;
 }
+
 </style>
+

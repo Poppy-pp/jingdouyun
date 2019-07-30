@@ -20,7 +20,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "wxad4d263f6f0fd4f0",
+	"appid": "wx7e72e4842aa86a59",
 	"projectname": "wxapp",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
