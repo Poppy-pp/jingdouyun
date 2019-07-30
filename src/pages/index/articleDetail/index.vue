@@ -48,12 +48,25 @@ export default {
    data() {
        return {
          showShare: false,
+         
+         Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
   computed:{},
   methods:{
    
+  },
+  mounted(){
+  
+  this.Request.getActivityListIntroduce("3").then(res =>{
+        console.log(res)
+        
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+  
+    
   },
   created(){}
 }

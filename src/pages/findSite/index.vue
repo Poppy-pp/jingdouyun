@@ -160,10 +160,12 @@ export default {
       addrask:'',//位置要求
       needs:[],//活动需求
       showneeds:'',//页面显示活动需求
+      Request: this.$api.api.prototype, //请求头
     };
   },
   components: {},
   computed: {},
+  
   methods: {
     // 免费找场地
     findSite(){
@@ -196,18 +198,28 @@ export default {
         this.toastMsg = '请输入验证码';
         setTimeout(() => { this.showToast = false; }, 2000);
       }else{
-        // 跳转至订单详情页面
-        let form = {
-          area: this.area,
-          type: this.type,
-          date: this.date,
-          num: this.num,
-          price: this.price,
-          phone: this.phone,
-          sms: this.sms,
-        }
-        wx.navigateTo({
-          url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+      
+        this.Request.addMySpaceOrder(this.globalData.uid,this.area,this.type,this.date,this.num,this.price,this.phone,this.sms).then(res =>{
+            console.log(res)
+            
+            // 跳转至订单详情页面
+            let form = {
+              area: this.area,
+              type: this.type,
+              date: this.date,
+              num: this.num,
+              price: this.price,
+              phone: this.phone,
+              sms: this.sms,
+              ordernum: res,
+            }
+            console.log(JSON.stringify(form))
+            wx.navigateTo({
+                url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+            })
+        })
+        .catch(res =>{
+            console.log(res) //失败
         })
       }
     },
@@ -396,6 +408,39 @@ export default {
   },
   mounted () {
     this.clearData();
+    
+    this.Request.getActivityType().then(res =>{
+            console.log(res)
+            this.typeActions = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+        
+        this.Request.getActivityPeopleNumber().then(res =>{
+            console.log(res)
+            this.numActions = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+        
+        this.Request.getActivityBudget().then(res =>{
+            console.log(res)
+            this.priceActions = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+        
+        this.Request.getSpaceType().then(res =>{
+            console.log(res)
+            this.siteActions = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+    
   },
   created() {
   },

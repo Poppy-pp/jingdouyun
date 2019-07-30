@@ -119,18 +119,27 @@ export default {
         this.toastMsg = '请输入验证码';
         setTimeout(() => { this.showToast = false; }, 2000);
       }else{
-        // 跳转至订单详情页面
-        let form = {
-          area: this.area,
-          type: this.type,
-          date: this.date,
-          num: this.num,
-          price: this.price,
-          phone: this.phone,
-          sms: this.sms,
-        }
-        wx.navigateTo({
-          url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+        this.Request.addMySpaceOrder(this.globalData.uid,this.area,this.type,this.date,this.num,this.price,this.phone,this.sms).then(res =>{
+            console.log(res)
+            
+            // 跳转至订单详情页面
+            let form = {
+              area: this.area,
+              type: this.type,
+              date: this.date,
+              num: this.num,
+              price: this.price,
+              phone: this.phone,
+              sms: this.sms,
+              ordernum: res,
+            }
+            console.log(JSON.stringify(form))
+            wx.navigateTo({
+                url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+            })
+        })
+        .catch(res =>{
+            console.log(res) //失败
         })
       }
     },

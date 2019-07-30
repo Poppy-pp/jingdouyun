@@ -14,7 +14,7 @@
          <p class="title">{{ item.area }}</p>
          <i class="needs" v-for="(item2,index2) in item.needs" :key="index2">{{ item2.title }}</i>
          <p class="date">{{ item.date + '&emsp;' +  item.num + '&emsp;' + item.price }}</p>
-         <p class="date creat-time">2019.05.27 12:32提交 <text class="type typecolor">客服已受理</text></p>
+         <p class="date creat-time">{{ item.order_date + "提交"}} <text class="type typecolor">{{ item.type }}</text></p>
       </div>
 
       <div :class="formData.length == 0 ? 'no-data-position' : 'no-data'">
@@ -54,6 +54,8 @@ export default {
                ]
             },
           ], 
+	  
+	  Request: this.$api.api.prototype, //请求头
       }
    },
   components: {},
@@ -77,6 +79,17 @@ export default {
     },
   },
   mounted () {
+  },
+  onShow () {
+  
+    console.log(this.globalData)
+    this.Request.getMySpaceOrder(this.globalData.uid).then(res =>{
+        console.log(res)
+        this.formData = res
+    })
+    .catch(res =>{
+        console.log(res) //失败
+    })
   },
   created(){}
 }

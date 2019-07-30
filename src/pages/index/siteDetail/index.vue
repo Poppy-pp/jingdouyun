@@ -11,8 +11,8 @@
     </div>
     <!-- 场地信息 -->
     <div class="site-info">
-      <p class="title-p">华熙LIVE五棵松-凯迪拉克中心 <span>【五星酒店】</span></p>
-      <p class="order-num">1231人预定</p>
+      <p class="title-p">{{ addr.name }} <span>【{{ addr.type }}】</span></p>
+      <p class="order-num">{{ addr.order_count }}人预定</p>
       <div class="tags">
         <button v-for="(item,index) in tags" :key="index">{{ item }}</button>
       </div>
@@ -38,11 +38,11 @@
     </div>
     <!-- 场地空间 -->
     <div class="site-space">
-      <p class="title-p">场地空间 <span class="num">5间</span></p>
+      <p class="title-p">场地空间 <span class="num">{{ siteList.length }} 间</span></p>
        <div class="site-box">
         <ul>
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.name)">
-            <img src="/static/images/default.png">
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
+            <img src="{{item.image}}">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
@@ -51,7 +51,7 @@
             </div>
           </li>
         </ul>
-        <p class="more" @click="getMore">查看更多场地空间(23)</p>
+        <!-- p class="more" @click="getMore">查看更多场地空间(23)</p -->
       </div>
     </div>
     <!-- 场地介绍 -->
@@ -90,6 +90,9 @@ export default {
           touchE: [0, 0],//滑动结束位置x,y
           showBtn:false,
           addr:{
+            name: '华熙LIVE五棵松-凯迪拉克中心',
+            type: '五星酒店',
+            order_count: '1234',
             address:'北京市五道口和平路128号',
             desc:'距市中心2.32千米',
           },
@@ -113,7 +116,7 @@ export default {
           ],
           needs:[ "实名认证","企业认证"],
           siteList: [
-            {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱'},
+            {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱', image:"/static/images/default.png"},
             {name:'一楼演艺大厅', price:'12000', num:'200人', count:'8间', area:'2400m',  tag:'无柱'},
             {name:'朝阳公园第一宴会厅', price:'12000', num:'300人', count:'8间', area:'2400m',  tag:'无柱'},
             {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
@@ -125,6 +128,8 @@ export default {
             {name:'华熙LIVE五棵松-凯迪拉克中心', price:'12000', num:'300人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米',url: "/static/images/near.png"},
             {name:'华熙LIVE五棵松-凯迪拉克中心', price:'12000', num:'400人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米',url: "/static/images/near.png"},
           ],
+          spaceListId: -1,
+          Request: this.$api.api.prototype, //请求头
        }
    },
   components: {Swiperdetail},
@@ -138,17 +143,21 @@ export default {
     },
     // 查看更多场地空间
     getMore(){
-      this.siteList.push(
-        {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱'},
-        {name:'一楼演艺大厅', price:'12000', num:'200人', count:'8间', area:'2400m',  tag:'无柱'},
-        {name:'朝阳公园第一宴会厅', price:'12000', num:'300人', count:'8间', area:'2400m',  tag:'无柱'},
-        {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
-        {name:'朝阳公园第二宴会厅', price:'12000', num:'500人', count:'8间', area:'2400m',  tag:'无柱'})
+      //this.siteList.push(
+      //  {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱'},
+      //  {name:'一楼演艺大厅', price:'12000', num:'200人', count:'8间', area:'2400m',  tag:'无柱'},
+      //  {name:'朝阳公园第一宴会厅', price:'12000', num:'300人', count:'8间', area:'2400m',  tag:'无柱'},
+      //  {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
+      //  {name:'朝阳公园第二宴会厅', price:'12000', num:'500人', count:'8间', area:'2400m',  tag:'无柱'})
     },
     // 跳转场地介绍
     goSiteIntroduce(){
+        let form = {
+          id:this.spaceListId,
+        }
+    
       wx.navigateTo({
-        url: '/pages/index/siteIntroduce/main',
+        url: '/pages/index/siteIntroduce/main?form=' + JSON.stringify(form),
       })
     },
     // 跳转地图
@@ -164,12 +173,58 @@ export default {
       })
     },
     // 跳转场地空间详情
-    goSiteSpace(data){
+    goSiteSpace(id){
+        let form = {
+          id:id,
+        }
       wx.navigateTo({
-        url: '/pages/index/siteSpace/main?title=' + data,
+        url: '/pages/index/siteSpace/main?form=' + JSON.stringify(form),
       })
     },
   },
+  
+  mounted() {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const options = currentPage.options;
+      this.spaceListId = JSON.parse(options.form).id;
+      
+      console.log(this.spaceListId)
+      
+      this.Request.getSpaceListAddr(this.spaceListId).then(res =>{
+        console.log(res)
+        this.addr = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      
+      this.Request.getSpaceListImages(this.spaceListId).then(res =>{
+        console.log(res)
+        this.images = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+        
+      this.Request.getSpaceListTags(this.spaceListId).then(res =>{
+        console.log(res)
+        this.tags = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+     
+      this.Request.getSiteList(this.spaceListId).then(res =>{
+        console.log(res)
+        this.siteList = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      
+      
+      
+  },
+  
   created(){},
   //监听屏幕滚动 判断上下滚动
   onPageScroll(ev) {

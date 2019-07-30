@@ -3,11 +3,11 @@
    <div class="container">
      <!-- 头部 -->
      <div class="header">
-        <img class="banner" src="/static/images/site-detail.png">
+        <img class="banner" src="{{ image }}">
         <div class="text">
-          <p class="place">{{ title }}</p>
-          <p class="title">华熙LIVE五棵松-凯迪拉克中心</p>
-          <p class="price">参考价 <span>￥12,000</span>/天</p>
+          <p class="place">{{ addr.title }}</p>
+          <p class="title">{{ addr.name }}</p>
+          <p class="price">参考价 <span>￥{{ addr.price }}</span>/天</p>
         </div>
      </div>
      <!-- 基础信息 -->
@@ -21,7 +21,7 @@
      </div>
      <!-- 最多容纳 -->
      <div class="more">
-       <p class="title-p">最多容纳<span class="num">500人</span></p>
+       <p class="title-p">最多容纳<span class="num">{{addr.num}}人</span></p>
        <div class="scroll">
         <div class="scroll-item" v-for="(item,index) in moreList" :key="index">
           <img :src="item.url" alt="">
@@ -41,7 +41,13 @@ export default {
    data() {
        return {
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
-         title:'',
+         
+         addr:{
+            name: '华熙LIVE五棵松-凯迪拉克中心',
+            title: '二楼宴会厅',
+            price: '1234',
+            num: "500",
+          },
          info:[
            {type:'会场面积', value:'2000m'}, {type:'会场层高', value:'30m'}, {type:'所在楼层', value:'1层'}, {type:'场地特点', value:'无柱'},
          ],
@@ -54,6 +60,10 @@ export default {
           { url: "/static/images/more6.png", title:'董事会', value:'300人' },
           { url: "/static/images/more7.png", title:'酒会式', value:'300人' },
          ],
+         
+         image: "/static/images/site-detail.png",
+         
+          Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -64,11 +74,47 @@ export default {
       const pages = getCurrentPages();
       const currentPage = pages[pages.length - 1];
       const options = currentPage.options;
+      
+      const sitespaceid = JSON.parse(options.form).id
+      
+      this.Request.getSiteListDetailAddr(sitespaceid).then(res =>{
+        console.log(res)
+        this.addr = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      this.Request.getSiteListDetailInfo(sitespaceid).then(res =>{
+        console.log(res)
+        this.info = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      this.Request.getSiteListDetailMoreList(sitespaceid).then(res =>{
+        console.log(res)
+        this.moreList = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      this.Request.getSiteListDetailBanner(sitespaceid).then(res =>{
+        console.log(res)
+        this.image = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+      
+      
+      
       // 设置页面标题
       wx.setNavigationBarTitle({
-        title: options.title
+        title: this.addr.title
       })
-      this.title = options.title;
+    
+      
+      
+      
     },
     // 调出拨打电话
     onPhoneCall(){ 

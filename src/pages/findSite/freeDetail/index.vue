@@ -54,6 +54,8 @@ export default {
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           orderStatus: true,//订单状态【true：生效，false：已取消】
           dialogMsg: '您确定要取消该订单吗？',
+          
+          Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -62,6 +64,13 @@ export default {
     // 取消订单
     confirmCancel(){
       this.orderStatus = false;//订单状态改为 失效
+      this.Request.delMySpaceOrder(this.infoList.ordernum).then(res =>{
+            console.log(res)
+           
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
     },
     // 调出拨打电话
     onPhoneCall(){ 

@@ -82,8 +82,8 @@
       </div>
       <div class="site-box">
         <ul v-if="siteList.length != 0">
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
-            <img src="../../../static/images/default.png" />
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)">
+            <img src=" {{ item.image }}" />
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">
@@ -134,7 +134,7 @@ export default {
     return {
       isTop: false, //是否置顶
       topHeight:'',//筛选框距离顶部的高度
-      addr: "北京",
+      addr: "北京市",
       showNotify: false,
       showToast: false,
       toastMsg: "", //提示文字信息
@@ -294,7 +294,8 @@ export default {
       type: [],
       size: "",
       num: "",
-      price: ""
+      price: "",
+      Request: this.$api.api.prototype, //请求头
     };
   },
   methods: {
@@ -317,10 +318,13 @@ export default {
       }
     },
     // 跳转至场地详情
-    goSiteDetail() {
+    goSiteDetail(id){
+      let form = {
+          id:id,
+        }
       wx.navigateTo({
-        url: "/pages/index/siteDetail/main"
-      });
+        url: '/pages/index/siteDetail/main?form=' + JSON.stringify(form),
+      })
     },
     // 跳转至搜索
     goSearch() {
@@ -425,6 +429,25 @@ export default {
       });
     }
   },
+  
+    mounted: function() {
+        this.Request.getActivityListBanner().then(res =>{
+            console.log(res)
+            this.images = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+        
+        this.Request.getSpaceList(this.addr).then(res =>{
+            console.log(res)
+            this.siteList = res
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
+  },
+  
   created() {},
   //监听屏幕滚动
   onPageScroll(ev) {

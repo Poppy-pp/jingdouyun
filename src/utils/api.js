@@ -1,0 +1,236 @@
+import requestAll from './request' // 此处，引入存放对promise处理的文件
+import hexMD5 from './md5'
+
+const apiUrl = 'http://39.97.232.129/' 
+//const webUrl = 'http://localhost/'
+ 
+class api {
+ 
+	getActivityType(){
+		let data = {
+			method: "getActivityType",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+ 
+ 	getActivityPeopleNumber(){
+		let data = {
+			method: "getActivityPeopleNumber",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+     getActivityBudget(){
+		let data = {
+			method: "getActivityBudget",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getActivityRequirement(){
+		let data = {
+			method: "getActivityRequirement",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceType(){
+		let data = {
+			method: "getSpaceType",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getMySpaceOrder(wechat_id){
+		let data = {
+			method: "getMySpaceOrder",
+            userInfo: wechat_id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    addMySpaceOrder(uid,area,type,date,num,price,phone,sms){
+		let data = {
+			method: "addMySpaceOrder",
+            userInfo: uid,
+            region_requirement: area,
+            activity_people_number: num,
+            activity_budget: price,
+            space_type: type,
+            mobile: phone,
+            activity_time_from: Date.parse(date),
+            activity_time_to: Date.parse(date),
+            sms: sms,
+		}
+        
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    delMySpaceOrder(space_order_id){
+		let data = {
+			method: "delMySpaceOrder",
+            space_order_id: space_order_id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getActivityListBanner(){
+		let data = {
+			method: "getActivityListBanner",
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getActivityListIntroduce(id){
+		let data = {
+			method: "getActivityListIntroduce",
+            activity_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceList(city){
+		let data = {
+			method: "getSpaceList",
+            activity_city: city,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceListImages(id){
+		let data = {
+			method: "getSpaceListImages",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceListTags(id){
+		let data = {
+			method: "getSpaceListTags",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceListLargeInfo(id){
+		let data = {
+			method: "getSpaceListLargeInfo",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceListLargeInfo(id){
+		let data = {
+			method: "getSpaceListLargeInfo",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}    
+    
+    getSpaceListAddr(id){
+		let data = {
+			method: "getSpaceListAddr",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSpaceListIntroduce(id){
+		let data = {
+			method: "getSpaceListIntroduce",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSiteList(id){
+		let data = {
+			method: "getSiteList",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSiteListDetailAddr(id){
+		let data = {
+			method: "getSiteListDetailAddr",
+            space_list_place_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSiteListDetailInfo(id){
+		let data = {
+			method: "getSiteListDetailInfo",
+            space_list_place_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSiteListDetailMoreList(id){
+		let data = {
+			method: "getSiteListDetailMoreList",
+            space_list_place_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    getSiteListDetailBanner(id){
+		let data = {
+			method: "getSiteListDetailBanner",
+            space_list_place_id: id,
+		}
+        var sign = hexMD5.signature(data, "abcdefg1234567")
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+}
+ 
+//暴露接口
+export default {
+	api:api
+}

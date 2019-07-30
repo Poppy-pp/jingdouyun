@@ -16,12 +16,30 @@
 export default {
    data() {
        return {
+        addr:{
+            name: '华熙LIVE五棵松-凯迪拉克中心',
+            content: 'HTML5 CONTENT',
+          },
+          
+          Request: this.$api.api.prototype, //请求头
          
        }
    },
   components: {},
   computed:{},
   methods:{
+  },
+    mounted() {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const options = currentPage.options;
+      
+      this.Request.getSpaceListIntroduce(JSON.parse(options.form).id).then(res =>{
+        console.log(res)
+        this.addr = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
   },
   created(){}
 }
