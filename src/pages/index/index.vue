@@ -83,7 +83,7 @@
       <div class="site-box">
         <ul v-if="siteList.length != 0">
           <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)">
-            <img src=" {{ item.image }}" />
+            <img :src="item.image" />
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">

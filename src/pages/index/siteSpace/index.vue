@@ -3,7 +3,7 @@
    <div class="container">
      <!-- 头部 -->
      <div class="header">
-        <img class="banner" src="{{ image }}">
+        <img class="banner" :src="image">
         <div class="text">
           <p class="place">{{ addr.title }}</p>
           <p class="title">{{ addr.name }}</p>

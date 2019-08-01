@@ -42,7 +42,7 @@
        <div class="site-box">
         <ul>
           <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
-            <img src="{{item.image}}">
+            <img :src="item.image">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
