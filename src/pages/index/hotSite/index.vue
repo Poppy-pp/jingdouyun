@@ -6,8 +6,8 @@
           <button v-for="(item,index) in tags" :key="index" @click="chooseTags(item)">{{ item }}</button>
        </div>
         <ul>
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail">
-            <img src="../../../../static/images/default.png">
+          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)">
+            <img :src="item.url">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
@@ -37,6 +37,8 @@ export default {
         ],
         tags:[ '全部(6)', '体育场馆(1)','酒店(3)',  '会议中心(2)', '泳池(4)', '户外(6)', '健身(6)'],
         mystatus:false,//我的收藏状态
+        
+        Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -47,11 +49,53 @@ export default {
       const pages = getCurrentPages();
       const currentPage = pages[pages.length - 1];
       const options = currentPage.options;
+      
+      this.mystatus = false;
+      
       if (options.title == '我的收藏') {
-        this.mystatus = true;
-      }else{
         this.mystatus = false;
+        
+        this.Request.getSpaceListKeep(this.globalData.uid).then(res =>{
+            console.log(res)
+            this.siteList = res
+        }).catch(res =>{
+            console.log(res) //失败
+        })   
+        
       }
+      
+      if (options.title == '我的足迹') {
+        
+        this.Request.getSpaceListHistory(this.globalData.uid).then(res =>{
+            console.log(res)
+            this.siteList = res
+        }).catch(res =>{
+            console.log(res) //失败
+        })   
+        
+      }
+          
+        if(options.title == '热门场地') {
+            this.Request.getSpaceListHot(options.addr).then(res =>{
+                console.log(res)
+                this.siteList = res
+            })
+            .catch(res =>{
+                console.log(res) //失败
+            })
+        }
+
+        if(options.title == '城市地标') {
+            this.Request.getSpaceListFlag(options.addr).then(res =>{
+                console.log(res)
+                this.siteList = res
+            })
+            .catch(res =>{
+                console.log(res) //失败
+            })
+        }
+      
+      
       // 设置页面标题
       wx.setNavigationBarTitle({
         title: options.title
@@ -62,13 +106,19 @@ export default {
 
     },
     // 跳转至场地详情
-    goSiteDetail(){
+    goSiteDetail(id){
+      let form = {
+          id:id,
+        }
       wx.navigateTo({
-        url: '/pages/index/siteDetail/main',
+        url: '/pages/index/siteDetail/main?form=' + JSON.stringify(form),
       })
     },
   },
   mounted () {
+    //this.getQuery()
+  },
+  onShow() {
     this.getQuery()
   },
   created(){}

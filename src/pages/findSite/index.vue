@@ -22,7 +22,7 @@
             <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code">短信验证</i> </van-field>
+            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code" @click="sendSms" >短信验证</i> </van-field>
             <van-field v-model="sms" type="number" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
             <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
@@ -202,21 +202,32 @@ export default {
         this.Request.addMySpaceOrder(this.globalData.uid,this.area,this.type,this.date,this.num,this.price,this.phone,this.sms).then(res =>{
             console.log(res)
             
-            // 跳转至订单详情页面
-            let form = {
-              area: this.area,
-              type: this.type,
-              date: this.date,
-              num: this.num,
-              price: this.price,
-              phone: this.phone,
-              sms: this.sms,
-              ordernum: res,
+            if ( res != 'SMSERROR' ){
+            
+                // 跳转至订单详情页面
+                let form = {
+                  area: this.area,
+                  type: this.type,
+                  date: this.date,
+                  num: this.num,
+                  price: this.price,
+                  phone: this.phone,
+                  sms: this.sms,
+                  ordernum: res,
+                }
+                console.log(JSON.stringify(form))
+                wx.navigateTo({
+                    url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
+                })
+            }else{
+              // 显示提示
+              this.showToast = true;
+              this.toastMsg = "验证码错误，请重新输入！";
+              setTimeout(() => {
+                this.showToast = false;
+              }, 2000);
+            
             }
-            console.log(JSON.stringify(form))
-            wx.navigateTo({
-                url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
-            })
         })
         .catch(res =>{
             console.log(res) //失败
@@ -308,6 +319,15 @@ export default {
             console.log('上滑');
             this.showHistory = true;
         }
+    },
+
+    sendSms(){   
+       this.Request.sendSms(this.phone).then(res =>{
+            console.log(res)
+        })
+        .catch(res =>{
+            console.log(res) //失败
+        })
     },
 
     // 输入手机号

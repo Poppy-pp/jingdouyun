@@ -2,10 +2,10 @@
 <template>
    <div class="container">
      <div class="header">
-       <img src="/static/images/cooperate.png" alt="">
+       <img :src="addr.image" alt="">
      </div>
      <div class="content">
-        <p class="title-p">腾讯创投会议</p>
+        <p class="title-p">{{addr.title}}</p>
         <ul>
           <li v-for="(item,index) in info" :key="index">
             <img :src="item.url" alt="">
@@ -31,12 +31,16 @@
 export default {
    data() {
        return {
+         
+         addr:[],
          info:[
            { url:'/static/images/case1.png',type:'活动类型', value:'会议'},
            { url:'/static/images/case2.png',type:'活动场地', value:'五星酒店'},
            { url:'/static/images/case3.png',type:'活动人数', value:'200'},
          ],
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
+         
+         Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -48,6 +52,26 @@ export default {
         phoneNumber: '010-12345323'
       })
     },
+  },
+  mounted () {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const options = currentPage.options;
+
+        this.Request.getCaseListInfo(options.id).then(res =>{
+            console.log(res)
+            this.info = res
+        }).catch(res =>{
+            console.log(res) //失败
+        })
+        
+        this.Request.getCaseListIntroduce(options.id).then(res =>{
+            console.log(res)
+            this.addr = res
+        }).catch(res =>{
+            console.log(res) //失败
+        })
+
   },
   created(){}
 }

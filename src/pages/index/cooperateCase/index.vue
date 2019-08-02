@@ -5,13 +5,13 @@
        <img src="/static/images/cooperate.png" alt="">
        <p class="title">介绍鲸抖云合作案例优势、实力的文案</p>
      </div>
-     <div class="content" v-for="(item,index) in coopList" :key="index" @click="goCaseDetail">
+     <div class="content" v-for="(item,index) in coopList" :key="index" @click="goCaseDetail(item.id)">
         <img :src="item.url">
         <div class="right-box">
           <p class="title">{{ item.title }}</p>
           <i class="result-title">{{ item.type }}</i>
           <i class="result-title">{{ item.other }}</i>
-          <i class="result-title">{{ item.num }}</i>
+          <i class="result-title">{{ item.num }}人</i>
         </div>
      </div>
    </div>
@@ -25,6 +25,8 @@ export default {
            { url:'/static/images/tengxun.png', title:'腾讯创投会议', type:'会议',other:'五星酒店',num:'1000人' },
            { url:'/static/images/tengxun.png', title:'腾讯创投会议', type:'会议',other:'特色场地',num:'2000人' }
          ],
+         
+         Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -39,11 +41,20 @@ export default {
       wx.setNavigationBarTitle({
         title: options.title
       })
+      
+        this.Request.getCaseList().then(res =>{
+            console.log(res)
+            this.coopList = res
+        }).catch(res =>{
+            console.log(res) //失败
+        })
+     
+      
     },
     // 跳转至案例详情
-    goCaseDetail(){
+    goCaseDetail(id){
       wx.navigateTo({
-        url: '/pages/index/caseDetail/main',
+        url: '/pages/index/caseDetail/main?id='+id,
       })
     }
   },

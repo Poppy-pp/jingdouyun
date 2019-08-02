@@ -13,7 +13,7 @@
           type="text"
           placeholder="搜索您心仪的场地"
           placeholder-style="color:#ffffff"
-          @click="goSearch"
+          @click="goSearch(addr)"
         />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
@@ -83,7 +83,7 @@
       <div class="site-box">
         <ul v-if="siteList.length != 0">
           <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)">
-            <img :src="item.image" />
+            <img :src="item.url" />
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">
@@ -134,7 +134,7 @@ export default {
     return {
       isTop: false, //是否置顶
       topHeight:'',//筛选框距离顶部的高度
-      addr: "北京市",
+      addr: "北京",
       showNotify: false,
       showToast: false,
       toastMsg: "", //提示文字信息
@@ -291,7 +291,7 @@ export default {
       chooseSearchTitle: "", //选择的筛选条件下拉
       actions: [],
       area: "",
-      type: [],
+      type: "",
       size: "",
       num: "",
       price: "",
@@ -313,7 +313,7 @@ export default {
         });
       } else {
         wx.navigateTo({
-          url: "/pages/index/hotSite/main?title=" + data
+          url: "/pages/index/hotSite/main?title=" + data + "&addr=" + this.addr
         });
       }
     },
@@ -327,9 +327,9 @@ export default {
       })
     },
     // 跳转至搜索
-    goSearch() {
+    goSearch(data) {
       wx.navigateTo({
-        url: "/pages/index/search/main"
+        url: "/pages/index/search/main?city="+data
       });
     },
     // 点击筛选下拉菜单
@@ -344,24 +344,24 @@ export default {
       this.actions = [];
       if (data == "面积") {
         this.actions = [
-          { name: "不限" },
-          { name: "50㎡以下" },
-          { name: "50㎡-100㎡" },
-          { name: "100㎡-200㎡" },
-          { name: "200㎡-500㎡" },
-          { name: "500㎡-800㎡" },
-          { name: "800㎡-1000㎡" },
-          { name: "1000㎡以上" }
+          { name: "不限", from: "", to: "" },
+          { name: "50㎡以下", from: "1", to: "50" },
+          { name: "50㎡-100㎡", from: "51", to: "100" },
+          { name: "100㎡-200㎡", from: "101", to: "200" },
+          { name: "200㎡-500㎡", from: "200", to: "500" },
+          { name: "500㎡-800㎡", from: "501", to: "800" },
+          { name: "800㎡-1000㎡", from: "801", to: "1000" },
+          { name: "1000㎡以上", from: "1001", to: "99999" }
         ];
       } else if (data == "人数") {
         this.actions = [
-          { name: "不限" },
-          { name: "50人以下" },
-          { name: "50-100人" },
-          { name: "100-300人" },
-          { name: "300-500人" },
-          { name: "500-1000人" },
-          { name: "1000人以上" }
+          { name: "不限", from: "", to: "" },
+          { name: "50人以下", from: "1", to: "50" },
+          { name: "50-100人", from: "51", to: "100" },
+          { name: "100-300人", from: "101", to: "300" },
+          { name: "300-500人", from: "301", to: "500" },
+          { name: "500-1000人", from: "501", to: "1000" },
+          { name: "1000人以上", from: "1001", to: "99999" }
         ];
       } else if (data == "价格") {
         this.actions = [
@@ -396,31 +396,75 @@ export default {
     // 类型——点击选择类型
     selectType(index) {
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
-      this.type = []; //初始化
-      this.typeList.forEach((v, i) => {
+      this.type = "0"; //初始化
+      
+      this.typeList.every((v, i) => {
+
         if (v.isSelect) {
-          this.type.push(v);
+            if (v.id == 1) {
+                this.type = ""
+                return false
+            }
+        
+          this.type = this.type + "_" + v.id;
         }
+        
+        return true
       });
+
     },
     // 面积、人数、价格——点击选择
     selectAction(item) {
       this.showPopup = false;
+      
+      this.siteList = []
+      
       if (this.chooseSearchTitle == "面积") {
         this.size = item.name;
+        
+        this.Request.getSpaceListSearch("",this.addr,this.type,"","",item.from,item.to).then(res =>{
+            console.log(res)
+            this.siteList = res
+      
+              // 显示提示
+              this.showToast = true;
+              this.showNotify = true;
+              this.toastMsg = "共找到"+this.siteList.length+"个场地";
+              setTimeout(() => {
+                this.showToast = false;
+                this.showNotify = false;
+              }, 2000);
+            
+          }).catch(res =>{
+            console.log(res) //失败
+          })
+        
       } else if (this.chooseSearchTitle == "人数") {
+      
         this.num = item.name;
+        
+        this.Request.getSpaceListSearch("",this.addr,this.type,item.from,item.to,"","").then(res =>{
+            console.log(res)
+            this.siteList = res
+
+              // 显示提示
+              this.showToast = true;
+              this.showNotify = true;
+              this.toastMsg = "共找到"+this.siteList.length+"个场地";
+              setTimeout(() => {
+                this.showToast = false;
+                this.showNotify = false;
+              }, 2000);
+            
+            
+          }).catch(res =>{
+            console.log(res) //失败
+          })
+        
       } else if (this.chooseSearchTitle == "价格") {
         this.price = item.name;
       }
-      // 显示提示
-      this.showToast = true;
-      this.showNotify = true;
-      this.toastMsg = "共找到12个场地";
-      setTimeout(() => {
-        this.showToast = false;
-        this.showNotify = false;
-      }, 2000);
+
     },
     // 调出拨打电话
     onPhoneCall() {
@@ -431,22 +475,14 @@ export default {
   },
   
     mounted: function() {
-        this.Request.getActivityListBanner().then(res =>{
+    
+        this.Request.getSpaceTypeSearchItem().then(res =>{
             console.log(res)
-            this.images = res
-        })
-        .catch(res =>{
+            this.typeList = res
+        }).catch(res =>{
             console.log(res) //失败
         })
-        
-        this.Request.getSpaceList(this.addr).then(res =>{
-            console.log(res)
-            this.siteList = res
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
-  },
+    },
   
   created() {},
   //监听屏幕滚动
@@ -483,6 +519,22 @@ export default {
         _self.addr = res.data || "成都";
       }
     });
+    
+    console.log(this.addr)
+    
+    this.Request.getActivityListBanner().then(res =>{
+        console.log(res)
+        this.images = res
+    }).catch(res =>{
+        console.log(res) //失败
+    })
+    
+    this.Request.getSpaceList(this.addr).then(res =>{
+        console.log(res)
+        this.siteList = res
+    }).catch(res =>{
+        console.log(res) //失败
+    })
   }
 };
 </script>

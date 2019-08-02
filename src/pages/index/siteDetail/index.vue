@@ -5,7 +5,7 @@
     <div class="header">
       <Swiperdetail :images="images"></Swiperdetail>
       <div class="right-icon">
-        <img src="/static/images/follow.png" alt="">
+        <img src="/static/images/follow.png" alt="" @click="followSiteSpace(spaceListId)">
         <img src="/static/images/share.png" alt="">
       </div>
     </div>
@@ -42,7 +42,7 @@
        <div class="site-box">
         <ul>
           <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
-            <img :src="item.image">
+            <img :src="item.url">
             <div class="right-box">
               <p class="title">{{ item.name }}</p>
               <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
@@ -116,7 +116,7 @@ export default {
           ],
           needs:[ "实名认证","企业认证"],
           siteList: [
-            {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱', image:"/static/images/default.png"},
+            {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱', url:"/static/images/default.png"},
             {name:'一楼演艺大厅', price:'12000', num:'200人', count:'8间', area:'2400m',  tag:'无柱'},
             {name:'朝阳公园第一宴会厅', price:'12000', num:'300人', count:'8间', area:'2400m',  tag:'无柱'},
             {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
@@ -174,12 +174,21 @@ export default {
     },
     // 跳转场地空间详情
     goSiteSpace(id){
-        let form = {
-          id:id,
-        }
+      let form = {
+        id:id,
+      }
       wx.navigateTo({
         url: '/pages/index/siteSpace/main?form=' + JSON.stringify(form),
       })
+    },
+    
+    followSiteSpace(id){  
+        this.Request.addSpaceListKeep(this.globalData.uid,id).then(res =>{
+            console.log(res)
+            
+          }).catch(res =>{
+            console.log(res) //失败
+          })
     },
   },
   
@@ -221,7 +230,12 @@ export default {
       })
       
       
-      
+      this.Request.addSpaceListHistory(this.globalData.uid,this.spaceListId).then(res =>{
+        console.log(res)
+        
+      }).catch(res =>{
+        console.log(res) //失败
+      })
       
   },
   

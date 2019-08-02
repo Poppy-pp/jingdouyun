@@ -21,7 +21,7 @@
      <div v-if="!resultstatus" class="hot-search">
        <p class="title">热搜场地</p>
        <block v-for="(item, index) in hotList" :key="index">
-          <text class="needs-select" @click='selectHot(item)'>{{item}}</text>
+          <text class="needs-select" @click='selectHot(item.name)'>{{item.name}}</text>
         </block>
      </div>
      <!-- 搜索结果 -->
@@ -30,8 +30,8 @@
        <div class="content" v-for="(item,index) in resultList" :key="index" @click="goCaseDetail">
         <img :src="item.url">
         <div class="right-box">
-          <p class="title">{{ item.title }}</p>
-          <i class="result-title">{{ item.other }}</i>
+          <p class="title">{{ item.name }}</p>
+          <i class="result-title">{{ item.type }}</i>
           <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
         </div>
      </div>
@@ -52,13 +52,15 @@ export default {
         morestatus:false,
         inputvalue:'',
         resultList:[
-          { url:'/static/images/tengxun.png', title:'全场', other:'五星酒店',count:'500人',area:'2400m', num:'13m'},
-          { url:'/static/images/tengxun.png', title:'全场', other:'特色场地',count:'2000人' ,area:'2400m', num:'13m'}
+          { url:'/static/images/tengxun.png', name:'全场', type:'五星酒店',num:'500人',area:'2400m', count:'13m'},
+          { url:'/static/images/tengxun.png', name:'全场', type:'特色场地',num:'2000人' ,area:'2400m', count:'13m'}
         ],
         showHistory:[],
         searchHistory:['北京鸟巢体育场1','鸟巢2','北京鸟巢体育场3','北京鸟巢体育场4','北京鸟巢体育场5','北京鸟巢体育场6'],
         showDialog: false,
         dialogMsg: '清除后不可恢复',
+        
+        Request: this.$api.api.prototype, //请求头
        }
    },
   components: {},
@@ -72,6 +74,7 @@ export default {
     },
     // 选择热门场地
     selectHot(item){
+    
       this.inputvalue = item;
       this.inputEnter();
       this.inputstatus = true;
@@ -80,6 +83,7 @@ export default {
     inputSearch(e){
       if (e.target.value.length > 0) {
         this.inputstatus = true;//显示清空按钮
+         
       }else{
         this.inputstatus = false;
         this.resultstatus = false;
@@ -87,6 +91,14 @@ export default {
     },
     // 回车
     inputEnter(){
+    
+        this.Request.getSpaceListSearch(this.inputvalue,"","","","","","").then(res =>{
+            console.log(res)
+            this.resultList = res
+          }).catch(res =>{
+            console.log(res) //失败
+          })
+    
       this.resultstatus = true;//显示结果
       this.searchHistory.push(this.inputvalue);//存入历史
       this.showHistory = this.searchHistory.slice(0,5);//显示前5条数据
@@ -117,6 +129,19 @@ export default {
       this.resultstatus = false;
       this.inputvalue = '';
     },
+  },
+  mounted() {
+  
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const options = currentPage.options;
+      
+      this.Request.getSpaceListHot(options.city).then(res =>{
+        console.log(res)
+        this.hotList = res
+      }).catch(res =>{
+        console.log(res) //失败
+      })
   },
   created(){
     this.showHistory = this.searchHistory.slice(0,5);
