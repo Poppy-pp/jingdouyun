@@ -516,7 +516,7 @@ export default {
     wx.getStorage({
       key: "cname",
       success(res) {
-        _self.addr = res.data || "成都";
+        _self.addr = res.data.name || "成都";
       }
     });
     
