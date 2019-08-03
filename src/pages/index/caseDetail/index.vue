@@ -13,15 +13,15 @@
           </li>
         </ul>
      </div>
-      <div class="content">
-        <p class="title-p">详细介绍</p>
+      <div class="content" v-html="addr.content">
+        <!-- <p class="title-p">详细介绍</p>
         <p class="text">美食荟萃的演艺秀场大戏楼坐落于北京东五环京城梨园公园内。是国家一流京剧表演团体演出大戏楼大戏楼将传统的北京戏楼文化重彰于世，
           是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
         </p>
         <img class="img" src="/static/images/site-introduce.png" alt="">
         <p class="text">美食荟萃的演艺秀场大戏楼坐落于北京东五环京城梨园公园内。是国家一流京剧表演团体演出大戏楼大戏楼将传统的北京戏楼文化重彰于世，
           是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
-        </p>
+        </p> -->
      </div>
      <button class="free-btn" @click="onPhoneCall">联系场地顾问</button>
    </div>
