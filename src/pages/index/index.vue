@@ -96,7 +96,7 @@
                 <img class="address-icon" src="/static/images/address.png" />
                 {{ item.far }}
               </i>
-              <i class="result-title">{{item.curCity.name }}</i>
+              <i class="result-title">{{item.addr.name }}</i>
             </div>
 
             <div v-if="index == 3" class="middle">

@@ -24,14 +24,15 @@
       </div>-->
       <div class="curcity">
         <div class="title">当前城市</div>
-        <h3><i-icon type="coordinates_fill" size="24" color="#2d8cf0"/>{{ curCity.name }}</h3>
+        <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ curCity.name }}</h3>
       </div>
       <!--热门城市-->
       <div class="hot" v-show="!isInput">
         <div class="title">热门城市</div>
         <i-row>
           <i-col span="8" v-for="(item,index) in hotList" v-if="index<12" :key="index">
-            <div class="x-btn" @click="setSite(item,'name')">{{item.name}}</div>
+            <div class="x-btn" @click="setSite(item,'name')" style="color:#13bdfd" v-if="curCity&&curCity.name == item.name">{{item.name}}</div>
+            <div class="x-btn" @click="setSite(item,'name')" v-else>{{item.name}}</div>
           </i-col>
         </i-row>
       </div>
@@ -186,7 +187,7 @@ export default {
     let than = this;
     wx.getSystemInfo({
       success: function(res) {
-        than.scrollTop = parseInt(res.screenWidth / 750 * 600);
+        than.scrollTop = parseInt(res.screenWidth / 750 * 715);
       }
     });
   }
@@ -221,7 +222,7 @@ view {
   position: relative;
 }
 .containerTop {
-  height: 600rpx;
+  height: 680rpx;
 }
 .col-8 {
   width: 80%;
@@ -262,23 +263,26 @@ view {
 .curcity {
   width: 674rpx;
   margin: 0 auto;
+  padding: 0 0 50rpx 0;
   position: relative;
   z-index: 1;
+  border-bottom: 2rpx solid #f4f4f4;
 }
 .curcity .title {
   font-size: 30rpx;
   color: #222;
   line-height: 30rpx;
-  padding-top: 30rpx;
-  margin-bottom: 10rpx;
-  color: #ccc;
+  padding: 30rpx 0 10rpx 0;
+  margin: 0rpx 15rpx 10rpx 15rpx;
+  color: #8f9499;
 }
 .curcity h3 {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 800;
 }
 .hot {
   width: 674rpx;
-  margin: 0 auto;
+  margin: 25rpx auto;
   position: relative;
   z-index: 1;
 }
@@ -286,17 +290,16 @@ view {
   font-size: 30rpx;
   color: #222;
   line-height: 30rpx;
-  padding-top: 30rpx;
-  margin-bottom: 10rpx;
-  color: #ccc;
+  padding: 30rpx 0 10rpx 0;
+  margin: 0rpx 15rpx 10rpx 15rpx;
+  color: #8f9499;
 }
 .hot .x-btn {
-  height: 60rpx;
-  line-height: 60rpx;
-  margin: 12rpx 20rpx;
+  height: 65rpx;
+  line-height: 65rpx;
+  margin: 12rpx 15rpx;
   text-align: center;
-  background: #fafafa;
-  border: 2rpx solid #ddd;
+  background: #f6f7f8;
   font-size: 28rpx;
   color: #222;
 }
@@ -304,12 +307,18 @@ view {
 .view {
   width: 100%;
   position: absolute;
-  top: 600rpx;
+  top: 680rpx;
   bottom: 0;
   z-index: 1000;
+  padding-top:30rpx;
+  margin: 0rpx 0 0 35rpx;
+  border-top:2rpx solid #f4f4f4
 }
 .i-index-demo-item {
-  padding: 20rpx;
-  border-bottom: 2rpx solid #ccc;
+  padding: 40rpx 20rpx;
+  border-bottom: 2rpx solid #f4f4f4;
+}
+.i-index-demo-item:last-child {
+  border-bottom: 0;
 }
 </style>
