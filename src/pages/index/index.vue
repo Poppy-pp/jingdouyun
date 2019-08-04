@@ -4,7 +4,7 @@
     <!-- 头部搜索框 -->
     <div class="search-box">
       <span @click="goCityIndex">
-        {{ addr }}
+        {{ curCity.name }}
         <img src="../../../static/images/jiantou-white.png" />
       </span>
       <p class="input">
@@ -13,7 +13,7 @@
           type="text"
           placeholder="搜索您心仪的场地"
           placeholder-style="color:#ffffff"
-          @click="goSearch(addr)"
+          @click="goSearch(curCity.name)"
         />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
@@ -96,7 +96,7 @@
                 <img class="address-icon" src="/static/images/address.png" />
                 {{ item.far }}
               </i>
-              <i class="result-title">{{item.addr }}</i>
+              <i class="result-title">{{item.curCity.name }}</i>
             </div>
 
             <div v-if="index == 3" class="middle">
@@ -128,13 +128,18 @@
 
 <script>
 import Swiper from "@/components/swiper";
+import { mapActions, mapState } from "vuex";
 export default {
   components: { Swiper },
+  computed: {
+    ...mapState({
+      curCity: state => state.curCity
+    })
+  },
   data() {
     return {
       isTop: false, //是否置顶
-      topHeight:'',//筛选框距离顶部的高度
-      addr: "北京",
+      topHeight: "", //筛选框距离顶部的高度
       showNotify: false,
       showToast: false,
       toastMsg: "", //提示文字信息
@@ -295,7 +300,7 @@ export default {
       size: "",
       num: "",
       price: "",
-      Request: this.$api.api.prototype, //请求头
+      Request: this.$api.api.prototype //请求头
     };
   },
   methods: {
@@ -313,23 +318,27 @@ export default {
         });
       } else {
         wx.navigateTo({
-          url: "/pages/index/hotSite/main?title=" + data + "&addr=" + this.addr
+          url:
+            "/pages/index/hotSite/main?title=" +
+            data +
+            "&addr=" +
+            this.curCity.name
         });
       }
     },
     // 跳转至场地详情
-    goSiteDetail(id){
+    goSiteDetail(id) {
       let form = {
-          id:id,
-        }
+        id: id
+      };
       wx.navigateTo({
-        url: '/pages/index/siteDetail/main?form=' + JSON.stringify(form),
-      })
+        url: "/pages/index/siteDetail/main?form=" + JSON.stringify(form)
+      });
     },
     // 跳转至搜索
     goSearch(data) {
       wx.navigateTo({
-        url: "/pages/index/search/main?city="+data
+        url: "/pages/index/search/main?city=" + data
       });
     },
     // 点击筛选下拉菜单
@@ -397,74 +406,85 @@ export default {
     selectType(index) {
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
       this.type = "0"; //初始化
-      
-      this.typeList.every((v, i) => {
 
+      this.typeList.every((v, i) => {
         if (v.isSelect) {
-            if (v.id == 1) {
-                this.type = ""
-                return false
-            }
-        
+          if (v.id == 1) {
+            this.type = "";
+            return false;
+          }
+
           this.type = this.type + "_" + v.id;
         }
-        
-        return true
-      });
 
+        return true;
+      });
     },
     // 面积、人数、价格——点击选择
     selectAction(item) {
       this.showPopup = false;
-      
-      this.siteList = []
-      
+
+      this.siteList = [];
+
       if (this.chooseSearchTitle == "面积") {
         this.size = item.name;
-        
-        this.Request.getSpaceListSearch("",this.addr,this.type,"","",item.from,item.to).then(res =>{
-            console.log(res)
-            this.siteList = res
-      
-              // 显示提示
-              this.showToast = true;
-              this.showNotify = true;
-              this.toastMsg = "共找到"+this.siteList.length+"个场地";
-              setTimeout(() => {
-                this.showToast = false;
-                this.showNotify = false;
-              }, 2000);
-            
-          }).catch(res =>{
-            console.log(res) //失败
-          })
-        
-      } else if (this.chooseSearchTitle == "人数") {
-      
-        this.num = item.name;
-        
-        this.Request.getSpaceListSearch("",this.addr,this.type,item.from,item.to,"","").then(res =>{
-            console.log(res)
-            this.siteList = res
 
-              // 显示提示
-              this.showToast = true;
-              this.showNotify = true;
-              this.toastMsg = "共找到"+this.siteList.length+"个场地";
-              setTimeout(() => {
-                this.showToast = false;
-                this.showNotify = false;
-              }, 2000);
-            
-            
-          }).catch(res =>{
-            console.log(res) //失败
+        this.Request.getSpaceListSearch(
+          "",
+          this.curCity.name,
+          this.type,
+          "",
+          "",
+          item.from,
+          item.to
+        )
+          .then(res => {
+            console.log(res);
+            this.siteList = res;
+
+            // 显示提示
+            this.showToast = true;
+            this.showNotify = true;
+            this.toastMsg = "共找到" + this.siteList.length + "个场地";
+            setTimeout(() => {
+              this.showToast = false;
+              this.showNotify = false;
+            }, 2000);
           })
-        
+          .catch(res => {
+            console.log(res); //失败
+          });
+      } else if (this.chooseSearchTitle == "人数") {
+        this.num = item.name;
+
+        this.Request.getSpaceListSearch(
+          "",
+          this.curCity.name,
+          this.type,
+          item.from,
+          item.to,
+          "",
+          ""
+        )
+          .then(res => {
+            console.log(res);
+            this.siteList = res;
+
+            // 显示提示
+            this.showToast = true;
+            this.showNotify = true;
+            this.toastMsg = "共找到" + this.siteList.length + "个场地";
+            setTimeout(() => {
+              this.showToast = false;
+              this.showNotify = false;
+            }, 2000);
+          })
+          .catch(res => {
+            console.log(res); //失败
+          });
       } else if (this.chooseSearchTitle == "价格") {
         this.price = item.name;
       }
-
     },
     // 调出拨打电话
     onPhoneCall() {
@@ -473,17 +493,18 @@ export default {
       });
     }
   },
-  
-    mounted: function() {
-    
-        this.Request.getSpaceTypeSearchItem().then(res =>{
-            console.log(res)
-            this.typeList = res
-        }).catch(res =>{
-            console.log(res) //失败
-        })
-    },
-  
+
+  mounted: function() {
+    this.Request.getSpaceTypeSearchItem()
+      .then(res => {
+        console.log(res);
+        this.typeList = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
+  },
+
   created() {},
   //监听屏幕滚动
   onPageScroll(ev) {
@@ -504,37 +525,46 @@ export default {
   },
   onShow(option) {
     // 获取筛选框距离顶部的高度
-    wx.createSelectorQuery().select('#search').boundingClientRect((res) =>{
-      if(res.top < 350){//iphone5小机型
-        this.topHeight = res.top + 110;
-      }else{
-        this.topHeight = res.top + 130;
-      }
-    }).exec()
+    wx
+      .createSelectorQuery()
+      .select("#search")
+      .boundingClientRect(res => {
+        if (res.top < 350) {
+          //iphone5小机型
+          this.topHeight = res.top + 110;
+        } else {
+          this.topHeight = res.top + 130;
+        }
+      })
+      .exec();
 
-    let _self = this;
-    wx.getStorage({
-      key: "cname",
-      success(res) {
-        _self.addr = res.data.name || "成都";
-      }
-    });
-    
-    console.log(this.addr)
-    
-    this.Request.getActivityListBanner().then(res =>{
-        console.log(res)
-        this.images = res
-    }).catch(res =>{
-        console.log(res) //失败
-    })
-    
-    this.Request.getSpaceList(this.addr).then(res =>{
-        console.log(res)
-        this.siteList = res
-    }).catch(res =>{
-        console.log(res) //失败
-    })
+    // let _self = this;
+    // wx.getStorage({
+    //   key: "cname",
+    //   success(res) {
+    //     _self.addr = res.data.name || "成都";
+    //   }
+    // });
+
+    // console.log(this.curCity.name);
+
+    this.Request.getActivityListBanner()
+      .then(res => {
+        console.log(res);
+        this.images = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
+
+    this.Request.getSpaceList(this.curCity.name)
+      .then(res => {
+        console.log(res);
+        this.siteList = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
   }
 };
 </script>
@@ -701,7 +731,8 @@ export default {
         height: 10px;
       }
     }
-    .active-span{
+
+    .active-span {
       color: #11bcfd;
     }
 

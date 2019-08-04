@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="containerTop">
-      <div class="search">
+      <!-- <div class="search">
         <div :class="isInput?'search-left col-8':'search-left'">
           <i-icon type="search" i-class="icon-b" size="24" />
           <i-input
@@ -15,13 +15,17 @@
           />
         </div>
         <div v-show="isInput" class="search-right" @click="isInput=false">取消</div>
-      </div>
+      </div> -->
       <!-- <div class="tabs">
                 <i-tabs :current="current" @change="tabsSelect" color="#19be6b">
                     <i-tab key="1" title="国内" i-class="tab"></i-tab>
                     <i-tab key="2" title="海外" i-class="tab"></i-tab>
                 </i-tabs>
       </div>-->
+      <div class="curcity">
+        <div class="title">当前城市</div>
+        <h3><i-icon type="coordinates_fill" size="24" color="#2d8cf0"/>{{ curCity.name }}</h3>
+      </div>
       <!--热门城市-->
       <div class="hot" v-show="!isInput">
         <div class="title">热门城市</div>
@@ -68,23 +72,11 @@ import { cities } from "@/utils/city";
 import { mapActions, mapState } from "vuex";
 export default {
   components: {},
-  async onShow() {
-    this.init(cities);
-    // if(this.site.nation=="中国"){
-    //     this.init(this.siteInlandList);
-    //     this.current = 1;
-    // }else{
-    //     this.init(this.siteForeignList);
-    //     this.current = 2;
-    // }
+  computed: {
+    ...mapState({
+      curCity: state => state.curCity
+    })
   },
-  // computed: {
-  //   ...mapState({
-  //     siteInlandList: state => state.siteList,
-  //     siteForeignList: state => state.siteForeignList,
-  //     site: state => state.site
-  //   })
-  // },
   data() {
     return {
       current: 1, //1为国内 2为国外 占时只用国内 没有国外
@@ -106,15 +98,15 @@ export default {
     //     this.init(this.siteForeignList);
     //   }
     // },
-    onChange(item){
-      console.log(item)
+    onChange(item) {
+      console.log(item);
     },
     focus() {
       this.isInput = true;
       this.search();
     },
     getChange(value) {
-      console.log(value)
+      console.log(value);
       this.value = value.mp.detail.detail.value;
       this.search();
     },
@@ -130,12 +122,13 @@ export default {
       // } else {
       //   data.nation = "海外";
       // }
-      wx.setStorage({
-        key:"cname",
-        data:data
-      })
-      console.log(data)
-      this.isInput = false;
+      this.$store.commit("SET_City", data);
+      // wx.setStorage({
+      //   key: "cname",
+      //   data: data
+      // });
+      // console.log(data);
+      // this.isInput = false;
       // this.$store.commit("SET_SITE", data);
       wx.navigateBack();
     },
@@ -143,8 +136,7 @@ export default {
     search() {
       this.searchList = this.hotList.filter(e => {
         return (
-          e.name.indexOf(this.value) > -1 ||
-          this.value.indexOf(e.name) > -1
+          e.name.indexOf(this.value) > -1 || this.value.indexOf(e.name) > -1
         );
       });
     },
@@ -152,7 +144,7 @@ export default {
       this.siteList = null;
       this.searchList = [];
       // this.value = this.$store.state.site.city;
-      this.value = ["北京", "成都", "重庆", "武汉"];//初始化搜索格式
+      // this.value = ["北京", "成都", "重庆", "武汉"];//初始化搜索格式
       this.hotList = data;
       this.searchList = data;
       //设置
@@ -184,15 +176,17 @@ export default {
           code: item.code
         });
       });
-      this.siteList = [];
       this.siteList = storeCity;
     }
   },
+  onShow() {
+    this.init(cities);
+  },
   onLoad() {
-    var than = this;
+    let than = this;
     wx.getSystemInfo({
       success: function(res) {
-        than.scrollTop = parseInt(res.screenWidth / 750 * 680);
+        than.scrollTop = parseInt(res.screenWidth / 750 * 600);
       }
     });
   }
@@ -227,7 +221,7 @@ view {
   position: relative;
 }
 .containerTop {
-  height: 680rpx;
+  height: 600rpx;
 }
 .col-8 {
   width: 80%;
@@ -265,6 +259,23 @@ view {
   bottom: 0;
   overflow: auto;
 }
+.curcity {
+  width: 674rpx;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.curcity .title {
+  font-size: 30rpx;
+  color: #222;
+  line-height: 30rpx;
+  padding-top: 30rpx;
+  margin-bottom: 10rpx;
+  color: #ccc;
+}
+.curcity h3 {
+  font-size: 16px;
+}
 .hot {
   width: 674rpx;
   margin: 0 auto;
@@ -277,6 +288,7 @@ view {
   line-height: 30rpx;
   padding-top: 30rpx;
   margin-bottom: 10rpx;
+  color: #ccc;
 }
 .hot .x-btn {
   height: 60rpx;
@@ -292,7 +304,7 @@ view {
 .view {
   width: 100%;
   position: absolute;
-  top: 680rpx;
+  top: 600rpx;
   bottom: 0;
   z-index: 1000;
 }
