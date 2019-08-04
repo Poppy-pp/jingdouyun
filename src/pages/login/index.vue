@@ -6,7 +6,7 @@
        <p>欢迎来到鲸抖云</p>
      </div>
 
-    <van-field v-model="phone" clearable label="手机号码" placeholder="输入有效手机号码"> <i slot="button" class="sms-code">获取验证码</i> </van-field>
+    <van-field v-model="phone" clearable label="手机号码" placeholder="输入有效手机号码"> <i slot="button" class="sms-code" @click.stop="getCode">{{ smsCodeText }}</i> </van-field>
     <van-field v-model="sms" clearable label="验证码" placeholder="输入6位验证码"/>
     <p class="remember">
       <label>保存此号码供以后授权使用</label>
@@ -25,16 +25,39 @@
 export default {
    data() {
        return {
+         smsCodeText:"获取验证码",
          phone:'',
          sms:'',
          remember: true,
          showToast: false,
          toastMsg:'',
+         time:60,
        }
    },
   components: {},
   computed:{},
   methods:{
+    //获取验证码
+    getCode(){
+      if(this.time != 60) return;
+      this.timeBack();
+      //下面调用获取验证按方法
+
+    
+    },
+    //验证码倒计时
+    timeBack(){
+      this.time--;
+      if(this.time != 0){
+        this.smsCodeText = this.time + "秒"
+        setTimeout(()=>{
+          this.timeBack()
+        },1000)
+      }else{
+        this.smsCodeText = "重新获取"
+        this.time = 60
+      }
+    },
     // 切换记住 开关
     changeRemember(val){
       this.remember = val.mp.detail;

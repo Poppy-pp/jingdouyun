@@ -22,7 +22,7 @@
             <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code" @click="sendSms" >短信验证</i> </van-field>
+            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code" @click.stop="getCode" >{{ smsCodeText }}</i> </van-field>
             <van-field v-model="sms" type="number" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
             <button class="free-btn" @click="findSite">
                 <p class="title">免费帮我找场地</p>
@@ -161,12 +161,35 @@ export default {
       needs:[],//活动需求
       showneeds:'',//页面显示活动需求
       Request: this.$api.api.prototype, //请求头
+      time:60,
+      smsCodeText:'短信验证'
     };
   },
   components: {},
   computed: {},
   
   methods: {
+    //获取验证码
+    getCode(){
+      if(this.time != 60) return;
+      this.timeBack();
+      //下面调用获取验证按方法
+      this.sendSms()
+    
+    },
+    //验证码倒计时
+    timeBack(){
+      this.time--;
+      if(this.time != 0){
+        this.smsCodeText = this.time + "秒"
+        setTimeout(()=>{
+          this.timeBack()
+        },1000)
+      }else{
+        this.smsCodeText = "重新获取"
+        this.time = 60
+      }
+    },
     // 免费找场地
     findSite(){
       if (this.area == ''){

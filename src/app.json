@@ -71,7 +71,7 @@
 
     "list": [{
       "text": "找场地",
-      "pagePath": "pages/findSite/main",
+      "pagePath": "pages/authorizeMobile/main",
       "iconPath": "static/tabs/find.png",
       "selectedIconPath": "static/tabs/find-active.png"
     }, {
