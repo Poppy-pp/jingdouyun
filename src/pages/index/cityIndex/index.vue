@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="containerTop">
+    <!-- <div class="containerTop"> -->
       <!-- <div class="search">
         <div :class="isInput?'search-left col-8':'search-left'">
           <i-icon type="search" i-class="icon-b" size="24" />
@@ -22,31 +22,37 @@
                     <i-tab key="2" title="海外" i-class="tab"></i-tab>
                 </i-tabs>
       </div>-->
-      <div class="curcity">
-        <div class="title">当前城市</div>
-        <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ curCity.name }}</h3>
-      </div>
-      <!--热门城市-->
-      <div class="hot" v-show="!isInput">
-        <div class="title">热门城市</div>
-        <i-row>
-          <i-col span="8" v-for="(item,index) in hotList" v-if="index<12" :key="index">
-            <div class="x-btn" @click="setSite(item,'name')" style="color:#13bdfd" v-if="curCity&&curCity.name == item.name">{{item.name}}</div>
-            <div class="x-btn" @click="setSite(item,'name')" v-else>{{item.name}}</div>
-          </i-col>
-        </i-row>
-      </div>
+      
       <!--索引index组件-->
       <div class="view" v-show="!isInput">
-        <i-index height="100%" v-if="siteList&&current==1" :scrollTop="scrollTop" @change="onChange">
-          <i-index-item v-for="(item,index) in siteList" :key="index" :name="item.key">
-            <div
-              class="i-index-demo-item"
-              @click="setSite(item1,'name')"
-              v-for="(item1,inx) in item.list"
-              :key="inx"
-            >{{item1.name}}</div>
-          </i-index-item>
+        <i-index class="i_indexsss" height="100%" v-if="siteList&&current==1" :scrollTop="scrollTop" @change="onChange">
+          <template v-for="(item,index) in siteList">
+            <i-index-item :key="index" :name="item.key" v-if="item.key != '热门'">
+              <div
+                class="i-index-demo-item"
+                @click="setSite(item1,'name')"
+                v-for="(item1,inx) in item.list"
+                :key="inx"
+              >{{item1.name}}</div>
+            </i-index-item>
+            <i-index-item :key="index" :name="item.key" v-else>
+              <div class="curcity">
+                <div class="title">当前城市</div>
+                <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ curCity.name }}</h3>
+              </div>
+              <!--热门城市-->
+              <div class="hot" v-show="!isInput">
+                <div class="title">热门城市</div>
+                <i-row>
+                  <i-col span="8" v-for="(item,index1) in hotList" v-if="index1<12" :key="index1">
+                    <div class="x-btn" @click="setSite(item,'name')" style="color:#13bdfd" v-if="curCity&&curCity.name == item.name">{{item.name}}</div>
+                    <div class="x-btn" @click="setSite(item,'name')" v-else>{{item.name}}</div>
+                  </i-col>
+                </i-row>
+              </div>
+            </i-index-item>
+          </template>
+         
         </i-index>
         <!-- <i-index height="100%" v-if="siteList&&current==2" :scrollTop="scrollTop">
           <i-index-item v-for="(item,index) in siteList" :key="index" :name="item.key">
@@ -61,12 +67,12 @@
       </div>
     </div>
     <!--搜索列表-->
-    <div class="search-list" v-show="isInput">
+    <!-- <div class="search-list" v-show="isInput">
       <i-cell-group v-for="(item,index) in searchList" :key="index">
         <i-cell is-link :title="item.name" i-class="bor-b" @click="setSite(item,'name')"></i-cell>
       </i-cell-group>
-    </div>
-  </div>
+    </div> -->
+  <!-- </div> -->
 </template>
 <script>
 import { cities } from "@/utils/city";
@@ -160,6 +166,7 @@ export default {
       words = words.sort(function compareFunction(param1, param2) {
         return param1.localeCompare(param2, "zh");
       });
+      words.unshift("热门");
       let storeCity = new Array(words.length);
       words.forEach((item, index) => {
         storeCity[index] = {
@@ -167,7 +174,6 @@ export default {
           list: []
         };
       });
-
       cities.forEach(item => {
         let firstName = item.pinyin.substring(0, 1);
         let index = words.indexOf(firstName);
@@ -184,12 +190,12 @@ export default {
     this.init(cities);
   },
   onLoad() {
-    let than = this;
-    wx.getSystemInfo({
-      success: function(res) {
-        than.scrollTop = parseInt(res.screenWidth / 750 * 715);
-      }
-    });
+    // let than = this;
+    // wx.getSystemInfo({
+    //   success: function(res) {
+    //     than.scrollTop = parseInt(res.screenWidth / 750 * 715);
+    //   }
+    // });
   }
 };
 </script>
@@ -285,6 +291,8 @@ view {
   margin: 25rpx auto;
   position: relative;
   z-index: 1;
+  border-bottom: 2rpx solid #f4f4f4;
+  padding-bottom: 35rpx;
 }
 .hot .title {
   font-size: 30rpx;
@@ -304,18 +312,30 @@ view {
   color: #222;
 }
 /*索引*/
-.view {
+/* .view {
   width: 100%;
   position: absolute;
-  top: 680rpx;
+  top: 0;
   bottom: 0;
   z-index: 1000;
   padding-top:30rpx;
   margin: 0rpx 0 0 35rpx;
   border-top:2rpx solid #f4f4f4
+} */
+view {
+  overflow: visible;
+}
+
+.view {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
 }
 .i-index-demo-item {
-  padding: 40rpx 20rpx;
+  padding: 40rpx 0;
+  margin:0 48rpx;
   border-bottom: 2rpx solid #f4f4f4;
 }
 .i-index-demo-item:last-child {

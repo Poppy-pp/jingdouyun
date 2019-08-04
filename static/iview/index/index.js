@@ -89,9 +89,7 @@ Component({
         },
         handlerScroll(event){
             const detail = event.detail;
-            
             const scrollTop = detail.scrollTop;
-            
             const indexItems = this.getRelationNodes('../index-item/index');
             indexItems.forEach((item,index)=>{
                 let data = item.data;
@@ -120,9 +118,9 @@ Component({
             this.triggerEvent('change',options)
         },
         handlerFixedTap(event){
+            console.log(event)
             const eindex = event.currentTarget.dataset.index;
             const item = this.getCurrentItem(eindex);
-            
             this.setData({
                 scrollTop : item.top - data.scrollTop,
                 currentName : item.currentName,
@@ -136,6 +134,7 @@ Component({
         },
         handlerTouchMove(event){
             const data = this.data;
+            console.log(data)
             const touches = event.touches[0] || {};
             const pageY = touches.pageY;
             const rest = pageY - data.startTop;

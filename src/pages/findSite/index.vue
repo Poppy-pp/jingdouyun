@@ -93,14 +93,14 @@
 </template>
 
 <script>
-import addressInfo from '@/utils/area'
-import { formatTime } from '@/utils/index'
+import addressInfo from "@/utils/area";
+import { formatTime } from "@/utils/index";
 export default {
   data() {
     return {
       active: 0,
-      touchS: [0, 0],//滑动开始位置x,y
-      touchE: [0, 0],//滑动结束位置x,y
+      touchS: [0, 0], //滑动开始位置x,y
+      touchE: [0, 0], //滑动结束位置x,y
       tabTitle: ["场地顾问推荐", "鲸灵智能推荐"],
       showHistory: false,
       showArea: false,
@@ -110,184 +110,274 @@ export default {
       showNum: false,
       showPrice: false,
       showToast: false,
-      toastMsg: '',//提示文字信息
-      currentDate: new Date().getTime(),//时间戳格式
+      toastMsg: "", //提示文字信息
+      currentDate: new Date().getTime(), //时间戳格式
       areaList: addressInfo,
       typeActions: [
-        { name: '不限' },
-        { name: '发布会/颁奖/庆典' },
-        { name: '论坛/推介会/商务会议'},
-        { name: '讲座/沙龙'},
-        { name: '工作会/总结会'},
-        { name: '年会/答谢会'},
-        { name: '聚会/团建/拓展'},
+        { name: "不限" },
+        { name: "发布会/颁奖/庆典" },
+        { name: "论坛/推介会/商务会议" },
+        { name: "讲座/沙龙" },
+        { name: "工作会/总结会" },
+        { name: "年会/答谢会" },
+        { name: "聚会/团建/拓展" }
       ],
       numActions: [
-        { name: '不限' },
-        { name: '50人以下' },
-        { name: '50-100人'},
-        { name: '100-300人'},
-        { name: '500-1000人'},
-        { name: '1000人以上'},
+        { name: "不限" },
+        { name: "50人以下" },
+        { name: "50-100人" },
+        { name: "100-300人" },
+        { name: "500-1000人" },
+        { name: "1000人以上" }
       ],
       priceActions: [
-        { name: '不限' },
-        { name: '1万元以下' },
-        { name: '1万-5万'},
-        { name: '5万-10万'},
-        { name: '10万-20万'},
-        { name: '20万-30万'},
-        { name: '30万-50万'},
-        { name: '50万以上'},
+        { name: "不限" },
+        { name: "1万元以下" },
+        { name: "1万-5万" },
+        { name: "5万-10万" },
+        { name: "10万-20万" },
+        { name: "20万-30万" },
+        { name: "30万-50万" },
+        { name: "50万以上" }
       ],
       siteActions: [
-        { name: '不限' }, { name: '五星酒店' }, { name: '四星酒店' }, { name: '三星酒店' }, { name: '经济酒店' }, { name: '艺术展馆' }, { name: '体育场馆' }, 
-        { name: '会议中心' },{ name: '商超/综合体' }, { name: '公共空间' }, { name: '特色场地' }, { name: '剧院影院' }, { name: '高端会所' }, { name: '餐厅酒吧' },
+        { name: "不限" },
+        { name: "五星酒店" },
+        { name: "四星酒店" },
+        { name: "三星酒店" },
+        { name: "经济酒店" },
+        { name: "艺术展馆" },
+        { name: "体育场馆" },
+        { name: "会议中心" },
+        { name: "商超/综合体" },
+        { name: "公共空间" },
+        { name: "特色场地" },
+        { name: "剧院影院" },
+        { name: "高端会所" },
+        { name: "餐厅酒吧" }
       ],
-      historyData:[//历史订单记录
-        { addrask: "北京市/北京市/东城区", ordernum:'JDY12312', status:'1', statusname:'客服已受理', area: "北京市/北京市/东城区", date: "2019/07/11", num: "50人以下", price: "1万-5万", sitetype: "四星酒店", needs:[ { isSelect:true, title:"无柱"}, { isSelect:true, title:"泳池"}]},
-        { addrask: "四川省/成都市/高新区", ordernum:'JDY12313', status:'2',  statusname:'方案已生成', area: "四川省/成都市/高新区", date: "2019/07/13", num: "50-100人", price: "1万-5万", sitetype: "五星酒店", needs:[ { isSelect:true, title:"温泉"}, { isSelect:true, title:"室外"}]},
-        { addrask: "四川省/成都市/高新区", ordernum:'JDY12314', status:'0',  statusname:'订单已取消', area: "四川省/成都市/高新区", date: "2019/07/13", num: "50-100人", price: "1万-5万", sitetype: "五星酒店", needs:[ { isSelect:true, title:"温泉"}, { isSelect:true, title:"室外"}]},
+      historyData: [
+        //历史订单记录
+        {
+          addrask: "北京市/北京市/东城区",
+          ordernum: "JDY12312",
+          status: "1",
+          statusname: "客服已受理",
+          area: "北京市/北京市/东城区",
+          date: "2019/07/11",
+          num: "50人以下",
+          price: "1万-5万",
+          sitetype: "四星酒店",
+          needs: [
+            { isSelect: true, title: "无柱" },
+            { isSelect: true, title: "泳池" }
+          ]
+        },
+        {
+          addrask: "四川省/成都市/高新区",
+          ordernum: "JDY12313",
+          status: "2",
+          statusname: "方案已生成",
+          area: "四川省/成都市/高新区",
+          date: "2019/07/13",
+          num: "50-100人",
+          price: "1万-5万",
+          sitetype: "五星酒店",
+          needs: [
+            { isSelect: true, title: "温泉" },
+            { isSelect: true, title: "室外" }
+          ]
+        },
+        {
+          addrask: "四川省/成都市/高新区",
+          ordernum: "JDY12314",
+          status: "0",
+          statusname: "订单已取消",
+          area: "四川省/成都市/高新区",
+          date: "2019/07/13",
+          num: "50-100人",
+          price: "1万-5万",
+          sitetype: "五星酒店",
+          needs: [
+            { isSelect: true, title: "温泉" },
+            { isSelect: true, title: "室外" }
+          ]
+        }
       ],
-      area:'',//选择的城市信息
-      type:'',//活动类型
-      date:'',
-      num:'',
-      price:'',
-      phone:'',
-      sms:'',
-      sitetype:'',//场地类型
-      addrask:'',//位置要求
-      needs:[],//活动需求
-      showneeds:'',//页面显示活动需求
+      area: "", //选择的城市信息
+      type: "", //活动类型
+      date: "",
+      num: "",
+      price: "",
+      phone: "",
+      sms: "",
+      sitetype: "", //场地类型
+      addrask: "", //位置要求
+      needs: [], //活动需求
+      showneeds: "", //页面显示活动需求
       Request: this.$api.api.prototype, //请求头
-      time:60,
-      smsCodeText:'短信验证'
+      time: 60,
+      smsCodeText: "短信验证"
     };
   },
   components: {},
   computed: {},
-  
+
   methods: {
     //获取验证码
-    getCode(){
-      if(this.time != 60) return;
+    getCode() {
+      if (this.time != 60) return;
       this.timeBack();
       //下面调用获取验证按方法
-      this.sendSms()
-    
+      this.sendSms();
     },
     //验证码倒计时
-    timeBack(){
+    timeBack() {
       this.time--;
-      if(this.time != 0){
-        this.smsCodeText = this.time + "秒"
-        setTimeout(()=>{
-          this.timeBack()
-        },1000)
-      }else{
-        this.smsCodeText = "重新获取"
-        this.time = 60
+      if (this.time != 0) {
+        this.smsCodeText = this.time + "秒";
+        setTimeout(() => {
+          this.timeBack();
+        }, 1000);
+      } else {
+        this.smsCodeText = "重新获取";
+        this.time = 60;
       }
     },
     // 免费找场地
-    findSite(){
-      if (this.area == ''){
+    findSite() {
+      if (this.area == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动城市';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.type == ''){
+        this.toastMsg = "请选择活动城市";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.type == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动类型';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.date == ''){
+        this.toastMsg = "请选择活动类型";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.date == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动时间';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.num == ''){
+        this.toastMsg = "请选择活动时间";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.num == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动人数';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.price == ''){
+        this.toastMsg = "请选择活动人数";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.price == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动预算';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.phone == ''){
+        this.toastMsg = "请选择活动预算";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.phone == "") {
         this.showToast = true;
-        this.toastMsg = '请输入联系电话';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else if(this.sms == ''){
+        this.toastMsg = "请输入联系电话";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.sms == "") {
         this.showToast = true;
-        this.toastMsg = '请输入验证码';
-        setTimeout(() => { this.showToast = false; }, 2000);
-      }else{
-      
-        this.Request.addMySpaceOrder(this.globalData.uid,this.area,this.type,this.date,this.num,this.price,this.phone,this.sms).then(res =>{
-            console.log(res)
-            
-            if ( res != 'SMSERROR' ){
-            
-                // 跳转至订单详情页面
-                let form = {
-                  area: this.area,
-                  type: this.type,
-                  date: this.date,
-                  num: this.num,
-                  price: this.price,
-                  phone: this.phone,
-                  sms: this.sms,
-                  ordernum: res,
-                }
-                console.log(JSON.stringify(form))
-                wx.navigateTo({
-                    url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(form),
-                })
-            }else{
+        this.toastMsg = "请输入验证码";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else {
+        this.Request.addMySpaceOrder(
+          this.globalData.uid,
+          this.area,
+          this.type,
+          this.date,
+          this.num,
+          this.price,
+          this.phone,
+          this.sms
+        )
+          .then(res => {
+            console.log(res);
+
+            if (res != "SMSERROR") {
+              // 跳转至订单详情页面
+              let form = {
+                area: this.area,
+                type: this.type,
+                date: this.date,
+                num: this.num,
+                price: this.price,
+                phone: this.phone,
+                sms: this.sms,
+                ordernum: res
+              };
+              console.log(JSON.stringify(form));
+              wx.navigateTo({
+                url:
+                  "/pages/findSite/freeDetail/main?form=" + JSON.stringify(form)
+              });
+            } else {
               // 显示提示
               this.showToast = true;
               this.toastMsg = "验证码错误，请重新输入！";
               setTimeout(() => {
                 this.showToast = false;
               }, 2000);
-            
             }
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
+          })
+          .catch(res => {
+            console.log(res); //失败
+          });
       }
     },
     // 智能推荐
-    recommendSite(){
-      if (this.area == ''){
+    recommendSite() {
+      if (this.area == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动城市';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.sitetype == ''){
+        this.toastMsg = "请选择活动城市";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.sitetype == "") {
         this.showToast = true;
-        this.toastMsg = '请选择场地类型';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.date == ''){
+        this.toastMsg = "请选择场地类型";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.date == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动时间';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.num == ''){
+        this.toastMsg = "请选择活动时间";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.num == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动人数';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.price == ''){
+        this.toastMsg = "请选择活动人数";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.price == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动预算';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.addrask == ''){
+        this.toastMsg = "请选择活动预算";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.addrask == "") {
         this.showToast = true;
-        this.toastMsg = '请选择位置要求';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else if(this.showneeds == ''){
+        this.toastMsg = "请选择位置要求";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else if (this.showneeds == "") {
         this.showToast = true;
-        this.toastMsg = '请选择活动需求';
-        setTimeout(() => { this.showToast = false;  }, 2000);
-      }else{
+        this.toastMsg = "请选择活动需求";
+        setTimeout(() => {
+          this.showToast = false;
+        }, 2000);
+      } else {
         // 跳转至智能推荐页面
         let form = {
           area: this.area,
@@ -296,69 +386,70 @@ export default {
           num: this.num,
           price: this.price,
           addrask: this.addrask,
-          needs: this.needs,
-        }
+          needs: this.needs
+        };
         wx.navigateTo({
-          url: '/pages/findSite/mindRecommend/main?form=' + JSON.stringify(form)
-        })
+          url: "/pages/findSite/mindRecommend/main?form=" + JSON.stringify(form)
+        });
       }
     },
     // 查看订单详情
-    goDetail(data){
+    goDetail(data) {
       wx.navigateTo({
-        url: '/pages/findSite/freeDetail/main?form=' + JSON.stringify(data),
-      })
+        url: "/pages/findSite/freeDetail/main?form=" + JSON.stringify(data)
+      });
     },
 
     // 位置要求
-    goAreaAsk(){
+    goAreaAsk() {
       wx.navigateTo({
-        url: '/pages/findSite/areaAsk/main',
-      })
+        url: "/pages/findSite/areaAsk/main"
+      });
     },
 
     // 活动需求
-    goActivityNeeds(){
+    goActivityNeeds() {
       wx.navigateTo({
-        url: '/pages/findSite/activityNeeds/main',
-      })
+        url: "/pages/findSite/activityNeeds/main"
+      });
     },
 
     // 滑动开始位置
-    touchStart (e) {
-        let sx = e.touches[0].pageX
-        let sy = e.touches[0].pageY
-        this.touchS = [sx, sy]
+    touchStart(e) {
+      let sx = e.touches[0].pageX;
+      let sy = e.touches[0].pageY;
+      this.touchS = [sx, sy];
     },
     // 滑动移动位置
     touchMove(e) {
-        let sx = e.touches[0].pageX;
-        let sy = e.touches[0].pageY;
-        this.touchE = [sx, sy]
+      let sx = e.touches[0].pageX;
+      let sy = e.touches[0].pageY;
+      this.touchE = [sx, sy];
     },
     // 滑动结束位置
     touchEnd(e) {
-        if (this.touchS[1] > this.touchE[1] + 50) {
-            console.log('上滑');
-            this.showHistory = true;
-        }
+      if (this.touchS[1] > this.touchE[1] + 50) {
+        console.log("上滑");
+        this.showHistory = true;
+      }
     },
 
-    sendSms(){   
-       this.Request.sendSms(this.phone).then(res =>{
-            console.log(res)
+    sendSms() {
+      this.Request.sendSms(this.phone)
+        .then(res => {
+          console.log(res);
         })
-        .catch(res =>{
-            console.log(res) //失败
-        })
+        .catch(res => {
+          console.log(res); //失败
+        });
     },
 
     // 输入手机号
-    inputPhone(val){
+    inputPhone(val) {
       this.phone = val.mp.detail;
     },
     // 输入验证码
-    inputSms(val){
+    inputSms(val) {
       this.sms = val.mp.detail;
     },
 
@@ -367,13 +458,18 @@ export default {
       this.showArea = true;
     },
     // 确认地址
-    onAddrConfirm(val){
-        this.showArea = false;
-        this.area = val.target.values[0].name + '/' + val.target.values[1].name + '/' + val.target.values[2].name;
+    onAddrConfirm(val) {
+      this.showArea = false;
+      this.area =
+        val.target.values[0].name +
+        "/" +
+        val.target.values[1].name +
+        "/" +
+        val.target.values[2].name;
     },
     // 取消地址
-    onAddrCancel(){
-        this.showArea = false;
+    onAddrCancel() {
+      this.showArea = false;
     },
 
     // 日期
@@ -381,18 +477,18 @@ export default {
       this.showDate = true;
     },
     // 确认日期
-    onDateConfirm(val){
-        this.showDate = false;
-        this.date = formatTime(new Date(val.mp.detail)).split(' ')[0];//取年月日
+    onDateConfirm(val) {
+      this.showDate = false;
+      this.date = formatTime(new Date(val.mp.detail)).split(" ")[0]; //取年月日
     },
     // 取消日期
-    onDateCancel(){
-        this.showDate = false;
+    onDateCancel() {
+      this.showDate = false;
     },
 
     // 活动类型
-    showActionType(){
-        this.showType = true;
+    showActionType() {
+      this.showType = true;
     },
     onSelectType(item) {
       this.showType = false;
@@ -403,8 +499,8 @@ export default {
     },
 
     // 活动人数
-    showActionNum(){
-        this.showNum = true;
+    showActionNum() {
+      this.showNum = true;
     },
     onSelectNum(item) {
       this.showNum = false;
@@ -415,8 +511,8 @@ export default {
     },
 
     // 活动预算
-    showActionPrice(){
-        this.showPrice = true;
+    showActionPrice() {
+      this.showPrice = true;
     },
     onSelectPrice(item) {
       this.showPrice = false;
@@ -427,8 +523,8 @@ export default {
     },
 
     // 场地类型
-    showActionSite(){
-        this.showSite = true;
+    showActionSite() {
+      this.showSite = true;
     },
     onSelectSite(item) {
       this.showSite = false;
@@ -438,65 +534,69 @@ export default {
       this.showSite = false;
     },
 
-    //初始化数据 
-    clearData(){
-      this.area = '';
-      this.type = '';
-      this.date = '';
-      this.num = '';
-      this.price = '';
-      this.phone = '';
-      this.sms = '';
-    },
+    //初始化数据
+    clearData() {
+      this.area = "";
+      this.type = "";
+      this.date = "";
+      this.num = "";
+      this.price = "";
+      this.phone = "";
+      this.sms = "";
+    }
   },
-  mounted () {
+  mounted() {
     this.clearData();
-    
-    this.Request.getActivityType().then(res =>{
-            console.log(res)
-            this.typeActions = res
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
-        
-        this.Request.getActivityPeopleNumber().then(res =>{
-            console.log(res)
-            this.numActions = res
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
-        
-        this.Request.getActivityBudget().then(res =>{
-            console.log(res)
-            this.priceActions = res
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
-        
-        this.Request.getSpaceType().then(res =>{
-            console.log(res)
-            this.siteActions = res
-        })
-        .catch(res =>{
-            console.log(res) //失败
-        })
-    
+
+    this.Request.getActivityType()
+      .then(res => {
+        console.log(res);
+        this.typeActions = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
+
+    this.Request.getActivityPeopleNumber()
+      .then(res => {
+        console.log(res);
+        this.numActions = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
+
+    this.Request.getActivityBudget()
+      .then(res => {
+        console.log(res);
+        this.priceActions = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
+
+    this.Request.getSpaceType()
+      .then(res => {
+        console.log(res);
+        this.siteActions = res;
+      })
+      .catch(res => {
+        console.log(res); //失败
+      });
   },
-  created() {
-  },
-  onShow(){
+  created() {},
+  onShow() {
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1];
-    if(currPage.data.addrask){ //位置要求
-      this.addrask = '';
+    if (currPage.data.addrask) {
+      //位置要求
+      this.addrask = "";
       this.addrask = currPage.data.addrask.text;
     }
-    if(currPage.data.showneeds){ //活动需求
+    if (currPage.data.showneeds) {
+      //活动需求
       this.needs = [];
-      this.showneeds = '';
+      this.showneeds = "";
       this.needs = currPage.data.needs;
       this.showneeds = currPage.data.showneeds;
     }
@@ -515,9 +615,11 @@ export default {
   background-color: #fff;
   padding: 0 0 10px 0;
 }
+
 .tab-tilte {
   width: 100%;
 }
+
 .tab-tilte li {
   width: 50%;
   padding: 10px 0;
@@ -528,121 +630,143 @@ export default {
   color: #8e9398;
   display: inline-block;
 }
+
 .tab-tilte li:nth-child(1) {
   border-top-left-radius: 10px;
 }
+
 .tab-tilte li:nth-child(2) {
   border-top-right-radius: 10px;
 }
+
 /* 点击对应的标题添加对应的背景颜色 */
 .tab-tilte .active {
   background-color: #fff;
   color: #333333;
-  font-weight 600
+  font-weight: 600;
 }
+
 .tab-content div {
   width: 100%;
 }
-.sms-code{
-    font-size: 14px;
-    background-color: #fff;
-    color: #1bbffe;
+
+.sms-code {
+  font-size: 14px;
+  background-color: #fff;
+  color: #1bbffe;
 }
-.free-btn{
-    background: linear-gradient(to right, #02d5fc 0%,#1fa5ff 100%);
-    width: 92%;
-    color: #fff;
-    padding: 6px 0;
-    margin-top: 15px;
-    border-radius: 3px;
-    line-height: 18px;
+
+.free-btn {
+  background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
+  width: 92%;
+  color: #fff;
+  padding: 6px 0;
+  margin-top: 15px;
+  border-radius: 3px;
+  line-height: 18px;
 }
-.free-btn::after{ 
-    border: none; 
-    outline: none;
+
+.free-btn::after {
+  border: none;
+  outline: none;
 }
-.free-btn .title{
-    font-size: 14px;
+
+.free-btn .title {
+  font-size: 14px;
 }
-.free-btn .desc{
-    font-size:22rpx;
+
+.free-btn .desc {
+  font-size: 22rpx;
 }
-.pull-down{
-    text-align: center;
-    font-size:22rpx;
-    margin:8rpx 0;
-    color: #c1c1c1;
+
+.pull-down {
+  text-align: center;
+  font-size: 22rpx;
+  margin: 8rpx 0;
+  color: #c1c1c1;
 }
-.describe{
-    text-align: center;
-    font-size:22rpx;
-    color: #c1c1c1;
-    margin-top: 5px;
+
+.describe {
+  text-align: center;
+  font-size: 22rpx;
+  color: #c1c1c1;
+  margin-top: 5px;
 }
-.history-box{
-  .add{
-    justify-content center
+
+.history-box {
+  .add {
+    justify-content: center;
   }
-  .card{
+
+  .card {
     position: relative;
     top: -30px;
     display: flex;
-    align-items center
-    flex-wrap wrap
+    align-items: center;
+    flex-wrap: wrap;
     margin: 0 auto;
     width: 82%;
     border-radius: 7px;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    padding: 8px 20px
-    margin-bottom 15px
-    van-icon{
-      color #11bcfd
-      font-size 24px
+    padding: 8px 20px;
+    margin-bottom: 15px;
+
+    van-icon {
+      color: #11bcfd;
+      font-size: 24px;
     }
-    .first-title{
-      width 100%
-      text-align center
-      font-size 15px
+
+    .first-title {
+      width: 100%;
+      text-align: center;
+      font-size: 15px;
     }
-    .title{
-      padding 5px 0
-      font-weight bold
-      font-size 15px
-      width 100%
+
+    .title {
+      padding: 5px 0;
+      font-weight: bold;
+      font-size: 15px;
+      width: 100%;
     }
-    .needs{
-      font-size 20rpx
-      display inline-block
-      background-color #dcf3fc
-      color #26c1fd
-      padding:1px 10px;
-      border-radius 2px
-      margin 0px 5px 0px 0
+
+    .needs {
+      font-size: 20rpx;
+      display: inline-block;
+      background-color: #dcf3fc;
+      color: #26c1fd;
+      padding: 1px 10px;
+      border-radius: 2px;
+      margin: 0px 5px 0px 0;
     }
-    .date{
-      font-size 12px
-      color #90959a
-      padding 5px 0
-      margin-bottom 5px
-      border-bottom 1px solid #f3f3f3
-      width 100%
-      span{
-        float right
-        color #262e46
-        font-size 14px
+
+    .date {
+      font-size: 12px;
+      color: #90959a;
+      padding: 5px 0;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #f3f3f3;
+      width: 100%;
+
+      span {
+        float: right;
+        color: #262e46;
+        font-size: 14px;
       }
-      .cancel{
-        color #90959a
+
+      .cancel {
+        color: #90959a;
       }
     }
-    .creat-time{
-      border-bottom none
+
+    .creat-time {
+      border-bottom: none;
     }
   }
 }
-.footer-box{
-  margin-bottom 10px
+
+.footer-box {
+  margin-bottom: 10px;
 }
 </style>
 
