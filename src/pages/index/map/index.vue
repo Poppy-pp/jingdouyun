@@ -8,7 +8,7 @@
             <img src="/static/images/daohang.png" alt="">
         </div>
         <!-- 地图弹出层-->
-        <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="showType = false" cancel-text="取消" />
+        <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="showType = false" cancel-text="取消" @close="showType = false" />
    </div>
 </template>
 

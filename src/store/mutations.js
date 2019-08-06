@@ -10,7 +10,9 @@ const matations = {
   [types.SET_City](state, v) {
     state.curCity = v;
   },
-
-}
+  [types.SET_LOCATIONINFO](state, v) {
+    state.locationInfo = v;
+  }
+};
 
 export default matations

@@ -1,5 +1,6 @@
 const state = {
   openId: '',
-  curCity:'北京'
+  curCity:'',
+  locationInfo:{},
 }
 export default state

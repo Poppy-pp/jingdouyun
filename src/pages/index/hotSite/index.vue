@@ -155,11 +155,15 @@ export default {
         margin-right 10px
       }
       .right-box{
-        .title{
-          padding 2px
-          font-weight bold
-          font-size 16px
-          margin-bottom 3px
+        width 65%
+        .title {
+          padding: 2px;
+          font-weight: bold;
+          font-size: 16px;
+          margin-bottom: 3px;
+          white-space: nowrap; 
+          overflow: hidden;   
+          text-overflow: ellipsis;
         }
         .price{
           font-size 16px

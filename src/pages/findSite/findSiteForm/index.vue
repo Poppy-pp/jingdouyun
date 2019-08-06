@@ -24,11 +24,11 @@
           <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
       </van-popup>
       <!-- 活动类型 弹出层-->
-      <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="onCancelType" cancel-text="取消" />
+      <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="onCancelType" cancel-text="取消"  @close="onCancelType"/>
       <!-- 活动人数 弹出层 -->
-      <van-action-sheet :show="showNum" :actions="numActions" @select="onSelectNum" @cancel="onCancelNum" cancel-text="取消" />
+      <van-action-sheet :show="showNum" :actions="numActions" @select="onSelectNum" @cancel="onCancelNum" cancel-text="取消"  @close="onCancelNum"/>
       <!-- 活动预算 弹出层 -->
-      <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消" />
+      <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消"  @close="onCancelPrice"/>
       <!-- 提示 -->
       <van-toast :show="showToast" :message="toastMsg"/>
    </div>

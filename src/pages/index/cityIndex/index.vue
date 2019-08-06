@@ -207,6 +207,7 @@ export default {
 }
 view {
   overflow: visible;
+  z-index: 1000;
 }
 .tab {
   padding: 0 20rpx;

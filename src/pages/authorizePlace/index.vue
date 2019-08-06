@@ -6,25 +6,53 @@
       <p class="type">获取你的位置信息</p>
       <i class="other">您的位置用于小程序位置接口的效果展示</i>
       <div class="btn">
-        <button class="refuse">拒绝</button>
-        <button class="allow">允许</button>
+        <button class="refuse" @click="refuse">拒绝</button>
+        <button class="allow" @click="allow">允许</button>
       </div>
     </div>
   </van-popup>
 </template>
 
 <script>
+import QQMapWX from "../../../static/tools/qqmap-wx-jssdk.js";
+
 export default {
    data() {
        return {
          show: true,
+         qqmapsdk:null,
        }
    },
   components: {},
   computed:{},
   methods:{
+    allow(){
+      wx.getLocation({
+        type: 'gcj02',
+        success: (res) => {
+          this.qqmapsdk.reverseGeocoder({
+            location: {
+              latitude: res.latitude,
+              longitude: res.longitude
+            },
+            success: (addressRes) => {
+              this.$store.commit('SET_LOCATIONINFO',addressRes.result);
+              this.$store.commit('SET_City',{'name': addressRes.result.address_component.city});
+              wx.switchTab({
+                url: '/pages/index/main',
+              })
+            }
+          })
+        }
+      })
+    },  
   },
-  created(){}
+  created(){
+    // 实例化API核心类
+    this.qqmapsdk = new QQMapWX({
+      key: 'ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII'
+    });
+  },
 }
 </script>
 

@@ -7,13 +7,13 @@
         {{ curCity.name }}
         <img src="../../../static/images/jiantou-white.png" />
       </span>
-      <p class="input">
+      <p class="input" @click="goSearch(curCity.name)">
         <van-icon name="search" />
         <input
           type="text"
           placeholder="搜索您心仪的场地"
           placeholder-style="color:#ffffff"
-          @click="goSearch(curCity.name)"
+          readonly
         />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
@@ -36,9 +36,9 @@
         <img src="../../../static/images/qipao.png" /> 场地筛选
       </p>
       <div :class="isTop ? 'search searchTop' : 'search'" id="search">
-        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)" :class=" chooseSearchTitle == item && showPopup ? 'active-span' : ''">
+        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item,index)" :class=" chooseSearchIndex == index && showPopup ? 'active-span' : ''">
           {{ item }}
-          <img :src=" chooseSearchTitle == item && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
+          <img :src=" chooseSearchIndex == index && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
         </span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
         <!-- 弹窗 -->
@@ -51,7 +51,7 @@
         >
           <!-- 区域 -->
           <van-tree-select
-            v-if="chooseSearchTitle == '区域'"
+            v-if="chooseSearchIndex == 0"
             :items="areas"
             :maxHeight="300"
             :main-active-index="mainActiveIndex"
@@ -60,16 +60,16 @@
             @clickItem="onClickItem"
           />
           <!-- 类型 -->
-          <div class="needs-box" v-if="chooseSearchTitle == '类型'">
+          <div class="needs-box" v-if="chooseSearchIndex == 1">
             <block v-for="(item, index) in typeList" :key="index">
               <text
                 :class="item.isSelect ? 'needs-active' : 'needs-select'"
-                @click="selectType(index)"
+                @click="selectType(item,index)"
               >{{item.title}}</text>
             </block>
           </div>
           <!-- 面积/人数/价格 -->
-          <div class="action-box" v-if="chooseSearchTitle != '区域' && chooseSearchTitle != '类型'">
+          <div class="action-box" v-if="chooseSearchIndex != 0 && chooseSearchIndex != 0">
             <ul>
               <li
                 v-for="(item,index) in actions"
@@ -106,7 +106,7 @@
             </div>
           </li>
         </ul>
-        <div v-else class="no-data-search">
+        <div v-else-if="!isTop" class="no-data-search">
           <p>没有找到心仪的场地？</p>
           <p>让场地顾问1对1免费帮您找~</p>
           <button @click="goFindForm">免费帮我找场地</button>
@@ -293,7 +293,7 @@ export default {
       ],
       mainActiveIndex: 0, // 左侧高亮元素的index
       activeId: 1, // 被选中元素的id
-      chooseSearchTitle: "", //选择的筛选条件下拉
+      chooseSearchIndex: 0, //选择的筛选条件下拉tab的index
       actions: [],
       area: "",
       type: "",
@@ -342,13 +342,13 @@ export default {
       });
     },
     // 点击筛选下拉菜单
-    chooseSearch(data) {
+    chooseSearch(data,index) {
       // 两次点击同一个菜单，收起弹出框
-      if (this.chooseSearchTitle == data) {
+      if (this.chooseSearchIndex == index) {
         this.showPopup = !this.showPopup;
         return;
       }
-      this.chooseSearchTitle = data;
+      this.chooseSearchIndex = index;
       this.showPopup = true;
       this.actions = [];
       if (data == "面积") {
@@ -397,13 +397,14 @@ export default {
     },
     // 区域——点击子集
     onClickItem(e) {
-      this.activeId = e.mp.detail.id;
       this.showPopup = false;
-      // this.area = this.activeId;
-      this.siteList = [];
+      this.activeId = e.mp.detail.id;
+      this.searchTitle[this.chooseSearchIndex] = e.mp.detail.text;
     },
     // 类型——点击选择类型
-    selectType(index) {
+    selectType(data,index) {
+      this.showPopup = false;
+      this.searchTitle[this.chooseSearchIndex] = data.title;
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
       this.type = "0"; //初始化
 
@@ -423,10 +424,9 @@ export default {
     // 面积、人数、价格——点击选择
     selectAction(item) {
       this.showPopup = false;
+      this.searchTitle[this.chooseSearchIndex] = item.name;
 
-      this.siteList = [];
-
-      if (this.chooseSearchTitle == "面积") {
+      if (this.chooseSearchIndex == 2) {
         this.size = item.name;
 
         this.Request.getSpaceListSearch(
@@ -439,7 +439,6 @@ export default {
           item.to
         )
           .then(res => {
-            console.log(res);
             this.siteList = res;
 
             // 显示提示
@@ -454,7 +453,7 @@ export default {
           .catch(res => {
             console.log(res); //失败
           });
-      } else if (this.chooseSearchTitle == "人数") {
+      } else if (this.chooseSearchIndex == 3) {
         this.num = item.name;
 
         this.Request.getSpaceListSearch(
@@ -467,7 +466,6 @@ export default {
           ""
         )
           .then(res => {
-            console.log(res);
             this.siteList = res;
 
             // 显示提示
@@ -482,7 +480,7 @@ export default {
           .catch(res => {
             console.log(res); //失败
           });
-      } else if (this.chooseSearchTitle == "价格") {
+      } else if (this.chooseSearchIndex == 4) {
         this.price = item.name;
       }
     },
@@ -538,6 +536,22 @@ export default {
       })
       .exec();
 
+      wx.getStorage({
+        key: "vuex",
+        success:(res)=> {
+          if (this.curCity.name == undefined) {
+            wx.redirectTo({
+              url: '/pages/authorizePlace/main',
+            })
+          }
+        },
+        fail:(err) =>{ //没有地址授权信息时
+          wx.redirectTo({
+            url: '/pages/authorizePlace/main',
+          })
+        }
+      });
+      
     // let _self = this;
     // wx.getStorage({
     //   key: "cname",
@@ -545,25 +559,20 @@ export default {
     //     _self.addr = res.data.name || "成都";
     //   }
     // });
-
-    // console.log(this.curCity.name);
+    
 
     this.Request.getActivityListBanner()
       .then(res => {
-        console.log(res);
         this.images = res;
       })
       .catch(res => {
-        console.log(res); //失败
       });
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        console.log(res);
-        this.siteList = res;
+        // this.siteList = res;
       })
       .catch(res => {
-        console.log(res); //失败
       });
   }
 };
@@ -623,8 +632,8 @@ export default {
   }
 
   .adviser {
-    width: 30px;
-    height: 30px;
+    width: 50rpx;
+    height: 50rpx;
     margin-left: auto;
   }
 }
@@ -720,17 +729,26 @@ export default {
     position: relative;
 
     span {
-      width: 20%;
+      width:17%;
       text-align: center;
-      font-size: 15px;
+      font-size: 29rpx;
       color: #4f575e;
       display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position relative
+      padding 0 10rpx
 
       img {
         width: 10px;
         height: 10px;
+        position absolute
+        top:50%;
+        transform:translateY(-50%);
+        right 0
       }
-    }
+    }  
 
     .active-span {
       color: #11bcfd;
@@ -766,6 +784,7 @@ export default {
     border-radius: 7px;
     background-color: #fff;
     padding: 0 15px;
+    position relative
 
     .result-title {
       font-size: 13px;
@@ -790,11 +809,15 @@ export default {
         }
 
         .right-box {
+          width 65%
           .title {
             padding: 2px;
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 3px;
+            white-space: nowrap; 
+            overflow: hidden;   
+            text-overflow: ellipsis;
           }
 
           .price {
@@ -947,7 +970,7 @@ export default {
   text-align: center;
   font-size: 12px;
   color: #90959a;
-  margin: 50% 0;
+  margin-top 50%
 
   p {
     margin-bottom: 5px;

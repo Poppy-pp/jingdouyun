@@ -239,7 +239,9 @@ export default {
       
   },
   
-  created(){},
+  created(){
+  },
+  
   //监听屏幕滚动 判断上下滚动
   onPageScroll(ev) {
     var query = wx.createSelectorQuery()
@@ -255,7 +257,7 @@ export default {
         this.showBtn = false;
       }
    })
-  }
+  },
 }
 </script>
 
@@ -452,11 +454,15 @@ export default {
           margin-right 10px
         }
         .right-box{
+          width 65%
           .title{
             padding 2px
             font-weight bold
             font-size 16px
             margin-bottom 3px
+            white-space: nowrap; 
+            overflow: hidden;   
+            text-overflow: ellipsis;
           }
           .price{
             font-size 16px

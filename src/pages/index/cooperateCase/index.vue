@@ -94,11 +94,15 @@ export default {
     margin-right 10px
   }
   .right-box{
+    width 65%
     .title{
       padding 2px
       font-weight bold
       font-size 16px
       margin-bottom 3px
+      white-space: nowrap; 
+      overflow: hidden;   
+      text-overflow: ellipsis;
     }
     .result-title{
       margin-left 4px

@@ -93,6 +93,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.content{
+    background-color #fbfcfc
+}
     .content-item{
         line-height 48rpx 
         height 48rpx
@@ -103,6 +106,7 @@ export default {
         flex-direction row
         justify-content space-between
         font-weight bold
+        background-color #fff
     }
     ._bold{
         font-weight bold
@@ -176,7 +180,7 @@ export default {
         display flex
         flex-direction row
         align-items center
-        background-color white
+        background-color #fbfcfc
     }
     ._checked{
         width 15px 
