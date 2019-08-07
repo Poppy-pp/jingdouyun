@@ -74,11 +74,12 @@ export default {
     height 250px
   }
   .title{
-    font-size 23px
+    font-size 46rpx
     color #ffffff
     position absolute
     bottom 10%
-    left 15px
+    left 24rpx
+    padding:0 5px;
   }
 }
 .content{

@@ -20,7 +20,7 @@ VantComponent({
         },
         maxHeight: {
             type: Number,
-            value: 300
+            value: 600
         }
     },
     data: {
@@ -45,7 +45,7 @@ VantComponent({
         onSelectItem(event) {
             const { item } = event.currentTarget.dataset;
             if (!item.disabled) {
-                this.$emit('click-item', item);
+                this.$emit('clickItem', item);
             }
         },
         // 当一个导航被点击时
@@ -53,7 +53,7 @@ VantComponent({
             const { index } = event.currentTarget.dataset;
             const item = this.data.items[index];
             if (!item.disabled) {
-                this.$emit('click-nav', { index });
+                this.$emit('clickNav', { index });
             }
         },
         // 更新子项列表
@@ -65,9 +65,17 @@ VantComponent({
         },
         // 更新组件整体高度，根据最大高度和当前组件需要展示的高度来决定
         updateMainHeight() {
-            const { items = [], subItems = [] } = this.data;
-            const maxHeight = Math.max(items.length * ITEM_HEIGHT, subItems.length * ITEM_HEIGHT);
-            this.set({ mainHeight: Math.min(maxHeight, this.data.maxHeight) });
+            if(this.data.maxHeight == 300){ //首页筛选—区域
+                const { items = [], subItems = [] } = this.data;
+                const maxHeight = Math.max(items.length * ITEM_HEIGHT, subItems.length * ITEM_HEIGHT);
+                this.set({ mainHeight: Math.min(maxHeight, this.data.maxHeight) });
+            }else{//找场地—位置要求
+                wx.getSystemInfo({
+                    success:  (res) => {
+                        this.set({ mainHeight: res.windowHeight });
+                    }
+                })
+            }
         },
         // 更新子项列表高度，根据可展示的最大高度和当前子项列表的高度决定
         updateItemHeight(subItems) {

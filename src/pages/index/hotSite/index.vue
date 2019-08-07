@@ -155,7 +155,7 @@ export default {
         margin-right 10px
       }
       .right-box{
-        width 65%
+        width 60%
         .title {
           padding: 2px;
           font-weight: bold;
