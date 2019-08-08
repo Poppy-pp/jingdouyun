@@ -8,7 +8,7 @@
             <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
-         <span @click="goShowImg"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
+         <span><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
       </div>
       
       <div class="box">
@@ -18,7 +18,7 @@
             <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
-         <span @click="goShowImg"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
+         <span><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
       </div>
    </div>
 </template>
@@ -31,9 +31,9 @@ export default {
          needs:[ "实名认证","企业认证"],
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
          images: [
-            { url: "/static/images/site-introduce.png" },
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
          ],
          status:true,
        }
@@ -47,12 +47,6 @@ export default {
         phoneNumber: '010-12345323'
       })
     },
-   //  跳转查看图片
-   goShowImg(){
-      wx.navigateTo({
-        url: "/pages/index/seeImg/main"
-      });
-   }
   },
   created(){},
   onReady(){

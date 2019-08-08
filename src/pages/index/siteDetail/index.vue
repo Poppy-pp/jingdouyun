@@ -3,7 +3,7 @@
    <div class="container" id="container">
       <!-- 头部 -->
       <div class="header">
-        <span @click="goShowImg"> <Swiperdetail :images="images"></Swiperdetail></span>
+        <span> <Swiperdetail :images="images"></Swiperdetail></span>
         <div class="right-icon">
           <img :src="isFollow ? '/static/images/follow-yes.png' : '/static/images/follow.png'" alt="" @click="followSiteSpace(spaceListId)">
           <img src="/static/images/share.png" alt="" @click="showShare = true">
@@ -115,14 +115,14 @@ export default {
           },
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           images: [
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
           ],
           smallImgs:[
-            { url: "/static/images/site1.png" },
-            { url: "/static/images/site2.png" },
-            { url: "/static/images/site3.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
           ],
           tags: [ '场地方正', '网红打卡', '泳池', '无柱'],
           largenfo: [
@@ -156,12 +156,18 @@ export default {
     })
   },
   methods:{
-    //  跳转查看图片
-   goShowImg(){
-      wx.navigateTo({
-        url: "/pages/index/seeImg/main"
-      });
-   },
+    //  查看图片
+   goShowImg(e){
+        var current = e.target.dataset.src;
+        var urlList = [];
+        this.smallImgs.forEach((item) => {
+          urlList.push(item.url);
+        });
+        wx.previewImage({
+          current: current,//当前点击的图片链接
+          urls: urlList //图片数组
+        })
+    },
    // 跳转至场地详情
     goSiteDetail(id) {
       let form = {

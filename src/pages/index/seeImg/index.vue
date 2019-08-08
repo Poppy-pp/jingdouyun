@@ -22,9 +22,8 @@ export default {
    data() {
        return {
          images: [
-            { url: "/static/images/site-introduce.png" },
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" }
+            { url: "/static/images/near.png" },
+            { url: "/static/images/cooperate.png" },
          ],
          active:0,
          tabTitle:['视频','图片'],
