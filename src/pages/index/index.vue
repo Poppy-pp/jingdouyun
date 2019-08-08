@@ -635,7 +635,7 @@ export default {
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        // this.siteList = res;
+        this.siteList = res;
       })
       .catch(res => {
       });
