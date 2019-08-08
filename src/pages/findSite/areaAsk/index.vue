@@ -20,6 +20,7 @@ export default {
           ],
           mainActiveIndex: 0,// 左侧高亮元素的index
           activeId: 1,// 被选中元素的id
+          arr:[],
        }
    },
   components: {},
@@ -31,10 +32,7 @@ export default {
     },
     // 点击子集
     onClickItem(e) {
-      this.activeId = e.mp.detail.id;
-      this.showPopup = false;
-      // this.area = this.activeId;
-
+      this.activeId = e.mp.detail.id;//选中变蓝色
       // 带参返回上一页
       var pages = getCurrentPages();
       var prevPage = pages[pages.length - 2];  //上一个页面

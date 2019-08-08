@@ -23,12 +23,6 @@
       <van-popup :show="showDate" position="bottom" @close="showDate = false" round>
           <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
       </van-popup>
-      <!-- 活动类型 弹出层-->
-      <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="onCancelType" cancel-text="取消"  @close="onCancelType"/>
-      <!-- 活动人数 弹出层 -->
-      <van-action-sheet :show="showNum" :actions="numActions" @select="onSelectNum" @cancel="onCancelNum" cancel-text="取消"  @close="onCancelNum"/>
-      <!-- 活动预算 弹出层 -->
-      <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消"  @close="onCancelPrice"/>
       <!-- 提示 -->
       <van-toast :show="showToast" :message="toastMsg"/>
    </div>
@@ -42,40 +36,10 @@ export default {
        return {
           showArea: false,
           showDate: false,
-          showType: false,
-          showNum: false,
-          showPrice: false,
           showToast: false,
           toastMsg: '',//提示文字信息
           currentDate: new Date().getTime(),//时间戳格式
           areaList: addressInfo,
-          typeActions: [
-            { name: '不限' },
-            { name: '发布会/颁奖/庆典' },
-            { name: '论坛/推介会/商务会议'},
-            { name: '讲座/沙龙'},
-            { name: '工作会/总结会'},
-            { name: '年会/答谢会'},
-            { name: '聚会/团建/拓展'},
-          ],
-          numActions: [
-            { name: '不限' },
-            { name: '50人以下' },
-            { name: '50-100人'},
-            { name: '100-300人'},
-            { name: '500-1000人'},
-            { name: '1000人以上'},
-          ],
-          priceActions: [
-            { name: '不限' },
-            { name: '1万元以下' },
-            { name: '1万-5万'},
-            { name: '5万-10万'},
-            { name: '10万-20万'},
-            { name: '20万-30万'},
-            { name: '30万-50万'},
-            { name: '50万以上'},
-          ],
           area:'',//选择的城市信息
           type:'',//活动类型
           date:'',
@@ -206,42 +170,41 @@ export default {
     },
 
     // 活动类型
-    showActionType(){
-        this.showType = true;
+    showActionType() {
+      wx.navigateTo({
+        url: "/pages/findSite/activityType/main"
+      });
     },
-    onSelectType(item) {
-      this.showType = false;
-      this.type = item.target.name;
-    },
-    onCancelType(item) {
-      this.showType = false;
-    },
-
     // 活动人数
-    showActionNum(){
-        this.showNum = true;
+    showActionNum() {
+      wx.navigateTo({
+        url: "/pages/findSite/activityNum/main"
+      });
     },
-    onSelectNum(item) {
-      this.showNum = false;
-      this.num = item.target.name;
-    },
-    onCancelNum(item) {
-      this.showNum = false;
-    },
-
     // 活动预算
-    showActionPrice(){
-        this.showPrice = true;
-    },
-    onSelectPrice(item) {
-      this.showPrice = false;
-      this.price = item.target.name;
-    },
-    onCancelPrice(item) {
-      this.showPrice = false;
+    showActionPrice() {
+      wx.navigateTo({
+        url: "/pages/findSite/activityPrice/main"
+      });
     },
   },
-  created(){}
+  created(){},
+  onShow() {
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1];
+    if (currPage.data.type) {//活动类型
+      this.type = [];
+      this.type = currPage.data.type;
+    }
+    if (currPage.data.num) {//活动人数
+      this.num = [];
+      this.num = currPage.data.num;
+    }
+    if (currPage.data.price) {//活动人数
+      this.price = [];
+      this.price = currPage.data.price;
+    }
+  }
 }
 </script>
 
