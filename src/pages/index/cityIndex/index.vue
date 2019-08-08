@@ -36,9 +36,9 @@
               >{{item1.name}}</div>
             </i-index-item>
             <i-index-item :key="index" :name="item.key" v-else>
-              <div class="curcity">
+              <div class="curcity" @click="clickCurCity">
                 <div class="title">当前城市</div>
-                <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ curCity.name }}</h3>
+                <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ locationInfo.address_component.city }}</h3>
               </div>
               <!--热门城市-->
               <div class="hot" v-show="!isInput">
@@ -81,7 +81,8 @@ export default {
   components: {},
   computed: {
     ...mapState({
-      curCity: state => state.curCity
+      curCity: state => state.curCity,
+      locationInfo: state => state.locationInfo
     })
   },
   data() {
@@ -117,12 +118,18 @@ export default {
       this.value = value.mp.detail.detail.value;
       this.search();
     },
+    // 点击当前城市
+    clickCurCity(){
+      this.$store.commit('SET_City',{'name': this.locationInfo.address_component.city});
+      wx.navigateBack();
+    },
     //点击搜索列表
     setSite(item, filed) {
       var data = {
         city: item[filed],
         ...item,
-        showCon: true
+        showCon: true,
+        name: item[filed] + '市'
       };
       // if (this.current == 1) {
       //   data.nation = "中国";

@@ -13,7 +13,7 @@
           type="text"
           placeholder="搜索您心仪的场地"
           placeholder-style="color:#ffffff"
-          readonly
+          disabled="true"
         />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
@@ -100,10 +100,10 @@
             </div>
 
             <!-- 列表中有10-20个场地，用户滑动浏览10个场地后出现 -->
-            <div v-if="index == 9 && 10 <= siteList.length < 20" class="middle">
+            <div v-if="index == 9 && 10 <= siteList.length < 20" class="middle" @click="goFindForm">
               <p class="one-p">没有找到心仪的场地 ？</p>
               <p class="two-p">让场地顾问1对1免费帮您找</p>
-              <button @click="goFindForm">发布需求</button>
+              <button>发布需求</button>
             </div>
           </li>
         </ul>
@@ -146,10 +146,12 @@ export default {
       qqmapsdk:null,//授权地理位置
       isTop: false, //是否置顶
       showBtn: false,//悬浮按钮
-      headerHeight:'',//头部搜索框高度
       showNotify: false,
       showToast: false,
       wHeight:'',//场地列表盒子的最小高度
+      searchHeight:'',//筛选框的高度
+      headerHeight:'',//头部搜索框高度
+      siteTop:'',//场地列表距离顶部的初始高度
       toastMsg: "", //提示文字信息
       contactActions: [{ name: "010-12345323" }, { name: "呼叫" }],
       images: [
@@ -161,6 +163,24 @@ export default {
       ],
       searchTitle: ["区域", "类型", "面积", "人数", "价格"],
       siteList: [
+        {
+          name: "朝阳公园",
+          price: "12000",
+          num: "100人",
+          count: "8间",
+          area: "2400m",
+          addr: "朝阳区朝阳北路101号",
+          far: "距市中心 2.32千米"
+        },
+        {
+          name: "朝阳公园",
+          price: "12000",
+          num: "100人",
+          count: "8间",
+          area: "2400m",
+          addr: "朝阳区朝阳北路101号",
+          far: "距市中心 2.32千米"
+        },
         {
           name: "朝阳公园",
           price: "12000",
@@ -357,9 +377,15 @@ export default {
     },
     // 点击筛选下拉菜单
     chooseSearch(data,index) {
+     
+      
+
       // 判断是否吸顶，点击就吸顶
       if(!this.isTop){
         this.isTop = true;
+        wx.pageScrollTo({
+          scrollTop: this.siteTop
+        })
       }
 
       // 两次点击同一个菜单，收起弹出框
@@ -560,9 +586,15 @@ export default {
         this.headerHeight = res.height;
       }).exec();
 
-      // 获取可见区域高度，赋值给场地列表最小高度
+      // 可见区域高度，赋值给场地列表最小高度
       query.select(".search").boundingClientRect((res) => {//获取筛选框的高度
-        this.wHeight = (wx.getSystemInfoSync().windowHeight - this.headerHeight - res.height - 20) + 'px';//可见视口高度 - 头部搜索栏高度 - 筛选框高度 - padding-bootom
+        this.searchHeight = res.height;
+        this.wHeight = (wx.getSystemInfoSync().windowHeight - this.headerHeight - this.searchHeight - 20) + 'px';//可见视口高度 - 头部搜索栏高度 - 筛选框高度 - padding-bootom
+      }).exec();
+
+      //场地列表距离顶部的初始高度，跟随筛选条件吸顶上滚
+      wx.createSelectorQuery().select(".site-box").boundingClientRect((res) => {
+        this.siteTop = res.top - this.headerHeight - this.searchHeight;//初始高度 - 头部搜索栏高度 - 筛选框高度  = 上滚距离
       }).exec();
   },
   onShow(option) {
@@ -603,7 +635,7 @@ export default {
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        // this.siteList = res;
+        this.siteList = res;
       })
       .catch(res => {
       });
