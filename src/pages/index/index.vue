@@ -926,7 +926,7 @@ export default {
 
       .middle {
         background: linear-gradient(to right, #94eafe 0%, #24a8ff 100%);
-        padding: 25px 10px;
+        padding: 25px 0;
         border-radius: 7px;
         text-align: center;
         color: #ffffff;
