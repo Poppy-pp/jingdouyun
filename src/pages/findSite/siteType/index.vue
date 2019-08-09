@@ -79,8 +79,9 @@ export default {
 
 <style lang="stylus" scoped>
 .container{
+  position relative
   ul{
-    margin-top 68rpx
+    margin 68rpx 0 70px
     li{
       padding 34rpx 10px
       text-align:center;
@@ -92,9 +93,13 @@ export default {
     }
   }
   .btn{
-    margin 34px 0
+    padding 0 0 34px
     display flex
     justify-content space-between
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background-color #ffffff
   }
  .resize,.confirm{
     width 35%

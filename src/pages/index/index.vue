@@ -82,22 +82,25 @@
       </div>
       <div :class="isTop ? 'site-box site-boxTop' : 'site-box'" :style="'min-height:'+wHeight">
         <ul v-if="siteList.length != 0">
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)" :id="index == 19 ? 'site-20' : ''">
-            <img :src="item.url" />
-            <div class="right-box">
-              <p class="title">{{ item.name }}</p>
-              <p class="price">
-                ￥{{ item.price }}
-                <span>/天</span>
-                <i>参考价</i>
-              </p>
-              <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-              <i class="result-title">
-                <img class="address-icon" src="/static/images/address.png" />
-                {{ item.far }}
-              </i>
-              <i class="result-title">{{item.addr.name }}</i>
+          <li v-for="(item,index) in siteList" :key="index" :id="index == 19 ? 'site-20' : ''">
+            <div @click="goSiteDetail(item.id)" class="li-detail">
+              <img :src="item.url" />
+              <div class="right-box">
+                <p class="title">{{ item.name }}</p>
+                <p class="price">
+                  ￥{{ item.price }}
+                  <span>/天</span>
+                  <i>参考价</i>
+                </p>
+                <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
+                <i class="result-title">
+                  <img class="address-icon" src="/static/images/address.png" />
+                  {{ item.far }}
+                </i>
+                <i class="result-title">{{item.addr.name }}</i>
+              </div>
             </div>
+            
 
             <!-- 列表中有10-20个场地，用户滑动浏览10个场地后出现 -->
             <div v-if="index == 9 && 10 <= siteList.length < 20" class="middle" @click="goFindForm">
@@ -377,9 +380,6 @@ export default {
     },
     // 点击筛选下拉菜单
     chooseSearch(data,index) {
-     
-      
-
       // 判断是否吸顶，点击就吸顶
       if(!this.isTop){
         this.isTop = true;
@@ -387,7 +387,6 @@ export default {
           scrollTop: this.siteTop
         })
       }
-
       // 两次点击同一个菜单，收起弹出框
       if (this.chooseSearchIndex == index) {
         this.showPopup = !this.showPopup;
@@ -396,7 +395,7 @@ export default {
       this.chooseSearchIndex = index;
       this.showPopup = true;
       this.actions = [];
-      if (data == "面积") {
+      if (index == 2) {
         this.actions = [
           { name: "不限", from: "", to: "" },
           { name: "50㎡以下", from: "1", to: "50" },
@@ -407,7 +406,7 @@ export default {
           { name: "800㎡-1000㎡", from: "801", to: "1000" },
           { name: "1000㎡以上", from: "1001", to: "99999" }
         ];
-      } else if (data == "人数") {
+      } else if (index == 3) {
         this.actions = [
           { name: "不限", from: "", to: "" },
           { name: "50人以下", from: "1", to: "50" },
@@ -417,7 +416,7 @@ export default {
           { name: "500-1000人", from: "501", to: "1000" },
           { name: "1000人以上", from: "1001", to: "99999" }
         ];
-      } else if (data == "价格") {
+      } else if (index == 4) {
         this.actions = [
           { name: "不限" },
           { name: "1万元以下" },
@@ -450,6 +449,9 @@ export default {
     selectType(data,index) {
       this.showPopup = false;
       this.searchTitle[this.chooseSearchIndex] = data.title;
+      this.typeList.forEach(item => {
+        item.isSelect = false;
+      });
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
       this.type = "0"; //初始化
 
@@ -635,7 +637,7 @@ export default {
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        this.siteList = res;
+        // this.siteList = res;
       })
       .catch(res => {
       });
@@ -861,9 +863,11 @@ export default {
       li {
         border-bottom: 1px solid #f3f3f3;
         padding: 19px 0;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
+        .li-detail{
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+        }
 
         img {
           width: 120px;
