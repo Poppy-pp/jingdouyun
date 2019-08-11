@@ -140,6 +140,7 @@ export default {
   components: { Swiper },
   computed: {
     ...mapState({
+	  openId: state => state.openId,
       curCity: state => state.curCity,
       locationInfo: state => state.locationInfo
     })
@@ -472,6 +473,7 @@ export default {
     selectAction(item) {
       this.showPopup = false;
       this.searchTitle[this.chooseSearchIndex] = item.name;
+      this.siteList = [];
 
       if (this.chooseSearchIndex == 2) {
         this.size = item.name;
@@ -600,6 +602,10 @@ export default {
       }).exec();
   },
   onShow(option) {
+  
+	this.globalData.uid = this.openId
+	console.log(this.globalData)
+  
     // 获取地理位置授权
     if(this.locationInfo.address == undefined){
         wx.getLocation({
@@ -637,7 +643,7 @@ export default {
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        // this.siteList = res;
+        this.siteList = res;
       })
       .catch(res => {
       });

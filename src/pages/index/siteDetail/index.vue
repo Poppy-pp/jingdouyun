@@ -27,13 +27,13 @@
       </div>
       <!--场地主官宣 -->
       <div class="site-declare">
-        <p class="title-p">场地主官宣 <span class="num">2</span><i @click="goSiteDeclare">更多<van-icon name="arrow" size="10px" /></i></p>
+        <p class="title-p">场地主官宣 <span class="num">{{user_count}}</span><i @click="goSiteDeclare">更多<van-icon name="arrow" size="10px" /></i></p>
         <div class="person">
           <img class="avatar" src="/static/images/cooperate.png" alt="">
-          <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
-          <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+          <span> {{user.name}} <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">{{user.relationship}}</i></span>
+          <div class="circle" @click="onPhoneCall(user.mobile)"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
         </div>
-        <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
+        <p class="text">{{user.content}}</p>
         <div class="img-group"><img v-for="(item,index) in smallImgs" :key="index" :src="item.url" alt="" @click="goShowImg"></div>
       </div>
       <!-- 场地空间 -->
@@ -131,6 +131,13 @@ export default {
             { desc:'空间数量', value: '8间' },
             { desc:'客房数量', value: '42间' },
           ],
+		  user_count: 0,
+		  user: {
+            name: '蒲蒲',
+            relationship: '场地资源方',
+			mobile: "1234567",
+			content: "场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！",
+		  },
           needs:[ "实名认证","企业认证"],
           siteList: [
             {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱', url:"/static/images/default.png"},
@@ -178,9 +185,9 @@ export default {
       });
     },
     // 调出拨打电话
-    onPhoneCall(){ 
+    onPhoneCall(phone){ 
       wx.makePhoneCall({
-        phoneNumber: '010-12345323'
+        phoneNumber: phone
       })
     },
     // 查看更多场地空间
@@ -276,13 +283,30 @@ export default {
         console.log(res) //失败
       })
       
-      
       this.Request.addSpaceListHistory(this.globalData.uid,this.spaceListId).then(res =>{
         console.log(res)
         
       }).catch(res =>{
         console.log(res) //失败
       })
+	  
+	  this.Request.getBulletinList(this.spaceListId).then(res =>{
+        console.log(res)
+		
+		this.user_count = res.length
+		this.user = []
+		this.needs = []
+		this.smallImgs = []
+		
+		if(res.length>0){	
+			this.user = res[0]
+			this.needs = res[0].needs
+			this.smallImgs = res[0].image
+		}
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+	  
       
   },
   
