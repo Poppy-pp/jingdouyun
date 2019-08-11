@@ -1,91 +1,108 @@
 <!-- 场地详情 -->
 <template>
    <div class="container" id="container">
-    <!-- 头部 -->
-    <div class="header">
-      <Swiperdetail :images="images"></Swiperdetail>
-      <div class="right-icon">
-        <img src="/static/images/follow.png" alt="" @click="followSiteSpace(spaceListId)">
-        <img src="/static/images/share.png" alt="">
+      <!-- 头部 -->
+      <div class="header">
+        <span> <Swiperdetail :images="images"></Swiperdetail></span>
+        <div class="right-icon">
+          <img :src="isFollow ? '/static/images/follow-yes.png' : '/static/images/follow.png'" alt="" @click="followSiteSpace(spaceListId)">
+          <img src="/static/images/share.png" alt="" @click="showShare = true">
+        </div>
       </div>
-    </div>
-    <!-- 场地信息 -->
-    <div class="site-info">
-      <p class="title-p">{{ addr.name }} <span>【{{ addr.type }}】</span></p>
-      <p class="order-num">{{ addr.order_count }}人预定</p>
-      <div class="tags">
-        <button v-for="(item,index) in tags" :key="index">{{ item }}</button>
+      <!-- 场地信息 -->
+      <div class="site-info">
+        <p class="title-p">{{ addr.name }} <span>【{{ addr.type }}】</span></p>
+        <p class="order-num">{{ addr.order_count }}人预定</p>
+        <div class="tags">
+          <button v-for="(item,index) in tags" :key="index">{{ item }}</button>
+        </div>
+        <div class="desc">
+          <span v-for="(item,index) in largenfo" :key="index"> {{ item.value }} <i>{{ item.desc }}</i>
+          </span>
+        </div>
+        <div class="address" @click="goMap(addr)">
+          <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ addr.address }}<br><span>{{ addr.desc  }}</span></i>
+          <img src="/static/images/map.png" alt="">
+        </div>
       </div>
-      <div class="desc">
-        <span v-for="(item,index) in largenfo" :key="index"> {{ item.value }} <i>{{ item.desc }}</i>
-        </span>
+      <!--场地主官宣 -->
+      <div class="site-declare">
+        <p class="title-p">场地主官宣 <span class="num">{{user_count}}</span><i @click="goSiteDeclare">更多<van-icon name="arrow" size="10px" /></i></p>
+        <div class="person">
+          <img class="avatar" src="/static/images/cooperate.png" alt="">
+          <span> {{user.name}} <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">{{user.relationship}}</i></span>
+          <div class="circle" @click="onPhoneCall(user.mobile)"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+        </div>
+        <p class="text">{{user.content}}</p>
+        <div class="img-group"><img v-for="(item,index) in smallImgs" :key="index" :src="item.url" alt="" @click="goShowImg"></div>
       </div>
-      <div class="address" @click="goMap(addr)">
-        <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ addr.address }}<br><span>{{ addr.desc  }}</span></i>
-        <img src="/static/images/map.png" alt="">
+      <!-- 场地空间 -->
+      <div class="site-space">
+        <p class="title-p">场地空间 <span class="num">{{ siteList.length }} 间</span></p>
+        <div class="site-box">
+          <ul>
+            <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
+              <img :src="item.url">
+              <div class="right-box">
+                <p class="title">{{ item.name }}</p>
+                <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
+                <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
+                <i class="tag">{{item.tag }}</i>
+              </div>
+            </li>
+          </ul>
+          <!-- p class="more" @click="getMore">查看更多场地空间(23)</p -->
+        </div>
       </div>
-    </div>
-    <!--场地主官宣 -->
-    <div class="site-declare">
-      <p class="title-p">场地主官宣 <span class="num">2</span><i @click="goSiteDeclare">更多<van-icon name="arrow" size="10px" /></i></p>
-      <div class="person">
-        <img class="avatar" src="/static/images/avatar.jpg" alt="">
-        <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
-        <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
+      <!-- 场地介绍 -->
+      <div class="site-introduce">
+        <p class="title-p">场地介绍 <i @click="goSiteIntroduce">更多<van-icon name="arrow" size="10px" /></i></p>
+        <p class="text">美食荟萃的演艺秀场大戏楼坐落于北京东五环京城梨园公园内。是国家一流京剧表演团体演出大戏楼大戏楼将传统的北京戏楼文化重彰于世，
+          是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
+        </p>
       </div>
-      <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
-      <div class="img-group"><img v-for="(item,index) in smallImgs" :key="index" :src="item.url" alt=""></div>
-    </div>
-    <!-- 场地空间 -->
-    <div class="site-space">
-      <p class="title-p">场地空间 <span class="num">{{ siteList.length }} 间</span></p>
-       <div class="site-box">
-        <ul>
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
-            <img :src="item.url">
-            <div class="right-box">
+      <!-- 附近热门场地 -->
+      <div class="site-near">
+        <p class="title-p">附近热门场地 <span class="num">8</span></p>
+        <div class="scroll">
+          <div class="scroll-item" v-for="(item,index) in nearsiteList" :key="index" @click="goSiteDetail(item.id)">
+            <img :src="item.url" alt="">
+            <div class="box">
               <p class="title">{{ item.name }}</p>
-              <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
               <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-              <i class="tag">{{item.tag }}</i>
+              <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ item.far + item.addr }}</i>
             </div>
-          </li>
-        </ul>
-        <!-- p class="more" @click="getMore">查看更多场地空间(23)</p -->
-      </div>
-    </div>
-    <!-- 场地介绍 -->
-    <div class="site-introduce">
-      <p class="title-p">场地介绍 <i @click="goSiteIntroduce">更多<van-icon name="arrow" size="10px" /></i></p>
-      <p class="text">美食荟萃的演艺秀场大戏楼坐落于北京东五环京城梨园公园内。是国家一流京剧表演团体演出大戏楼大戏楼将传统的北京戏楼文化重彰于世，
-        是北京最大的传统戏楼，名家演绎的国粹京剧，让中外宾客赞不绝口被誉为中国的”红磨坊“。
-      </p>
-    </div>
-    <!-- 附近热门场地 -->
-    <div class="site-near">
-      <p class="title-p">附近热门场地 <span class="num">8</span></p>
-      <div class="scroll">
-        <div class="scroll-item" v-for="(item,index) in nearsiteList" :key="index">
-          <img :src="item.url" alt="">
-          <div class="right-box">
-            <p class="title">{{ item.name }}</p>
-            <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-            <i class="result-title"><img class="address-icon" src="/static/images/address.png" />{{ item.far + item.addr }}</i>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 免费咨询按钮 -->
-    <p class="btn-box" v-if="showBtn"><button class="free-btn" @click="onPhoneCall">免费咨询场地详情/报价</button></p>
-
+      <!-- 免费咨询按钮 -->
+      <p class="btn-box" v-if="showBtn"><button class="free-btn" @click="onPhoneCall">免费咨询场地详情/报价</button></p>
+      <!-- 分享好友 弹出层 -->
+      <van-popup :show="showShare" position="bottom" class="share-pop" @close="showShare = false" round>
+        <p class="title">分享至</p>
+        <div class="share-item">
+          <div class="icon-box">
+            <img src="../../../../static/images/wechat.png">
+            <i>微信好友</i>
+          </div>
+          <div class="icon-box">
+            <img src="../../../../static/images/friend.png">
+            <i>微信朋友圈</i>
+          </div>
+        </div>
+        <button class="cancel" @click="showShare = false">取消</button>
+      </van-popup>
    </div>
 </template>
 
 <script>
 import Swiperdetail from "@/components/swiperdetail";
+import { mapActions, mapState } from "vuex";
 export default {
    data() {
        return {
+          isFollow:false,
+          showShare:false,
           touchS: [0, 0],//滑动开始位置x,y
           touchE: [0, 0],//滑动结束位置x,y
           showBtn:false,
@@ -98,14 +115,14 @@ export default {
           },
           contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
           images: [
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
           ],
           smallImgs:[
-            { url: "/static/images/site1.png" },
-            { url: "/static/images/site2.png" },
-            { url: "/static/images/site3.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
           ],
           tags: [ '场地方正', '网红打卡', '泳池', '无柱'],
           largenfo: [
@@ -114,6 +131,13 @@ export default {
             { desc:'空间数量', value: '8间' },
             { desc:'客房数量', value: '42间' },
           ],
+		  user_count: 0,
+		  user: {
+            name: '蒲蒲',
+            relationship: '场地资源方',
+			mobile: "1234567",
+			content: "场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！",
+		  },
           needs:[ "实名认证","企业认证"],
           siteList: [
             {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱', url:"/static/images/default.png"},
@@ -133,12 +157,37 @@ export default {
        }
    },
   components: {Swiperdetail},
-  computed:{},
+  computed:{
+    ...mapState({
+      locationInfo: state => state.locationInfo
+    })
+  },
   methods:{
+    //  查看图片
+   goShowImg(e){
+        var current = e.target.dataset.src;
+        var urlList = [];
+        this.smallImgs.forEach((item) => {
+          urlList.push(item.url);
+        });
+        wx.previewImage({
+          current: current,//当前点击的图片链接
+          urls: urlList //图片数组
+        })
+    },
+   // 跳转至场地详情
+    goSiteDetail(id) {
+      let form = {
+        id: id
+      };
+      wx.navigateTo({
+        url: "/pages/index/siteDetail/main?form=" + JSON.stringify(form)
+      });
+    },
     // 调出拨打电话
-    onPhoneCall(){ 
+    onPhoneCall(phone){ 
       wx.makePhoneCall({
-        phoneNumber: '010-12345323'
+        phoneNumber: phone
       })
     },
     // 查看更多场地空间
@@ -160,10 +209,14 @@ export default {
         url: '/pages/index/siteIntroduce/main?form=' + JSON.stringify(form),
       })
     },
-    // 跳转地图
+    // 打开地图
     goMap(data){
-      wx.navigateTo({
-        url: '/pages/index/map/main?address=' + JSON.stringify(data),
+      wx.openLocation({
+        latitude: this.locationInfo.location.lat,
+        longitude: this.locationInfo.location.lng,
+        scale: 28,
+        name: this.locationInfo.formatted_addresses.recommend,
+        address: this.locationInfo.address
       })
     },
     // 跳转场地主官宣
@@ -183,6 +236,7 @@ export default {
     },
     
     followSiteSpace(id){  
+        this.isFollow = !this.isFollow;
         this.Request.addSpaceListKeep(this.globalData.uid,id).then(res =>{
             console.log(res)
             
@@ -229,17 +283,36 @@ export default {
         console.log(res) //失败
       })
       
-      
       this.Request.addSpaceListHistory(this.globalData.uid,this.spaceListId).then(res =>{
         console.log(res)
         
       }).catch(res =>{
         console.log(res) //失败
       })
+	  
+	  this.Request.getBulletinList(this.spaceListId).then(res =>{
+        console.log(res)
+		
+		this.user_count = res.length
+		this.user = []
+		this.needs = []
+		this.smallImgs = []
+		
+		if(res.length>0){	
+			this.user = res[0]
+			this.needs = res[0].needs
+			this.smallImgs = res[0].image
+		}
+      }).catch(res =>{
+        console.log(res) //失败
+      })
+	  
       
   },
   
-  created(){},
+  created(){
+  },
+  
   //监听屏幕滚动 判断上下滚动
   onPageScroll(ev) {
     var query = wx.createSelectorQuery()
@@ -255,7 +328,7 @@ export default {
         this.showBtn = false;
       }
    })
-  }
+  },
 }
 </script>
 
@@ -452,11 +525,15 @@ export default {
           margin-right 10px
         }
         .right-box{
+          width 60%
           .title{
             padding 2px
             font-weight bold
             font-size 16px
             margin-bottom 3px
+            white-space: nowrap; 
+            overflow: hidden;   
+            text-overflow: ellipsis;
           }
           .price{
             font-size 16px
@@ -534,7 +611,7 @@ export default {
         height 132px
         border-radius 10px 
       }
-      .right-box{
+      .box{
           .title{
             padding 2px
             font-weight bold
@@ -595,5 +672,39 @@ export default {
       outline: none;
   }
 }
-
+.share-pop{
+  .title{
+    text-align center
+    font-size 13px
+    color #7f7f7f
+    padding 15px 0
+  }
+  .cancel{
+    background-color #f4f5f7
+    color #333
+    font-size 14px
+    padding 15px 0
+  }
+  button::after{
+    border:none
+  }
+  .share-item{
+    display flex
+    justify-content space-between
+    padding 10px 80px 20px
+    .icon-box{
+      font-size 12px
+      color #444
+      display:inline-block;
+      text-align center
+    }
+    img{
+      width 20px
+      height 20px
+      padding 10px
+      background-color #f1f2f3
+      border-radius 50%
+    }
+  }
+}
 </style>

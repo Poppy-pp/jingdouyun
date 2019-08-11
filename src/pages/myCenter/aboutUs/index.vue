@@ -1,7 +1,7 @@
 <!-- 关于我们-->
 <template>
    <div class="container">
-      <p class="logo"> <img src="/static/images/site1.png" alt=""></p>
+      <p class="logo"> <img src="/static/images/default.png" alt=""></p>
       <p class="title">鲸抖云</p>
       <p class="text">鲸抖云，主要以全数据、全整合、全媒体、全渠道为主体的全方位活动服务平台，是中国目前唯一将场地租赁、活动资源、媒介广告、热门IP实现垂直
          领域细分标准和全链路的平台。致力于打造中国价值公共关系的品质服务标杆，做领先于中国公关活动领域的优质资源整合商。<br>

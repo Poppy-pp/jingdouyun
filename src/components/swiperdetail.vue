@@ -4,7 +4,7 @@
     <swiper :class="status ? 'swiper declare' : 'swiper'" :indicator-dots="indicatorDots" :autoplay="autoplay" >
         <block v-for="(item, index) in images" :key="index">
             <swiper-item>
-                <image :src="item.url" class="slide-image" mode="aspectFill"/>
+                <image :src="item.url" class="slide-image" mode="aspectFill" :data-src='item.url' @click="goShowImg"/>
                 <span class="tag">{{ index+1 +'/' + images.length }}</span>
                 <div v-if="index == 0 && noplay == false" class="play">
                   <img src="/static/images/play.png" alt="">
@@ -39,6 +39,18 @@ export default {
     };
   },
   methods: {
+    //  查看图片
+    goShowImg(e){
+        var current = e.target.dataset.src;
+        var urlList = [];
+        this.images.forEach((item) => {
+          urlList.push(item.url);
+        });
+        wx.previewImage({
+          current: current,//当前点击的图片链接
+          urls: urlList //图片数组
+        })
+    },
   },
 };
 </script>

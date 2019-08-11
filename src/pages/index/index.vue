@@ -7,13 +7,13 @@
         {{ curCity.name }}
         <img src="../../../static/images/jiantou-white.png" />
       </span>
-      <p class="input">
+      <p class="input" @click="goSearch(curCity.name)">
         <van-icon name="search" />
         <input
           type="text"
           placeholder="搜索您心仪的场地"
           placeholder-style="color:#ffffff"
-          @click="goSearch(curCity.name)"
+          disabled="true"
         />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
@@ -32,13 +32,13 @@
     </div>
     <!-- 场地筛选 -->
     <div class="site">
-      <p class="title-box">
+      <p class="title-box" id="search">
         <img src="../../../static/images/qipao.png" /> 场地筛选
       </p>
-      <div :class="isTop ? 'search searchTop' : 'search'" id="search">
-        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item)" :class=" chooseSearchTitle == item && showPopup ? 'active-span' : ''">
+      <div :class="isTop ? 'search searchTop' : 'search'">
+        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item,index)" :class=" chooseSearchIndex == index && showPopup ? 'active-span' : ''">
           {{ item }}
-          <img :src=" chooseSearchTitle == item && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
+          <img :src=" chooseSearchIndex == index && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
         </span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
         <!-- 弹窗 -->
@@ -51,7 +51,7 @@
         >
           <!-- 区域 -->
           <van-tree-select
-            v-if="chooseSearchTitle == '区域'"
+            v-if="chooseSearchIndex == 0"
             :items="areas"
             :maxHeight="300"
             :main-active-index="mainActiveIndex"
@@ -60,16 +60,16 @@
             @clickItem="onClickItem"
           />
           <!-- 类型 -->
-          <div class="needs-box" v-if="chooseSearchTitle == '类型'">
+          <div class="needs-box" v-if="chooseSearchIndex == 1">
             <block v-for="(item, index) in typeList" :key="index">
               <text
                 :class="item.isSelect ? 'needs-active' : 'needs-select'"
-                @click="selectType(index)"
+                @click="selectType(item,index)"
               >{{item.title}}</text>
             </block>
           </div>
           <!-- 面积/人数/价格 -->
-          <div class="action-box" v-if="chooseSearchTitle != '区域' && chooseSearchTitle != '类型'">
+          <div class="action-box" v-if="chooseSearchIndex != 0 && chooseSearchIndex != 0">
             <ul>
               <li
                 v-for="(item,index) in actions"
@@ -80,29 +80,33 @@
           </div>
         </van-popup>
       </div>
-      <div class="site-box">
+      <div :class="isTop ? 'site-box site-boxTop' : 'site-box'" :style="'min-height:'+wHeight">
         <ul v-if="siteList.length != 0">
-          <li v-for="(item,index) in siteList" :key="index" @click="goSiteDetail(item.id)">
-            <img :src="item.url" />
-            <div class="right-box">
-              <p class="title">{{ item.name }}</p>
-              <p class="price">
-                ￥{{ item.price }}
-                <span>/天</span>
-                <i>参考价</i>
-              </p>
-              <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-              <i class="result-title">
-                <img class="address-icon" src="/static/images/address.png" />
-                {{ item.far }}
-              </i>
-              <i class="result-title">{{item.addr.name }}</i>
+          <li v-for="(item,index) in siteList" :key="index" :id="index == 19 ? 'site-20' : ''">
+            <div @click="goSiteDetail(item.id)" class="li-detail">
+              <img :src="item.url" />
+              <div class="right-box">
+                <p class="title">{{ item.name }}</p>
+                <p class="price">
+                  ￥{{ item.price }}
+                  <span>/天</span>
+                  <i>参考价</i>
+                </p>
+                <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
+                <i class="result-title">
+                  <img class="address-icon" src="/static/images/address.png" />
+                  {{ item.far }}
+                </i>
+                <i class="result-title">{{item.addr.name }}</i>
+              </div>
             </div>
+            
 
-            <div v-if="index == 3" class="middle">
+            <!-- 列表中有10-20个场地，用户滑动浏览10个场地后出现 -->
+            <div v-if="index == 9 && 10 <= siteList.length < 20" class="middle" @click="goFindForm">
               <p class="one-p">没有找到心仪的场地 ？</p>
               <p class="two-p">让场地顾问1对1免费帮您找</p>
-              <button @click="goFindForm">发布需求</button>
+              <button>发布需求</button>
             </div>
           </li>
         </ul>
@@ -111,14 +115,16 @@
           <p>让场地顾问1对1免费帮您找~</p>
           <button @click="goFindForm">免费帮我找场地</button>
         </div>
+
       </div>
-      <div v-if="siteList.length != 0" class="no-data">
+      <!-- （1）列表少于10个场地资源，页面底部直接出现 ；（2）列表中刚好有20个场地，滑动浏览20个后出现；（3）20个以上，，滑动底部出现-->
+      <div v-if="(0 < siteList.length && siteList.length < 10) || siteList.length >= 20" class="no-data">
         <p class="black">没有找到心仪的场地？</p>
         <p class="desc">更多场地资源，让场地顾问1对1免费帮您找</p>
         <button @click="goFindForm">免费帮我找场地</button>
       </div>
-      <!-- 吸顶时 显示悬浮按钮 -->
-      <button v-if="isTop" class="suspensionBtn" @click="goFindForm">发布场地需求</button>
+      <!-- 列表中有20个场地以上，滑动至20个场地后，悬浮按钮出现 -->
+      <button v-if="siteList.length > 20 && showBtn" class="suspensionBtn" @click="goFindForm">发布场地需求</button>
     </div>
 
     <!-- 搜索提示 -->
@@ -128,26 +134,31 @@
 
 <script>
 import Swiper from "@/components/swiper";
+import QQMapWX from "../../../static/tools/qqmap-wx-jssdk.js";
 import { mapActions, mapState } from "vuex";
 export default {
   components: { Swiper },
   computed: {
     ...mapState({
-      curCity: state => state.curCity
+	  openId: state => state.openId,
+      curCity: state => state.curCity,
+      locationInfo: state => state.locationInfo
     })
   },
   data() {
     return {
+      qqmapsdk:null,//授权地理位置
       isTop: false, //是否置顶
-      topHeight: "", //筛选框距离顶部的高度
+      showBtn: false,//悬浮按钮
       showNotify: false,
       showToast: false,
+      wHeight:'',//场地列表盒子的最小高度
+      searchHeight:'',//筛选框的高度
+      headerHeight:'',//头部搜索框高度
+      siteTop:'',//场地列表距离顶部的初始高度
       toastMsg: "", //提示文字信息
       contactActions: [{ name: "010-12345323" }, { name: "呼叫" }],
       images: [
-        { url: "../../static/images/banner.png" },
-        { url: "../../static/images/banner.png" },
-        { url: "../../static/images/banner.png" }
       ],
       hotList: [
         { url: "../../static/images/hot-1.png", title: "合作案例" },
@@ -156,6 +167,24 @@ export default {
       ],
       searchTitle: ["区域", "类型", "面积", "人数", "价格"],
       siteList: [
+        {
+          name: "朝阳公园",
+          price: "12000",
+          num: "100人",
+          count: "8间",
+          area: "2400m",
+          addr: "朝阳区朝阳北路101号",
+          far: "距市中心 2.32千米"
+        },
+        {
+          name: "朝阳公园",
+          price: "12000",
+          num: "100人",
+          count: "8间",
+          area: "2400m",
+          addr: "朝阳区朝阳北路101号",
+          far: "距市中心 2.32千米"
+        },
         {
           name: "朝阳公园",
           price: "12000",
@@ -227,7 +256,16 @@ export default {
           area: "2400m",
           addr: "朝阳区朝阳北路101号",
           far: "距市中心 2.32千米"
-        }
+        },
+        {
+          name: "朝阳公园",
+          price: "12000",
+          num: "800人",
+          count: "8间",
+          area: "2400m",
+          addr: "朝阳区朝阳北路101号",
+          far: "距市中心 2.32千米"
+        },
       ],
       showPopup: false,
       //选择的区域——区域下拉
@@ -293,7 +331,7 @@ export default {
       ],
       mainActiveIndex: 0, // 左侧高亮元素的index
       activeId: 1, // 被选中元素的id
-      chooseSearchTitle: "", //选择的筛选条件下拉
+      chooseSearchIndex: 0, //选择的筛选条件下拉tab的index
       actions: [],
       area: "",
       type: "",
@@ -342,16 +380,23 @@ export default {
       });
     },
     // 点击筛选下拉菜单
-    chooseSearch(data) {
+    chooseSearch(data,index) {
+      // 判断是否吸顶，点击就吸顶
+      if(!this.isTop){
+        this.isTop = true;
+        wx.pageScrollTo({
+          scrollTop: this.siteTop
+        })
+      }
       // 两次点击同一个菜单，收起弹出框
-      if (this.chooseSearchTitle == data) {
+      if (this.chooseSearchIndex == index) {
         this.showPopup = !this.showPopup;
         return;
       }
-      this.chooseSearchTitle = data;
+      this.chooseSearchIndex = index;
       this.showPopup = true;
       this.actions = [];
-      if (data == "面积") {
+      if (index == 2) {
         this.actions = [
           { name: "不限", from: "", to: "" },
           { name: "50㎡以下", from: "1", to: "50" },
@@ -362,7 +407,7 @@ export default {
           { name: "800㎡-1000㎡", from: "801", to: "1000" },
           { name: "1000㎡以上", from: "1001", to: "99999" }
         ];
-      } else if (data == "人数") {
+      } else if (index == 3) {
         this.actions = [
           { name: "不限", from: "", to: "" },
           { name: "50人以下", from: "1", to: "50" },
@@ -372,7 +417,7 @@ export default {
           { name: "500-1000人", from: "501", to: "1000" },
           { name: "1000人以上", from: "1001", to: "99999" }
         ];
-      } else if (data == "价格") {
+      } else if (index == 4) {
         this.actions = [
           { name: "不限" },
           { name: "1万元以下" },
@@ -398,14 +443,22 @@ export default {
     },
     // 区域——点击子集
     onClickItem(e) {
+<<<<<<< HEAD
       console.log(e)
       this.activeId = e.mp.detail.id;
+=======
+>>>>>>> 5a946e7b15f3b24ba39be291a7a1e9b89f223318
       this.showPopup = false;
-      // this.area = this.activeId;
-      this.siteList = [];
+      this.activeId = e.mp.detail.id;
+      this.searchTitle[this.chooseSearchIndex] = e.mp.detail.text;
     },
     // 类型——点击选择类型
-    selectType(index) {
+    selectType(data,index) {
+      this.showPopup = false;
+      this.searchTitle[this.chooseSearchIndex] = data.title;
+      this.typeList.forEach(item => {
+        item.isSelect = false;
+      });
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
       this.type = "0"; //初始化
 
@@ -425,10 +478,10 @@ export default {
     // 面积、人数、价格——点击选择
     selectAction(item) {
       this.showPopup = false;
-
+      this.searchTitle[this.chooseSearchIndex] = item.name;
       this.siteList = [];
 
-      if (this.chooseSearchTitle == "面积") {
+      if (this.chooseSearchIndex == 2) {
         this.size = item.name;
 
         this.Request.getSpaceListSearch(
@@ -441,7 +494,6 @@ export default {
           item.to
         )
           .then(res => {
-            console.log(res);
             this.siteList = res;
 
             // 显示提示
@@ -456,7 +508,7 @@ export default {
           .catch(res => {
             console.log(res); //失败
           });
-      } else if (this.chooseSearchTitle == "人数") {
+      } else if (this.chooseSearchIndex == 3) {
         this.num = item.name;
 
         this.Request.getSpaceListSearch(
@@ -469,7 +521,6 @@ export default {
           ""
         )
           .then(res => {
-            console.log(res);
             this.siteList = res;
 
             // 显示提示
@@ -484,7 +535,7 @@ export default {
           .catch(res => {
             console.log(res); //失败
           });
-      } else if (this.chooseSearchTitle == "价格") {
+      } else if (this.chooseSearchIndex == 4) {
         this.price = item.name;
       }
     },
@@ -507,39 +558,79 @@ export default {
       });
   },
 
-  created() {},
+  created(){
+    // 实例化API核心类
+    this.qqmapsdk = new QQMapWX({
+      key: 'ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII'
+    });
+  },
   //监听屏幕滚动
   onPageScroll(ev) {
     var query = wx.createSelectorQuery();
-    query.select(".container").boundingClientRect();
-    query.exec(res => {
-      var height = ""; //view的高度
-      var top = ""; //滑动到顶部的距离
-      height = res[0].height - wx.getSystemInfoSync().windowHeight;
-      top = res[0].top;
-      if (top <= -this.topHeight) {
+    // 滚动时——获取筛选栏距离顶部的高度
+    query.select("#search").boundingClientRect((res) => {
+      var scrollTop = res.top + (res.height + 15);//获取的是“场地筛选”标题，所以加上这个标题的高度和margin ，才是筛选框距离顶部的滚动高度
+      if (scrollTop <= this.headerHeight) {
         this.isTop = true;
       }
-      if (top > -this.topHeight) {
+      if (scrollTop > this.headerHeight) {
         this.isTop = false;
       }
-    });
+    }).exec();
+
+    // 获取滑动的场地，滑动20个后，显示悬浮按钮
+    if(this.siteList.length > 20){
+      query.select("#site-20").boundingClientRect((res) => {
+        if(res.top < wx.getSystemInfoSync().windowHeight - this.headerHeight){//顶部距离 < 视口高度 - 头部搜索栏
+          this.showBtn = true;
+        }else{
+          this.showBtn = false;
+        }
+      }).exec();
+    }
+  },
+  onReady(){
+      // 获取头部搜索栏的高度
+      var query = wx.createSelectorQuery();
+      query.select(".search-box").boundingClientRect((res) => {
+        this.headerHeight = res.height;
+      }).exec();
+
+      // 可见区域高度，赋值给场地列表最小高度
+      query.select(".search").boundingClientRect((res) => {//获取筛选框的高度
+        this.searchHeight = res.height;
+        this.wHeight = (wx.getSystemInfoSync().windowHeight - this.headerHeight - this.searchHeight - 20) + 'px';//可见视口高度 - 头部搜索栏高度 - 筛选框高度 - padding-bootom
+      }).exec();
+
+      //场地列表距离顶部的初始高度，跟随筛选条件吸顶上滚
+      wx.createSelectorQuery().select(".site-box").boundingClientRect((res) => {
+        this.siteTop = res.top - this.headerHeight - this.searchHeight;//初始高度 - 头部搜索栏高度 - 筛选框高度  = 上滚距离
+      }).exec();
   },
   onShow(option) {
-    // 获取筛选框距离顶部的高度
-    wx
-      .createSelectorQuery()
-      .select("#search")
-      .boundingClientRect(res => {
-        if (res.top < 350) {
-          //iphone5小机型
-          this.topHeight = res.top + 110;
-        } else {
-          this.topHeight = res.top + 130;
-        }
-      })
-      .exec();
-
+  
+	this.globalData.uid = this.openId
+	console.log(this.globalData)
+  
+    // 获取地理位置授权
+    if(this.locationInfo.address == undefined){
+        wx.getLocation({
+          type: 'gcj02',
+          success: (res) => {
+            this.qqmapsdk.reverseGeocoder({
+              location: {
+                latitude: res.latitude,
+                longitude: res.longitude
+              },
+              success: (addressRes) => {
+                this.$store.commit('SET_LOCATIONINFO',addressRes.result);
+                this.$store.commit('SET_City',{'name': addressRes.result.address_component.city});
+              }
+            })
+          }
+        })
+    }
+      
     // let _self = this;
     // wx.getStorage({
     //   key: "cname",
@@ -547,25 +638,20 @@ export default {
     //     _self.addr = res.data.name || "成都";
     //   }
     // });
-
-    // console.log(this.curCity.name);
+    
 
     this.Request.getActivityListBanner()
       .then(res => {
-        console.log(res);
         this.images = res;
       })
       .catch(res => {
-        console.log(res); //失败
       });
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
-        console.log(res);
         this.siteList = res;
       })
       .catch(res => {
-        console.log(res); //失败
       });
   }
 };
@@ -625,8 +711,8 @@ export default {
   }
 
   .adviser {
-    width: 30px;
-    height: 30px;
+    width: 45rpx;
+    height: 45rpx;
     margin-left: auto;
   }
 }
@@ -709,6 +795,7 @@ export default {
 
 .site {
   padding: 20px 0;
+  position relative
 
   .title-box {
     padding: 0 15px;
@@ -722,17 +809,26 @@ export default {
     position: relative;
 
     span {
-      width: 20%;
+      width:17%;
       text-align: center;
-      font-size: 15px;
+      font-size: 29rpx;
       color: #4f575e;
       display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position relative
+      padding 0 10rpx
 
       img {
         width: 10px;
         height: 10px;
+        position absolute
+        top:50%;
+        transform:translateY(-50%);
+        right 0
       }
-    }
+    }  
 
     .active-span {
       color: #11bcfd;
@@ -748,19 +844,17 @@ export default {
       padding: 10px 0;
       margin-top: 18px;
     }
-
-    .search-popup {
-      // position absolute
-    }
   }
-
   .searchTop {
     position: fixed;
-    top: 49px;
+    top: 98rpx;
     z-index: 10;
     width: 100%;
   }
-
+  .site-boxTop{
+    top: 128rpx;
+    margin-bottom:70px !important;
+  }
   .site-box {
     display: block;
     margin: 0 auto;
@@ -768,6 +862,7 @@ export default {
     border-radius: 7px;
     background-color: #fff;
     padding: 0 15px;
+    position relative
 
     .result-title {
       font-size: 13px;
@@ -780,9 +875,11 @@ export default {
       li {
         border-bottom: 1px solid #f3f3f3;
         padding: 19px 0;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
+        .li-detail{
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+        }
 
         img {
           width: 120px;
@@ -792,11 +889,15 @@ export default {
         }
 
         .right-box {
+          width 60%
           .title {
             padding: 2px;
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 3px;
+            white-space: nowrap; 
+            overflow: hidden;   
+            text-overflow: ellipsis;
           }
 
           .price {
@@ -837,7 +938,7 @@ export default {
 
       .middle {
         background: linear-gradient(to right, #94eafe 0%, #24a8ff 100%);
-        padding: 25px 10px;
+        padding: 25px 0;
         border-radius: 7px;
         text-align: center;
         color: #ffffff;
@@ -871,7 +972,7 @@ export default {
   }
 
   .no-data {
-    margin-top: 30px;
+    margin: 30px 0 50px;
     text-align: center;
     font-size: 12px;
     color: #90959a;
@@ -949,7 +1050,10 @@ export default {
   text-align: center;
   font-size: 12px;
   color: #90959a;
-  margin: 50% 0;
+  position absolute
+  left 50%
+  top 50%
+  transform translate(-50%,-50%)
 
   p {
     margin-bottom: 5px;

@@ -1,7 +1,7 @@
 import requestAll from './request' // 此处，引入存放对promise处理的文件
 import hexMD5 from './md5'
 
-const apiUrl = 'http://39.97.232.129/' 
+const apiUrl = 'https://www.knoworth.com/jdy/' 
 //const apiUrl = 'http://localhost/'
 
 const signKey = "abcdefg1234567"
@@ -48,6 +48,17 @@ class api {
 		let data = {
 			method: "sendSms",
             mobile: mobile,
+		}
+        var sign = hexMD5.signature(data, signKey)
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+	
+	login(mobile,sms){
+		let data = {
+			method: "login",
+            mobile: mobile,
+			sms: sms, 
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
@@ -300,6 +311,16 @@ class api {
     getSpaceListIntroduce(id){
 		let data = {
 			method: "getSpaceListIntroduce",
+            space_list_id: id,
+		}
+        var sign = hexMD5.signature(data, signKey)
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+	
+	getBulletinList(id){
+		let data = {
+			method: "getBulletinList",
             space_list_id: id,
 		}
         var sign = hexMD5.signature(data, signKey)

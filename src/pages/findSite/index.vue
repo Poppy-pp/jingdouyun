@@ -34,7 +34,7 @@
         <div v-show="active == 1">
             <van-cell-group>
             <van-field v-model="area" label="活动城市*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="sitetype" label="场地类型*" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
+            <van-field v-model="showtype" label="场地类型*" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
             <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
             <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
             <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
@@ -79,14 +79,6 @@
     <van-popup :show="showDate" position="bottom" @close="showDate = false" round>
         <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
     </van-popup>
-    <!-- 活动类型 弹出层-->
-    <van-action-sheet :show="showType" :actions="typeActions" @select="onSelectType" @cancel="onCancelType" cancel-text="取消" />
-    <!-- 活动人数 弹出层 -->
-    <van-action-sheet :show="showNum" :actions="numActions" @select="onSelectNum" @cancel="onCancelNum" cancel-text="取消" />
-    <!-- 活动预算 弹出层 -->
-    <van-action-sheet :show="showPrice" :actions="priceActions" @select="onSelectPrice" @cancel="onCancelPrice" cancel-text="取消" />
-    <!-- 场地类型 弹出层 -->
-    <van-action-sheet :show="showSite" :actions="siteActions" @select="onSelectSite" @cancel="onCancelSite" cancel-text="取消" />
     <!-- 提示 -->
     <van-toast :show="showToast" :message="toastMsg"/>
   </div>
@@ -105,57 +97,10 @@ export default {
       showHistory: false,
       showArea: false,
       showDate: false,
-      showType: false,
-      showSite: false,
-      showNum: false,
-      showPrice: false,
       showToast: false,
       toastMsg: "", //提示文字信息
       currentDate: new Date().getTime(), //时间戳格式
       areaList: addressInfo,
-      typeActions: [
-        { name: "不限" },
-        { name: "发布会/颁奖/庆典" },
-        { name: "论坛/推介会/商务会议" },
-        { name: "讲座/沙龙" },
-        { name: "工作会/总结会" },
-        { name: "年会/答谢会" },
-        { name: "聚会/团建/拓展" }
-      ],
-      numActions: [
-        { name: "不限" },
-        { name: "50人以下" },
-        { name: "50-100人" },
-        { name: "100-300人" },
-        { name: "500-1000人" },
-        { name: "1000人以上" }
-      ],
-      priceActions: [
-        { name: "不限" },
-        { name: "1万元以下" },
-        { name: "1万-5万" },
-        { name: "5万-10万" },
-        { name: "10万-20万" },
-        { name: "20万-30万" },
-        { name: "30万-50万" },
-        { name: "50万以上" }
-      ],
-      siteActions: [
-        { name: "不限" },
-        { name: "五星酒店" },
-        { name: "四星酒店" },
-        { name: "三星酒店" },
-        { name: "经济酒店" },
-        { name: "艺术展馆" },
-        { name: "体育场馆" },
-        { name: "会议中心" },
-        { name: "商超/综合体" },
-        { name: "公共空间" },
-        { name: "特色场地" },
-        { name: "剧院影院" },
-        { name: "高端会所" },
-        { name: "餐厅酒吧" }
-      ],
       historyData: [
         //历史订单记录
         {
@@ -212,6 +157,7 @@ export default {
       phone: "",
       sms: "",
       sitetype: "", //场地类型
+      showtype:"",//页面展示场地类型
       addrask: "", //位置要求
       needs: [], //活动需求
       showneeds: "", //页面显示活动需求
@@ -488,50 +434,27 @@ export default {
 
     // 活动类型
     showActionType() {
-      this.showType = true;
+      wx.navigateTo({
+        url: "/pages/findSite/activityType/main"
+      });
     },
-    onSelectType(item) {
-      this.showType = false;
-      this.type = item.target.name;
-    },
-    onCancelType(item) {
-      this.showType = false;
-    },
-
     // 活动人数
     showActionNum() {
-      this.showNum = true;
+      wx.navigateTo({
+        url: "/pages/findSite/activityNum/main"
+      });
     },
-    onSelectNum(item) {
-      this.showNum = false;
-      this.num = item.target.name;
-    },
-    onCancelNum(item) {
-      this.showNum = false;
-    },
-
     // 活动预算
     showActionPrice() {
-      this.showPrice = true;
+      wx.navigateTo({
+        url: "/pages/findSite/activityPrice/main"
+      });
     },
-    onSelectPrice(item) {
-      this.showPrice = false;
-      this.price = item.target.name;
-    },
-    onCancelPrice(item) {
-      this.showPrice = false;
-    },
-
     // 场地类型
     showActionSite() {
-      this.showSite = true;
-    },
-    onSelectSite(item) {
-      this.showSite = false;
-      this.sitetype = item.target.name;
-    },
-    onCancelSite(item) {
-      this.showSite = false;
+      wx.navigateTo({
+        url: "/pages/findSite/siteType/main"
+      });
     },
 
     //初始化数据
@@ -588,13 +511,29 @@ export default {
   onShow() {
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1];
-    if (currPage.data.addrask) {
-      //位置要求
+    if (currPage.data.type) {//活动类型
+      this.type = [];
+      this.type = currPage.data.type;
+    }
+    if (currPage.data.num) {//活动人数
+      this.num = [];
+      this.num = currPage.data.num;
+    }
+    if (currPage.data.price) {//活动人数
+      this.price = [];
+      this.price = currPage.data.price;
+    }
+    if (currPage.data.sitetype) {//场地类型
+      this.sitetype = [];
+      this.showtype = '';
+      this.sitetype = currPage.data.sitetype;
+      this.showtype = currPage.data.showtype;
+    }
+    if (currPage.data.addrask) {//位置要求
       this.addrask = "";
       this.addrask = currPage.data.addrask.text;
     }
-    if (currPage.data.showneeds) {
-      //活动需求
+    if (currPage.data.showneeds) {//活动需求
       this.needs = [];
       this.showneeds = "";
       this.needs = currPage.data.needs;

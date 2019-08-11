@@ -134,14 +134,14 @@ export default {
 }
 .card {
   position relative
-  top -63px
+  top -66px
   display: block;
   margin: 0 auto;
   width: 85%;
   border-radius: 7px;
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  padding: 10px 15px;
+  padding: 15px 15px;
   display:flex;
   flex-direction: row;
   justify-content: space-around ;
@@ -152,8 +152,9 @@ export default {
   text-align:center;
 }
 ._tabimage{
-  width:50px
-  height:40px
+  width:25px;
+  height:25px;
+  margin-bottom:5px;
 }
 .tabText{
   font-size:14px;

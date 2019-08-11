@@ -1,4 +1,4 @@
-<!-- 场地介绍 -->
+<!-- 场地空间 -->
 <template>
    <div class="container">
      <!-- 头部 -->

@@ -3,40 +3,23 @@
    <div class="container">
       <div class="box">
          <div class="person">
-            <img class="avatar" src="/static/images/avatar.jpg" alt="">
+            <img class="avatar" src="/static/images/cooperate.png" alt="">
             <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
             <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
-         <span @click="showBigImg = true"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
+         <span><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
       </div>
       
       <div class="box">
          <div class="person">
-            <img class="avatar" src="/static/images/avatar.jpg" alt="">
+            <img class="avatar" src="/static/images/cooperate.png" alt="">
             <span> 蒲蒲 <i class="needs" v-for="(item,index) in needs" :key="index">{{ item }}</i><i class="small">场地资源方</i></span>
             <div class="circle" @click="onPhoneCall"><img class="phone" src="/static/images/phone-white.png" alt=""></div>
          </div>
          <p class="text">场地的位置很好，交通方便，适合大规模的会议、活动。我们随行的同事都对这个场地十分满意，下次有类似的活动需求还会去这里！</p>
-         <span @click="showBigImg = true"><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
+         <span><Swiperdetail :images="images" :status="status"></Swiperdetail></span>
       </div>
-
-      <!-- 查看图片弹窗 -->
-      <div class="tabs" v-show="showBigImg" >
-         <div class="title">
-            <img class="close" src="/static/images/close.png" @click="showBigImg = false"/>
-            <p>
-               <span v-for="(title,index) in tabTitle" @click="active=index" :class="{active:active == index}" :key="index" >{{title}}</span>
-            </p>
-         </div>
-         <div v-show="active == 0" class="content">
-            <img src="/static/images/site-introduce.png" alt="">
-            <img class="play" src="/static/images/play.png" alt="">
-         </div>
-         <div v-show="active == 1" class="content">
-            <Swiperdetail :images="images" :noplay="true"></Swiperdetail>
-         </div>
-      </div>   
    </div>
 </template>
 
@@ -48,14 +31,11 @@ export default {
          needs:[ "实名认证","企业认证"],
          contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
          images: [
-            { url: "/static/images/site-introduce.png" },
-            { url: "/static/images/site-detail.png" },
-            { url: "/static/images/site-detail.png" }
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/5.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/1.jpg" },
+            { url: "http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201801/jiaoben5647/img/2.jpg" }
          ],
          status:true,
-         showBigImg:false,
-         active:0,
-         tabTitle:['视频','图片'],
        }
    },
   components: { Swiperdetail },
@@ -68,7 +48,10 @@ export default {
       })
     },
   },
-  created(){}
+  created(){},
+  onReady(){
+     this.wHeight = wx.getSystemInfoSync().windowHeight + 'px';
+  }
 }
 </script>
 
@@ -76,6 +59,7 @@ export default {
 .container{
    padding 10px 15px
    position relative
+   overflow scroll
    .box{
       padding 10px 15px 25px
       border-bottom 1px solid #f3f3f3
@@ -128,49 +112,6 @@ export default {
          margin-bottom 12px
       }
    }
-   .tabs{
-      position absolute
-      top 0
-      left 0
-      padding 20px 0
-      background-color #000
-      width:100%;
-      height:100%;
-      .close{
-         width 20px
-         height 20px
-         float:left;
-      }
-      .title{
-         width 92% !important
-         color #ffffff
-         font-size:15px;
-         padding:5px 15px;
-         text-align:center;
-         span{
-            margin:0 10px;
-            padding-bottom:5px;
-         }
-         .active{
-            border-bottom 1px solid #ffffff
-         }
-      }
-      .content{
-         width 100%
-         margin-top 35%
-         position relative
-         img{
-            width 100%
-         }
-         .play{
-            width 50px
-            height 50px
-            position absolute
-            top 50%
-            left 50%
-            transform translate(-50%,-50%)
-         }
-      }
-   }
+   
 }
 </style>

@@ -74,11 +74,12 @@ export default {
     height 250px
   }
   .title{
-    font-size 23px
+    font-size 46rpx
     color #ffffff
     position absolute
     bottom 10%
-    left 15px
+    left 24rpx
+    padding:0 5px;
   }
 }
 .content{
@@ -94,11 +95,15 @@ export default {
     margin-right 10px
   }
   .right-box{
+    width 65%
     .title{
       padding 2px
       font-weight bold
       font-size 16px
       margin-bottom 3px
+      white-space: nowrap; 
+      overflow: hidden;   
+      text-overflow: ellipsis;
     }
     .result-title{
       margin-left 4px

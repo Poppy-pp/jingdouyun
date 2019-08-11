@@ -188,6 +188,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-self: flex-end;
+  margin-top:-40rpx;
+
   .confirm, .cancel, .again {
     width: 40%;
     display: inline-block;

@@ -22,7 +22,10 @@ export default {
       });
     }
   },
-  mounted() {},
+  mounted() {
+	this.phone =  this.globalData.uid
+  
+  },
   created() {}
 };
 </script>
