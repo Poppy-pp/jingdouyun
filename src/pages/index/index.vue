@@ -393,10 +393,12 @@ export default {
     },
     // 区域——点击一级菜单
     onClickNav(e) {
+      console.log(e)
       this.mainActiveIndex = e.mp.detail.index;
     },
     // 区域——点击子集
     onClickItem(e) {
+      console.log(e)
       this.activeId = e.mp.detail.id;
       this.showPopup = false;
       // this.area = this.activeId;
