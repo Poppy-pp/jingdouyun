@@ -4,9 +4,13 @@ var memoize = require('./memoize.wxs').memoize;
 function isSrc(url) {
   return url.indexOf('http') === 0 || url.indexOf('data:image') === 0 || url.indexOf('//') === 0;
 }
+function isActivce(ac,id) {
+  return ac == id || ac.indexOf(id) != -1
+}
 
 module.exports = {
   bem: memoize(bem),
+  isActivce:isActivce,
   isSrc: isSrc,
   memoize: memoize
 };

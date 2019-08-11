@@ -44,6 +44,7 @@ VantComponent({
         // 当一个子项被选择时
         onSelectItem(event) {
             const { item } = event.currentTarget.dataset;
+            console.log(event)
             if (!item.disabled) {
                 this.$emit('clickItem', item);
             }

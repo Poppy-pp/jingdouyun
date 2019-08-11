@@ -443,11 +443,6 @@ export default {
     },
     // 区域——点击子集
     onClickItem(e) {
-<<<<<<< HEAD
-      console.log(e)
-      this.activeId = e.mp.detail.id;
-=======
->>>>>>> 5a946e7b15f3b24ba39be291a7a1e9b89f223318
       this.showPopup = false;
       this.activeId = e.mp.detail.id;
       this.searchTitle[this.chooseSearchIndex] = e.mp.detail.text;

@@ -1,7 +1,9 @@
 <!-- 找场地-首页 -->
 <template>
   <div class="container">
-    <div class="title-radius"><p class="title-text">活动场地一站式服务</p></div>
+    <div class="title-radius">
+      <p class="title-text">活动场地一站式服务</p>
+    </div>
 
     <!-- 首页 -->
     <div id="tab-box" v-if="!showHistory">
@@ -14,35 +16,135 @@
         >{{title}}</li>
       </ul>
       <div class="tab-content">
-          <!-- tab页一 -->
+        <!-- tab页一 -->
         <div v-show="active == 0">
           <van-cell-group>
-            <van-field v-model="area" label="活动城市*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="type" label="活动类型*" is-link @click="showActionType" readonly="readonly" placeholder="请选择活动类型"/>
-            <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="phone" type="number" clearable label="联系电话*" placeholder="请输入手机号" @input="inputPhone"> <i slot="button" class="sms-code" @click.stop="getCode" >{{ smsCodeText }}</i> </van-field>
-            <van-field v-model="sms" type="number" clearable label="验证码*" placeholder="请输入验证码" @input="inputSms"/>
+            <van-field
+              v-model="area"
+              label="活动城市*"
+              is-link
+              @click="showPopupArea"
+              readonly="readonly"
+              placeholder="请选择活动城市"
+            />
+            <van-field
+              v-model="type"
+              label="活动类型*"
+              is-link
+              @click="showActionType"
+              readonly="readonly"
+              placeholder="请选择活动类型"
+            />
+            <van-field
+              v-model="date"
+              label="活动时间*"
+              is-link
+              @click="showPopupDate"
+              readonly="readonly"
+              placeholder="请选择活动时间"
+            />
+            <van-field
+              v-model="num"
+              label="活动人数*"
+              is-link
+              @click="showActionNum"
+              readonly="readonly"
+              placeholder="请选择活动人数"
+            />
+            <van-field
+              v-model="price"
+              label="活动预算*"
+              is-link
+              @click="showActionPrice"
+              readonly="readonly"
+              placeholder="请选择活动预算"
+            />
+            <van-field
+              v-model="phone"
+              type="number"
+              clearable
+              label="联系电话*"
+              placeholder="请输入手机号"
+              @input="inputPhone"
+            >
+              <i slot="button" class="sms-code" @click.stop="getCode">{{ smsCodeText }}</i>
+            </van-field>
+            <van-field
+              v-model="sms"
+              type="number"
+              clearable
+              label="验证码*"
+              placeholder="请输入验证码"
+              @input="inputSms"
+            />
             <button class="free-btn" @click="findSite">
-                <p class="title">免费帮我找场地</p>
-                <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
+              <p class="title">免费帮我找场地</p>
+              <p class="desc">5s提交场地需求-10分钟场地顾问致电-25分钟接收场地方案</p>
             </button>
           </van-cell-group>
         </div>
         <!-- tab页二 -->
         <div v-show="active == 1">
-            <van-cell-group>
-            <van-field v-model="area" label="活动城市*" is-link @click="showPopupArea" readonly="readonly" placeholder="请选择活动城市"/>
-            <van-field v-model="showtype" label="场地类型*" is-link @click="showActionSite" readonly="readonly" placeholder="请选择场地类型"/>
-            <van-field v-model="date" label="活动时间*" is-link @click="showPopupDate" readonly="readonly" placeholder="请选择活动时间"/>
-            <van-field v-model="num" label="活动人数*" is-link @click="showActionNum" readonly="readonly" placeholder="请选择活动人数"/>
-            <van-field v-model="price" label="活动预算*" is-link @click="showActionPrice" readonly="readonly" placeholder="请选择活动预算"/>
-            <van-field v-model="addrask" label="位置要求*" is-link @click="goAreaAsk" readonly="readonly" placeholder="请选择位置要求"/>
-            <van-field v-model="showneeds" label="活动需求*" is-link @click="goActivityNeeds" readonly="readonly" placeholder="请选择活动需求"/>
+          <van-cell-group>
+            <van-field
+              v-model="area"
+              label="活动城市*"
+              is-link
+              @click="showPopupArea"
+              readonly="readonly"
+              placeholder="请选择活动城市"
+            />
+            <van-field
+              v-model="showtype"
+              label="场地类型*"
+              is-link
+              @click="showActionSite"
+              readonly="readonly"
+              placeholder="请选择场地类型"
+            />
+            <van-field
+              v-model="date"
+              label="活动时间*"
+              is-link
+              @click="showPopupDate"
+              readonly="readonly"
+              placeholder="请选择活动时间"
+            />
+            <van-field
+              v-model="num"
+              label="活动人数*"
+              is-link
+              @click="showActionNum"
+              readonly="readonly"
+              placeholder="请选择活动人数"
+            />
+            <van-field
+              v-model="price"
+              label="活动预算*"
+              is-link
+              @click="showActionPrice"
+              readonly="readonly"
+              placeholder="请选择活动预算"
+            />
+            <van-field
+              v-model="addrask"
+              label="位置要求*"
+              is-link
+              @click="goAreaAsk"
+              readonly="readonly"
+              placeholder="请选择位置要求"
+            />
+            <van-field
+              v-model="showneeds"
+              label="活动需求*"
+              is-link
+              @click="goActivityNeeds"
+              readonly="readonly"
+              placeholder="请选择活动需求"
+            />
             <button class="free-btn" @click="recommendSite">
-                <p class="title">智能速配</p>
-                <p class="desc">5s生成场地方案</p>
+              <p class="title">智能速配</p>
+              <p class="desc">5s生成场地方案</p>
             </button>
           </van-cell-group>
           <i class="describe">今天已有***人发布需求</i>
@@ -59,28 +161,39 @@
       <div class="card" v-for="(item,index) in historyData" :key="index" @click="goDetail(item)">
         <p class="title">{{ item.area }}</p>
         <i class="needs" v-for="(item2,index2) in item.needs" :key="index2">{{ item2.title }}</i>
-        <p class="date">{{ item.date + '&emsp;' +  item.num + '&emsp;' + item.price }}</p>
-        <p class="date creat-time">2019.05.27 12:32生成方案<span :class="item.status == '0' ? 'cancel' : ''">{{ item.statusname }}</span></p>
+        <p class="date">{{ item.date + '&emsp;' + item.num + '&emsp;' + item.price }}</p>
+        <p class="date creat-time">
+          2019.05.27 12:32生成方案
+          <span
+            :class="item.status == '0' ? 'cancel' : ''"
+          >{{ item.statusname }}</span>
+        </p>
       </div>
-
     </div>
 
     <!-- 分割线 -->
-    <div class="footer-box" @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd'>
+    <div class="footer-box" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
       <p class="divider">— 鲸抖云·让活动变得简单 —</p>
       <i class="pull-down" v-if="!showHistory">上划查看历史需求订单</i>
     </div>
 
     <!-- 省市区 弹出层 -->
     <van-popup :show="showArea" position="bottom" @close="showArea = false" round>
-        <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel"/>
+      <van-area :area-list="areaList" title="省市区" @confirm="onAddrConfirm" @cancel="onAddrCancel" />
     </van-popup>
     <!-- 选择时间 弹出层 -->
     <van-popup :show="showDate" position="bottom" @close="showDate = false" round>
-        <van-datetime-picker v-model="currentDate" title="活动时间" type="date" :min-date="currentDate" @confirm="onDateConfirm" @cancel="onDateCancel" />
+      <van-datetime-picker
+        v-model="currentDate"
+        title="活动时间"
+        type="date"
+        :min-date="currentDate"
+        @confirm="onDateConfirm"
+        @cancel="onDateCancel"
+      />
     </van-popup>
     <!-- 提示 -->
-    <van-toast :show="showToast" :message="toastMsg"/>
+    <van-toast :show="showToast" :message="toastMsg" />
   </div>
 </template>
 
@@ -157,7 +270,7 @@ export default {
       phone: "",
       sms: "",
       sitetype: "", //场地类型
-      showtype:"",//页面展示场地类型
+      showtype: "", //页面展示场地类型
       addrask: "", //位置要求
       needs: [], //活动需求
       showneeds: "", //页面显示活动需求
@@ -511,29 +624,42 @@ export default {
   onShow() {
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1];
-    if (currPage.data.type) {//活动类型
+    if (currPage.data.type) {
+      //活动类型
       this.type = [];
       this.type = currPage.data.type;
     }
-    if (currPage.data.num) {//活动人数
+    if (currPage.data.num) {
+      //活动人数
       this.num = [];
       this.num = currPage.data.num;
     }
-    if (currPage.data.price) {//活动人数
+    if (currPage.data.price) {
+      //活动人数
       this.price = [];
       this.price = currPage.data.price;
     }
-    if (currPage.data.sitetype) {//场地类型
+    if (currPage.data.sitetype) {
+      //场地类型
       this.sitetype = [];
-      this.showtype = '';
+      this.showtype = "";
       this.sitetype = currPage.data.sitetype;
       this.showtype = currPage.data.showtype;
     }
-    if (currPage.data.addrask) {//位置要求
+    console.log(currPage.data);
+    if (currPage.data.addrask) {
+      //位置要求
       this.addrask = "";
-      this.addrask = currPage.data.addrask.text;
+      currPage.data.addrask.forEach(item => {
+        if (this.addrask == "") {
+          this.addrask = item.text;
+        } else {
+          this.addrask += "/" + item.text;
+        }
+      });
     }
-    if (currPage.data.showneeds) {//活动需求
+    if (currPage.data.showneeds) {
+      //活动需求
       this.needs = [];
       this.showneeds = "";
       this.needs = currPage.data.needs;
