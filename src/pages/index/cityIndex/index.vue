@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- <div class="containerTop"> -->
-      <!-- <div class="search">
+    <!-- <div class="search">
         <div :class="isInput?'search-left col-8':'search-left'">
           <i-icon type="search" i-class="icon-b" size="24" />
           <i-input
@@ -15,46 +15,61 @@
           />
         </div>
         <div v-show="isInput" class="search-right" @click="isInput=false">取消</div>
-      </div> -->
-      <!-- <div class="tabs">
+    </div>-->
+    <!-- <div class="tabs">
                 <i-tabs :current="current" @change="tabsSelect" color="#19be6b">
                     <i-tab key="1" title="国内" i-class="tab"></i-tab>
                     <i-tab key="2" title="海外" i-class="tab"></i-tab>
                 </i-tabs>
-      </div>-->
-      
-      <!--索引index组件-->
-      <div class="view" v-show="!isInput">
-        <i-index class="i_indexsss" height="100%" v-if="siteList&&current==1" :scrollTop="scrollTop" @change="onChange">
-          <template v-for="(item,index) in siteList">
-            <i-index-item :key="index" :name="item.key" v-if="item.key != '热门'">
-              <div
-                class="i-index-demo-item"
-                @click="setSite(item1,'name')"
-                v-for="(item1,inx) in item.list"
-                :key="inx"
-              >{{item1.name}}</div>
-            </i-index-item>
-            <i-index-item :key="index" :name="item.key" v-else>
-              <div class="curcity" @click="clickCurCity">
-                <div class="title">当前城市</div>
-                <h3><i-icon type="coordinates_fill" size="24" color="#13bdfd"/>{{ locationInfo.address_component.city }}</h3>
-              </div>
-              <!--热门城市-->
-              <div class="hot" v-show="!isInput">
-                <div class="title">热门城市</div>
-                <i-row>
-                  <i-col span="8" v-for="(item,index1) in hotList" v-if="index1<12" :key="index1">
-                    <div class="x-btn" @click="setSite(item,'name')" style="color:#13bdfd" v-if="curCity&&curCity.name == item.name">{{item.name}}</div>
-                    <div class="x-btn" @click="setSite(item,'name')" v-else>{{item.name}}</div>
-                  </i-col>
-                </i-row>
-              </div>
-            </i-index-item>
-          </template>
-         
-        </i-index>
-        <!-- <i-index height="100%" v-if="siteList&&current==2" :scrollTop="scrollTop">
+    </div>-->
+    <!-- <div style="width:100%;text-align:center;margin-top:20px;" v-if="loading">
+      <van-loading type="spinner" color="#56c6ff" />
+    </div> -->
+    <!--索引index组件-->
+    <div class="view" v-show="!isInput">
+      <i-index
+        class="i_indexsss"
+        height="100%"
+        v-if="siteList&&current==1"
+        :scrollTop="scrollTop"
+        @change="onChange"
+      >
+        <template v-for="(item,index) in siteList">
+          <i-index-item :key="index" :name="item.key" v-if="item.key != '热门'">
+            <div
+              class="i-index-demo-item"
+              @click="setSite(item1,'name')"
+              v-for="(item1,inx) in item.list"
+              :key="inx"
+            >{{item1.name}}</div>
+          </i-index-item>
+          <i-index-item :key="index" :name="item.key" v-else>
+            <div class="curcity" @click="clickCurCity">
+              <div class="title">当前城市</div>
+              <h3>
+                <i-icon type="coordinates_fill" size="24" color="#13bdfd" />
+                {{ locationInfo.address_component.city }}
+              </h3>
+            </div>
+            <!--热门城市-->
+            <div class="hot" v-show="!isInput">
+              <div class="title">热门城市</div>
+              <i-row>
+                <i-col span="8" v-for="(item,index1) in hotList" v-if="index1<12" :key="index1">
+                  <div
+                    class="x-btn"
+                    @click="setSite(item,'name')"
+                    style="color:#13bdfd"
+                    v-if="curCity&&curCity.name == item.name"
+                  >{{item.name}}</div>
+                  <div class="x-btn" @click="setSite(item,'name')" v-else>{{item.name}}</div>
+                </i-col>
+              </i-row>
+            </div>
+          </i-index-item>
+        </template>
+      </i-index>
+      <!-- <i-index height="100%" v-if="siteList&&current==2" :scrollTop="scrollTop">
           <i-index-item v-for="(item,index) in siteList" :key="index" :name="item.key">
             <div
               class="i-index-demo-item"
@@ -63,15 +78,15 @@
               :key="inx"
             >{{item1.name}}</div>
           </i-index-item>
-        </i-index> -->
-      </div>
+      </i-index>-->
     </div>
-    <!--搜索列表-->
-    <!-- <div class="search-list" v-show="isInput">
+  </div>
+  <!--搜索列表-->
+  <!-- <div class="search-list" v-show="isInput">
       <i-cell-group v-for="(item,index) in searchList" :key="index">
         <i-cell is-link :title="item.name" i-class="bor-b" @click="setSite(item,'name')"></i-cell>
       </i-cell-group>
-    </div> -->
+  </div>-->
   <!-- </div> -->
 </template>
 <script>
@@ -119,8 +134,10 @@ export default {
       this.search();
     },
     // 点击当前城市
-    clickCurCity(){
-      this.$store.commit('SET_City',{'name': this.locationInfo.address_component.city});
+    clickCurCity() {
+      this.$store.commit("SET_City", {
+        name: this.locationInfo.address_component.city
+      });
       wx.navigateBack();
     },
     //点击搜索列表
@@ -129,7 +146,7 @@ export default {
         city: item[filed],
         ...item,
         showCon: true,
-        name: item[filed] + '市'
+        name: item[filed] + "市"
       };
       // if (this.current == 1) {
       //   data.nation = "中国";
@@ -194,6 +211,10 @@ export default {
     }
   },
   onShow() {
+    // this.$toast.loading({
+    //   mask: true,
+    //   message: '加载中...'
+    // });
     this.init(cities);
   },
   onLoad() {
@@ -343,7 +364,7 @@ view {
 }
 .i-index-demo-item {
   padding: 40rpx 0;
-  margin:0 48rpx;
+  margin: 0 48rpx;
   border-bottom: 2rpx solid #f4f4f4;
 }
 .i-index-demo-item:last-child {

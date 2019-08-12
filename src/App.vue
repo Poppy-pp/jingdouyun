@@ -1,3 +1,6 @@
+<template>
+  <van-loading type="spinner" color="#fff" />
+</template>
 <script>
 export default {
   created () {

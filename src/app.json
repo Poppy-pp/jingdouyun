@@ -48,6 +48,7 @@
     "van-icon": "../static/vant/icon/index",
     "van-dialog": "../static/vant/dialog/index",
     "van-tree-select": "../static/vant/tree-select/index",
+    "van-loading": "../static/vant/loading/index",
     "i-index": "../static/iview/index/index",
     "i-index-item": "../static/iview/index-item/index",
     "i-cell": "../static/iview/cell/index",
