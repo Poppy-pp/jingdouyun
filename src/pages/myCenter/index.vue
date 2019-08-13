@@ -46,8 +46,8 @@
       </div>
     </div>
     <div class="my-metion">— 鲸抖云·让活动变的简单 —</div>
-
-    <van-tabbar :active="tabactive">
+    <div class="van-tabbar--fixed1"></div>
+    <!-- <van-tabbar :active="tabactive">
       <van-tabbar-item
         v-for="(item,index) in tabList"
         :key="index"
@@ -60,7 +60,7 @@
         item.text
         }}
       </van-tabbar-item>
-    </van-tabbar>
+    </van-tabbar> -->
   </div>
 </template>
 
@@ -68,38 +68,12 @@
 export default {
   data() {
     return {
-      tabList: [
-        {
-          text: "找场地",
-          pagePath: "/pages/findSite/main",
-          iconPath: "/static/tabs/find.png",
-          selectedIconPath: "/static/tabs/find-active.png"
-        },
-        {
-          text: "鲸选",
-          pagePath: "/pages/index/main",
-          iconPath: "/static/tabs/home.png",
-          selectedIconPath: "/static/tabs/home-active.png"
-        },
-        {
-          text: "我的",
-          pagePath: "/pages/myCenter/main",
-          iconPath: "/static/tabs/my.png",
-          selectedIconPath: "/static/tabs/my-active.png"
-        }
-      ],
-      tabactive:2,
       contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
     }
   },
   components: {},
   computed:{},
   methods:{
-    tabChange(url) {
-      wx.switchTab({
-        url: url
-      });
-    },
     // 跳转到热门
     goHot(data){
       wx.navigateTo({
@@ -145,6 +119,17 @@ export default {
 .container .title-radius{
   height 120px
   padding-top 0
+}
+.van-tabbar--fixed1 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #f6f7f8;
+  border-top-left-radius:50px;
+  border-top-right-radius: 50px;
+  width: 100%;
+  height: 10px;
+  z-index 1111
 }
 .infomation{
   width:85%;

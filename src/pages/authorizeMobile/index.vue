@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -31,14 +32,25 @@ export default {
     };
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapState({
+      openId: state => state.openId
+    })
+  },
   methods: {},
   created() {
-    wx.login({
-      success: function(res) {
-        console.log("用户凭证code：", res.code);
-      }
-    });
+    console.log(this.openId);
+    if (this.openId) {
+      wx.switchTab({
+        url: "/pages/index/main"
+      });
+    } else {
+      wx.login({
+        success: function(res) {
+          console.log("用户凭证code：", res.code);
+        }
+      });
+    }
   }
 };
 </script>
@@ -56,13 +68,13 @@ export default {
   display: flex;
   align-items: center;
   font-size: 14px;
-  color #333333
+  color: #333333;
 }
 
 .pop .title img {
   width: 20px;
   height: 20px;
-  margin-right 5px
+  margin-right: 5px;
 }
 
 .pop .type {
@@ -97,7 +109,7 @@ van-cell {
   display: inline-block;
   font-size: 14px;
   line-height: 35px;
-  border-radius 3px
+  border-radius: 3px;
 }
 
 .pop .refuse {

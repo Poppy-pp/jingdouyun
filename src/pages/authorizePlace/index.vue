@@ -53,6 +53,8 @@ export default {
       key: 'ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII'
     });
   },
+  onShow(){
+  }
 }
 </script>
 

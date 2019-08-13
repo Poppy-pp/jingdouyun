@@ -9,7 +9,6 @@ App.mpType = 'app'
 import api from './utils/api'
 Vue.prototype.$api = api
 Vue.prototype.$store = store;
-wx.hideTabBar()
 const app = new Vue(App)
 app.$mount()
 

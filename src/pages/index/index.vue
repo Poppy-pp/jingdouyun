@@ -137,6 +137,8 @@
     <!-- 搜索提示 -->
     <van-toast :show="showToast" :message="toastMsg" />
 
+    <div class="van-tabbar--fixed1"></div>
+    <!-- 
     <van-tabbar :active="selectNavIndex">
       <van-tabbar-item
         v-for="(item,index) in tabList"
@@ -150,7 +152,7 @@
         item.text
         }}
       </van-tabbar-item>
-    </van-tabbar>
+    </van-tabbar>-->
   </div>
 </template>
 
@@ -604,9 +606,6 @@ export default {
     mpvue.hideLoading();
   },
   created() {
-    mpvue.showLoading({
-      title: "加载中"
-    });
     // 实例化API核心类
     this.qqmapsdk = new QQMapWX({
       key: "ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII"
@@ -684,6 +683,9 @@ export default {
       .exec();
   },
   onShow(option) {
+    mpvue.showLoading({
+      title: "加载中"
+    });
     this.globalData.uid = this.openId;
     // 获取地理位置授权
     if (this.locationInfo.address == undefined) {
@@ -733,6 +735,17 @@ export default {
 <style scoped lang="stylus">
 .container {
   position: relative;
+}
+.van-tabbar--fixed1 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #f6f7f8;
+  border-top-left-radius:50px;
+  border-top-right-radius: 50px;
+  width: 100%;
+  height: 10px;
+  z-index 1111
 }
 
 .search-box {

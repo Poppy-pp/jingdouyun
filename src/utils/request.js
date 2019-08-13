@@ -2,7 +2,7 @@ const Promise = require('es6-promise').Promise
 
 function wxPromisify(fn) {
 	wx.showLoading({
-		title: '加载中',
+		title: '加1载中',
 	})
 	return function (obj = {}) {
 		return new Promise((resolve, reject) => {

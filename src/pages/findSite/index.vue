@@ -194,21 +194,7 @@
     </van-popup>
     <!-- 提示 -->
     <van-toast :show="showToast" :message="toastMsg" />
-
-    <van-tabbar :active="tabactive">
-      <van-tabbar-item
-        v-for="(item,index) in tabList"
-        :key="index"
-        :name="index"
-        @click="tabChange(item.pagePath)"
-      >
-        <image slot="icon" :src="item.iconPath" mode="aspectFit" />
-        <image slot="icon-active" :src="item.selectedIconPath" mode="aspectFit" />
-        {{
-        item.text
-        }}
-      </van-tabbar-item>
-    </van-tabbar>
+    <div class="van-tabbar--fixed1"></div>
   </div>
 </template>
 
@@ -218,27 +204,6 @@ import { formatTime } from "@/utils/index";
 export default {
   data() {
     return {
-      tabList: [
-        {
-          text: "找场地",
-          pagePath: "/pages/findSite/main",
-          iconPath: "/static/tabs/find.png",
-          selectedIconPath: "/static/tabs/find-active.png"
-        },
-        {
-          text: "鲸选",
-          pagePath: "/pages/index/main",
-          iconPath: "/static/tabs/home.png",
-          selectedIconPath: "/static/tabs/home-active.png"
-        },
-        {
-          text: "我的",
-          pagePath: "/pages/myCenter/main",
-          iconPath: "/static/tabs/my.png",
-          selectedIconPath: "/static/tabs/my-active.png"
-        }
-      ],
-      tabactive:0,
       active: 0,
       touchS: [0, 0], //滑动开始位置x,y
       touchE: [0, 0], //滑动结束位置x,y
@@ -320,11 +285,6 @@ export default {
   computed: {},
 
   methods: {
-    tabChange(url) {
-      wx.switchTab({
-        url: url
-      });
-    },
     //获取验证码
     getCode() {
       if (this.time != 60) return;
@@ -720,7 +680,17 @@ export default {
   background-color: #fff;
   padding: 0 0 10px 0;
 }
-
+.van-tabbar--fixed1 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #f6f7f8;
+  border-top-left-radius:50px;
+  border-top-right-radius: 50px;
+  width: 100%;
+  height: 10px;
+  z-index 1111
+}
 .tab-tilte {
   width: 100%;
 }

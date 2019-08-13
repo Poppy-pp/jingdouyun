@@ -213,12 +213,10 @@ export default {
       }, 2000);
     }
   },
-  created() {
+  onShow() {
     mpvue.showLoading({
       title: "加载中"
     });
-  },
-  onShow() {
     this.init(cities);
   },
   onReady() {},

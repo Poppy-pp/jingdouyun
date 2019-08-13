@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/authorizeMobile/main",
+    "pages/login/main",
+    "pages/authorizePlace/main",
     "pages/index/main",
     "pages/logs/main",
     "pages/findSite/main",
     "pages/myCenter/main",
-    "pages/login/main",
-    "pages/authorizeMobile/main",
-    "pages/authorizePlace/main",
     "pages/findSite/freeDetail/main",
     "pages/findSite/mindRecommend/main",
     "pages/findSite/areaAsk/main",
@@ -69,7 +69,6 @@
   "tabBar": {
     "color": "#999",
     "backgroundColor": "#f6f7f8",
-    "height": "120px",
     "selectedColor": "#10bffe",
     "borderStyle": "white",
     "list": [{

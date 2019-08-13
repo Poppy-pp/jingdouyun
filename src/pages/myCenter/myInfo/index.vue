@@ -1,9 +1,9 @@
 <!-- 个人信息-->
 <template>
-   <div class="container">
-      <van-field v-model="phone" label="手机号" readonly="true"  />
-      <button class="free-btn" @click="loginOut">退出登录</button>
-   </div>
+  <div class="container">
+    <van-field v-model="phone" label="手机号" readonly="true" />
+    <button class="free-btn" @click="loginOut">退出登录</button>
+  </div>
 </template>
 
 <script>
@@ -17,14 +17,14 @@ export default {
   computed: {},
   methods: {
     loginOut() {
-      wx.navigateTo({
+      this.$store.commit("SET_OPEN_ID", "");
+      wx.reLaunch({
         url: "/pages/login/main"
       });
     }
   },
   mounted() {
-	this.phone =  this.globalData.uid
-  
+    this.phone = this.globalData.uid;
   },
   created() {}
 };
@@ -32,19 +32,19 @@ export default {
 
 <style lang="stylus" scoped>
 .container {
-    .free-btn {
-        background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
-        width: 95%;
-        color: #fff;
-        padding: 6px 0;
-        margin-top: 15px;
-        border-radius: 3px;
-        font-size: 14px;
-    }
+  .free-btn {
+    background: linear-gradient(to right, #02d5fc 0%, #1fa5ff 100%);
+    width: 95%;
+    color: #fff;
+    padding: 6px 0;
+    margin-top: 15px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
 
-    .free-btn::after {
-        border: none;
-        outline: none;
-    }
+  .free-btn::after {
+    border: none;
+    outline: none;
+  }
 }
 </style>
