@@ -137,12 +137,12 @@
     <!-- 搜索提示 -->
     <van-toast :show="showToast" :message="toastMsg" />
 
-    <van-tabbar :active="active">
+    <van-tabbar :active="selectNavIndex">
       <van-tabbar-item
         v-for="(item,index) in tabList"
         :key="index"
         :name="index"
-        @click="tabChange(item.pagePath)"
+        @click="tabChange(index,item.pagePath)"
       >
         <image slot="icon" :src="item.iconPath" mode="aspectFit" />
         <image slot="icon-active" :src="item.selectedIconPath" mode="aspectFit" />
@@ -169,6 +169,7 @@ export default {
   },
   data() {
     return {
+      ctoast: null,
       tabList: [
         {
           text: "找场地",
@@ -189,7 +190,7 @@ export default {
           selectedIconPath: "/static/tabs/my-active.png"
         }
       ],
-      active: 1,
+      selectNavIndex: 1,
       qqmapsdk: null, //授权地理位置
       isTop: false, //是否置顶
       showBtn: false, //悬浮按钮
@@ -384,8 +385,11 @@ export default {
     };
   },
   methods: {
-    tabChange(url) {
-      wx.navigateTo({
+    tabChange(index, url) {
+      if (index === this.selectNavIndex) {
+        return false;
+      }
+      wx.switchTab({
         url: url
       });
     },
@@ -588,19 +592,21 @@ export default {
       });
     }
   },
-
-  mounted: function() {
+  mounted() {
+    if (this.ctoast) this.ctoast.clear();
     this.Request.getSpaceTypeSearchItem()
       .then(res => {
-        console.log(res);
         this.typeList = res;
       })
       .catch(res => {
         console.log(res); //失败
       });
+    mpvue.hideLoading();
   },
-
   created() {
+    mpvue.showLoading({
+      title: "加载中"
+    });
     // 实例化API核心类
     this.qqmapsdk = new QQMapWX({
       key: "ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII"
@@ -609,6 +615,7 @@ export default {
   //监听屏幕滚动
   onPageScroll(ev) {
     var query = wx.createSelectorQuery();
+    console.log(ev);
     // 滚动时——获取筛选栏距离顶部的高度
     query
       .select("#search")
@@ -642,6 +649,7 @@ export default {
     }
   },
   onReady() {
+    if (this.ctoast) this.ctoast.clear();
     // 获取头部搜索栏的高度
     var query = wx.createSelectorQuery();
     query
@@ -677,8 +685,6 @@ export default {
   },
   onShow(option) {
     this.globalData.uid = this.openId;
-    console.log(this.globalData);
-
     // 获取地理位置授权
     if (this.locationInfo.address == undefined) {
       wx.getLocation({
@@ -690,6 +696,7 @@ export default {
               longitude: res.longitude
             },
             success: addressRes => {
+              mpvue.hideLoading();
               this.$store.commit("SET_LOCATIONINFO", addressRes.result);
               this.$store.commit("SET_City", {
                 name: addressRes.result.address_component.city
@@ -719,7 +726,8 @@ export default {
         this.siteList = res;
       })
       .catch(res => {});
-  }
+  },
+  onLoad() {}
 };
 </script>
 <style scoped lang="stylus">
@@ -729,7 +737,7 @@ export default {
 
 .search-box {
   width: 95%;
-  height: 30px;
+  height: 31px;
   background-color: #56c6ff;
   padding: 10px;
   display: flex;

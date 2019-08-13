@@ -195,7 +195,6 @@
     <!-- 提示 -->
     <van-toast :show="showToast" :message="toastMsg" />
 
-
     <van-tabbar :active="tabactive">
       <van-tabbar-item
         v-for="(item,index) in tabList"
@@ -299,6 +298,7 @@ export default {
           ]
         }
       ],
+      ctoast:null,
       area: "", //选择的城市信息
       type: "", //活动类型
       date: "",
@@ -321,7 +321,7 @@ export default {
 
   methods: {
     tabChange(url) {
-      wx.navigateTo({
+      wx.switchTab({
         url: url
       });
     },
@@ -625,7 +625,6 @@ export default {
   },
   mounted() {
     this.clearData();
-
     this.Request.getActivityType()
       .then(res => {
         console.log(res);
@@ -662,7 +661,6 @@ export default {
         console.log(res); //失败
       });
   },
-  created() {},
   onShow() {
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1];

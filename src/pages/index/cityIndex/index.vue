@@ -24,7 +24,7 @@
     </div>-->
     <!-- <div style="width:100%;text-align:center;margin-top:20px;" v-if="loading">
       <van-loading type="spinner" color="#56c6ff" />
-    </div> -->
+    </div>-->
     <!--索引index组件-->
     <div class="view" v-show="!isInput">
       <i-index
@@ -208,15 +208,20 @@ export default {
         });
       });
       this.siteList = storeCity;
+      setTimeout(() => {
+        mpvue.hideLoading();
+      }, 2000);
     }
   },
+  created() {
+    mpvue.showLoading({
+      title: "加载中"
+    });
+  },
   onShow() {
-    // this.$toast.loading({
-    //   mask: true,
-    //   message: '加载中...'
-    // });
     this.init(cities);
   },
+  onReady() {},
   onLoad() {
     // let than = this;
     // wx.getSystemInfo({

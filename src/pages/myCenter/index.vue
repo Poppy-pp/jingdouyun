@@ -96,7 +96,7 @@ export default {
   computed:{},
   methods:{
     tabChange(url) {
-      wx.navigateTo({
+      wx.switchTab({
         url: url
       });
     },
@@ -136,8 +136,7 @@ export default {
         url: '/pages/myCenter/optionBack/main',
       })
     }
-  },
-  created(){}
+  }
 }
 </script>
 

@@ -72,7 +72,6 @@
     "height": "120px",
     "selectedColor": "#10bffe",
     "borderStyle": "white",
-    "borderTopLeftRadius": "50px",
     "list": [{
       "text": "找场地",
       "pagePath": "pages/findSite/main",
