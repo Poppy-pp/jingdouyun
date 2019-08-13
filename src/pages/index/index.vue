@@ -9,12 +9,7 @@
       </span>
       <p class="input" @click="goSearch(curCity.name)">
         <van-icon name="search" />
-        <input
-          type="text"
-          placeholder="搜索您心仪的场地"
-          placeholder-style="color:#ffffff"
-          disabled="true"
-        />
+        <input type="text" placeholder="搜索您心仪的场地" placeholder-style="color:#ffffff" disabled="true" />
       </p>
       <img class="adviser" src="../../../static/images/adviser.png" alt @click="onPhoneCall" />
     </div>
@@ -36,9 +31,16 @@
         <img src="../../../static/images/qipao.png" /> 场地筛选
       </p>
       <div :class="isTop ? 'search searchTop' : 'search'">
-        <span v-for="(item,index) in searchTitle" :key="index" @click="chooseSearch(item,index)" :class=" chooseSearchIndex == index && showPopup ? 'active-span' : ''">
+        <span
+          v-for="(item,index) in searchTitle"
+          :key="index"
+          @click="chooseSearch(item,index)"
+          :class=" chooseSearchIndex == index && showPopup ? 'active-span' : ''"
+        >
           {{ item }}
-          <img :src=" chooseSearchIndex == index && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'" />
+          <img
+            :src=" chooseSearchIndex == index && showPopup ? '/static/images/jiantou-blue.png' : '/static/images/jiantou-gray.png'"
+          />
         </span>
         <p class="notify" v-if="showNotify">已为您搜索符合条件的结果</p>
         <!-- 弹窗 -->
@@ -100,7 +102,6 @@
                 <i class="result-title">{{item.addr.name }}</i>
               </div>
             </div>
-            
 
             <!-- 列表中有10-20个场地，用户滑动浏览10个场地后出现 -->
             <div v-if="index == 9 && 10 <= siteList.length < 20" class="middle" @click="goFindForm">
@@ -115,20 +116,41 @@
           <p>让场地顾问1对1免费帮您找~</p>
           <button @click="goFindForm">免费帮我找场地</button>
         </div>
-
       </div>
       <!-- （1）列表少于10个场地资源，页面底部直接出现 ；（2）列表中刚好有20个场地，滑动浏览20个后出现；（3）20个以上，，滑动底部出现-->
-      <div v-if="(0 < siteList.length && siteList.length < 10) || siteList.length >= 20" class="no-data">
+      <div
+        v-if="(0 < siteList.length && siteList.length < 10) || siteList.length >= 20"
+        class="no-data"
+      >
         <p class="black">没有找到心仪的场地？</p>
         <p class="desc">更多场地资源，让场地顾问1对1免费帮您找</p>
         <button @click="goFindForm">免费帮我找场地</button>
       </div>
       <!-- 列表中有20个场地以上，滑动至20个场地后，悬浮按钮出现 -->
-      <button v-if="siteList.length > 20 && showBtn" class="suspensionBtn" @click="goFindForm">发布场地需求</button>
+      <button
+        v-if="siteList.length > 20 && showBtn"
+        class="suspensionBtn"
+        @click="goFindForm"
+      >发布场地需求</button>
     </div>
 
     <!-- 搜索提示 -->
     <van-toast :show="showToast" :message="toastMsg" />
+
+    <van-tabbar :active="active">
+      <van-tabbar-item
+        v-for="(item,index) in tabList"
+        :key="index"
+        :name="index"
+        @click="tabChange(item.pagePath)"
+      >
+        <image slot="icon" :src="item.iconPath" mode="aspectFit" />
+        <image slot="icon-active" :src="item.selectedIconPath" mode="aspectFit" />
+        {{
+        item.text
+        }}
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -140,26 +162,46 @@ export default {
   components: { Swiper },
   computed: {
     ...mapState({
-	  openId: state => state.openId,
+      openId: state => state.openId,
       curCity: state => state.curCity,
       locationInfo: state => state.locationInfo
     })
   },
   data() {
     return {
-      qqmapsdk:null,//授权地理位置
+      tabList: [
+        {
+          text: "找场地",
+          pagePath: "/pages/findSite/main",
+          iconPath: "/static/tabs/find.png",
+          selectedIconPath: "/static/tabs/find-active.png"
+        },
+        {
+          text: "鲸选",
+          pagePath: "/pages/index/main",
+          iconPath: "/static/tabs/home.png",
+          selectedIconPath: "/static/tabs/home-active.png"
+        },
+        {
+          text: "我的",
+          pagePath: "/pages/myCenter/main",
+          iconPath: "/static/tabs/my.png",
+          selectedIconPath: "/static/tabs/my-active.png"
+        }
+      ],
+      active: 1,
+      qqmapsdk: null, //授权地理位置
       isTop: false, //是否置顶
-      showBtn: false,//悬浮按钮
+      showBtn: false, //悬浮按钮
       showNotify: false,
       showToast: false,
-      wHeight:'',//场地列表盒子的最小高度
-      searchHeight:'',//筛选框的高度
-      headerHeight:'',//头部搜索框高度
-      siteTop:'',//场地列表距离顶部的初始高度
+      wHeight: "", //场地列表盒子的最小高度
+      searchHeight: "", //筛选框的高度
+      headerHeight: "", //头部搜索框高度
+      siteTop: "", //场地列表距离顶部的初始高度
       toastMsg: "", //提示文字信息
       contactActions: [{ name: "010-12345323" }, { name: "呼叫" }],
-      images: [
-      ],
+      images: [],
       hotList: [
         { url: "../../static/images/hot-1.png", title: "合作案例" },
         { url: "../../static/images/hot-2.png", title: "热门场地" },
@@ -265,7 +307,7 @@ export default {
           area: "2400m",
           addr: "朝阳区朝阳北路101号",
           far: "距市中心 2.32千米"
-        },
+        }
       ],
       showPopup: false,
       //选择的区域——区域下拉
@@ -342,6 +384,11 @@ export default {
     };
   },
   methods: {
+    tabChange(url) {
+      wx.navigateTo({
+        url: url
+      });
+    },
     // 跳转到选择城市
     goCityIndex() {
       wx.navigateTo({
@@ -380,13 +427,13 @@ export default {
       });
     },
     // 点击筛选下拉菜单
-    chooseSearch(data,index) {
+    chooseSearch(data, index) {
       // 判断是否吸顶，点击就吸顶
-      if(!this.isTop){
+      if (!this.isTop) {
         this.isTop = true;
         wx.pageScrollTo({
           scrollTop: this.siteTop
-        })
+        });
       }
       // 两次点击同一个菜单，收起弹出框
       if (this.chooseSearchIndex == index) {
@@ -438,7 +485,7 @@ export default {
     },
     // 区域——点击一级菜单
     onClickNav(e) {
-      console.log(e)
+      console.log(e);
       this.mainActiveIndex = e.mp.detail.index;
     },
     // 区域——点击子集
@@ -448,7 +495,7 @@ export default {
       this.searchTitle[this.chooseSearchIndex] = e.mp.detail.text;
     },
     // 类型——点击选择类型
-    selectType(data,index) {
+    selectType(data, index) {
       this.showPopup = false;
       this.searchTitle[this.chooseSearchIndex] = data.title;
       this.typeList.forEach(item => {
@@ -553,79 +600,106 @@ export default {
       });
   },
 
-  created(){
+  created() {
     // 实例化API核心类
     this.qqmapsdk = new QQMapWX({
-      key: 'ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII'
+      key: "ADWBZ-IEU3F-E62JG-NUDQS-6F3X6-7DBII"
     });
   },
   //监听屏幕滚动
   onPageScroll(ev) {
     var query = wx.createSelectorQuery();
     // 滚动时——获取筛选栏距离顶部的高度
-    query.select("#search").boundingClientRect((res) => {
-      var scrollTop = res.top + (res.height + 15);//获取的是“场地筛选”标题，所以加上这个标题的高度和margin ，才是筛选框距离顶部的滚动高度
-      if (scrollTop <= this.headerHeight) {
-        this.isTop = true;
-      }
-      if (scrollTop > this.headerHeight) {
-        this.isTop = false;
-      }
-    }).exec();
+    query
+      .select("#search")
+      .boundingClientRect(res => {
+        var scrollTop = res.top + (res.height + 15); //获取的是“场地筛选”标题，所以加上这个标题的高度和margin ，才是筛选框距离顶部的滚动高度
+        if (scrollTop <= this.headerHeight) {
+          this.isTop = true;
+        }
+        if (scrollTop > this.headerHeight) {
+          this.isTop = false;
+        }
+      })
+      .exec();
 
     // 获取滑动的场地，滑动20个后，显示悬浮按钮
-    if(this.siteList.length > 20){
-      query.select("#site-20").boundingClientRect((res) => {
-        if(res.top < wx.getSystemInfoSync().windowHeight - this.headerHeight){//顶部距离 < 视口高度 - 头部搜索栏
-          this.showBtn = true;
-        }else{
-          this.showBtn = false;
-        }
-      }).exec();
-    }
-  },
-  onReady(){
-      // 获取头部搜索栏的高度
-      var query = wx.createSelectorQuery();
-      query.select(".search-box").boundingClientRect((res) => {
-        this.headerHeight = res.height;
-      }).exec();
-
-      // 可见区域高度，赋值给场地列表最小高度
-      query.select(".search").boundingClientRect((res) => {//获取筛选框的高度
-        this.searchHeight = res.height;
-        this.wHeight = (wx.getSystemInfoSync().windowHeight - this.headerHeight - this.searchHeight - 20) + 'px';//可见视口高度 - 头部搜索栏高度 - 筛选框高度 - padding-bootom
-      }).exec();
-
-      //场地列表距离顶部的初始高度，跟随筛选条件吸顶上滚
-      wx.createSelectorQuery().select(".site-box").boundingClientRect((res) => {
-        this.siteTop = res.top - this.headerHeight - this.searchHeight;//初始高度 - 头部搜索栏高度 - 筛选框高度  = 上滚距离
-      }).exec();
-  },
-  onShow(option) {
-  
-	this.globalData.uid = this.openId
-	console.log(this.globalData)
-  
-    // 获取地理位置授权
-    if(this.locationInfo.address == undefined){
-        wx.getLocation({
-          type: 'gcj02',
-          success: (res) => {
-            this.qqmapsdk.reverseGeocoder({
-              location: {
-                latitude: res.latitude,
-                longitude: res.longitude
-              },
-              success: (addressRes) => {
-                this.$store.commit('SET_LOCATIONINFO',addressRes.result);
-                this.$store.commit('SET_City',{'name': addressRes.result.address_component.city});
-              }
-            })
+    if (this.siteList.length > 20) {
+      query
+        .select("#site-20")
+        .boundingClientRect(res => {
+          if (
+            res.top <
+            wx.getSystemInfoSync().windowHeight - this.headerHeight
+          ) {
+            //顶部距离 < 视口高度 - 头部搜索栏
+            this.showBtn = true;
+          } else {
+            this.showBtn = false;
           }
         })
+        .exec();
     }
-      
+  },
+  onReady() {
+    // 获取头部搜索栏的高度
+    var query = wx.createSelectorQuery();
+    query
+      .select(".search-box")
+      .boundingClientRect(res => {
+        this.headerHeight = res.height;
+      })
+      .exec();
+
+    // 可见区域高度，赋值给场地列表最小高度
+    query
+      .select(".search")
+      .boundingClientRect(res => {
+        //获取筛选框的高度
+        this.searchHeight = res.height;
+        this.wHeight =
+          wx.getSystemInfoSync().windowHeight -
+          this.headerHeight -
+          this.searchHeight -
+          20 +
+          "px"; //可见视口高度 - 头部搜索栏高度 - 筛选框高度 - padding-bootom
+      })
+      .exec();
+
+    //场地列表距离顶部的初始高度，跟随筛选条件吸顶上滚
+    wx
+      .createSelectorQuery()
+      .select(".site-box")
+      .boundingClientRect(res => {
+        this.siteTop = res.top - this.headerHeight - this.searchHeight; //初始高度 - 头部搜索栏高度 - 筛选框高度  = 上滚距离
+      })
+      .exec();
+  },
+  onShow(option) {
+    this.globalData.uid = this.openId;
+    console.log(this.globalData);
+
+    // 获取地理位置授权
+    if (this.locationInfo.address == undefined) {
+      wx.getLocation({
+        type: "gcj02",
+        success: res => {
+          this.qqmapsdk.reverseGeocoder({
+            location: {
+              latitude: res.latitude,
+              longitude: res.longitude
+            },
+            success: addressRes => {
+              this.$store.commit("SET_LOCATIONINFO", addressRes.result);
+              this.$store.commit("SET_City", {
+                name: addressRes.result.address_component.city
+              });
+            }
+          });
+        }
+      });
+    }
+
     // let _self = this;
     // wx.getStorage({
     //   key: "cname",
@@ -633,25 +707,21 @@ export default {
     //     _self.addr = res.data.name || "成都";
     //   }
     // });
-    
 
     this.Request.getActivityListBanner()
       .then(res => {
         this.images = res;
       })
-      .catch(res => {
-      });
+      .catch(res => {});
 
     this.Request.getSpaceList(this.curCity.name)
       .then(res => {
         this.siteList = res;
       })
-      .catch(res => {
-      });
+      .catch(res => {});
   }
 };
 </script>
-
 <style scoped lang="stylus">
 .container {
   position: relative;
@@ -790,7 +860,7 @@ export default {
 
 .site {
   padding: 20px 0;
-  position relative
+  position: relative;
 
   .title-box {
     padding: 0 15px;
@@ -804,7 +874,7 @@ export default {
     position: relative;
 
     span {
-      width:17%;
+      width: 17%;
       text-align: center;
       font-size: 29rpx;
       color: #4f575e;
@@ -812,18 +882,18 @@ export default {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      position relative
-      padding 0 10rpx
+      position: relative;
+      padding: 0 10rpx;
 
       img {
         width: 10px;
         height: 10px;
-        position absolute
-        top:50%;
-        transform:translateY(-50%);
-        right 0
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
       }
-    }  
+    }
 
     .active-span {
       color: #11bcfd;
@@ -840,16 +910,19 @@ export default {
       margin-top: 18px;
     }
   }
+
   .searchTop {
     position: fixed;
     top: 98rpx;
     z-index: 10;
     width: 100%;
   }
-  .site-boxTop{
+
+  .site-boxTop {
     top: 128rpx;
-    margin-bottom:70px !important;
+    margin-bottom: 70px !important;
   }
+
   .site-box {
     display: block;
     margin: 0 auto;
@@ -857,7 +930,7 @@ export default {
     border-radius: 7px;
     background-color: #fff;
     padding: 0 15px;
-    position relative
+    position: relative;
 
     .result-title {
       font-size: 13px;
@@ -870,7 +943,8 @@ export default {
       li {
         border-bottom: 1px solid #f3f3f3;
         padding: 19px 0;
-        .li-detail{
+
+        .li-detail {
           display: flex;
           align-items: center;
           flex-wrap: wrap;
@@ -884,14 +958,15 @@ export default {
         }
 
         .right-box {
-          width 60%
+          width: 60%;
+
           .title {
             padding: 2px;
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 3px;
-            white-space: nowrap; 
-            overflow: hidden;   
+            white-space: nowrap;
+            overflow: hidden;
             text-overflow: ellipsis;
           }
 
@@ -1045,10 +1120,10 @@ export default {
   text-align: center;
   font-size: 12px;
   color: #90959a;
-  position absolute
-  left 50%
-  top 50%
-  transform translate(-50%,-50%)
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   p {
     margin-bottom: 5px;

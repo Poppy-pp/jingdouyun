@@ -46,6 +46,21 @@
       </div>
     </div>
     <div class="my-metion">— 鲸抖云·让活动变的简单 —</div>
+
+    <van-tabbar :active="tabactive">
+      <van-tabbar-item
+        v-for="(item,index) in tabList"
+        :key="index"
+        :name="index"
+        @click="tabChange(item.pagePath)"
+      >
+        <image slot="icon" :src="item.iconPath" mode="aspectFit" />
+        <image slot="icon-active" :src="item.selectedIconPath" mode="aspectFit" />
+        {{
+        item.text
+        }}
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -53,12 +68,38 @@
 export default {
   data() {
     return {
+      tabList: [
+        {
+          text: "找场地",
+          pagePath: "/pages/findSite/main",
+          iconPath: "/static/tabs/find.png",
+          selectedIconPath: "/static/tabs/find-active.png"
+        },
+        {
+          text: "鲸选",
+          pagePath: "/pages/index/main",
+          iconPath: "/static/tabs/home.png",
+          selectedIconPath: "/static/tabs/home-active.png"
+        },
+        {
+          text: "我的",
+          pagePath: "/pages/myCenter/main",
+          iconPath: "/static/tabs/my.png",
+          selectedIconPath: "/static/tabs/my-active.png"
+        }
+      ],
+      tabactive:2,
       contactActions: [ { name: '010-12345323' }, { name: '呼叫' } ],
     }
   },
   components: {},
   computed:{},
   methods:{
+    tabChange(url) {
+      wx.navigateTo({
+        url: url
+      });
+    },
     // 跳转到热门
     goHot(data){
       wx.navigateTo({
