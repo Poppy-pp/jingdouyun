@@ -110,6 +110,8 @@ export default {
     color #4f575e
     line-height 24px
     margin-top 12px
+    overflow hidden
+    display:block;
   }
   .img{
     width 100%

@@ -12,7 +12,8 @@
      <div class="Nav_content">
       <div class="card" v-for="(item,index) in formData" :key="index" @click="goDetail(item)">
          <p class="title">{{ item.area }}</p>
-         <i class="needs" v-for="(item2,index2) in item.needs" :key="index2">{{ item2.title }}</i>
+          <i class="needs" v-if="item.needs.title">{{ item.needs.title }}</i>
+         <!-- <i class="needs" v-for="(item2,index2) in item.needs" :key="index2">{{ item2.title }}</i> -->
          <p class="date">{{ item.date + '&emsp;' +  item.num + '&emsp;' + item.price }}</p>
          <p class="date creat-time">{{ item.order_date + "提交"}} <text class="type typecolor">{{ item.type }}</text></p>
       </div>
@@ -84,7 +85,6 @@ export default {
   
     console.log(this.globalData)
     this.Request.getMySpaceOrder(this.globalData.uid).then(res =>{
-        console.log(res)
         this.formData = res
     })
     .catch(res =>{

@@ -47,11 +47,11 @@
                 <p class="title">{{ item.name }}</p>
                 <p class="price">￥{{ item.price }}<span>/天</span> <i>参考价</i></p>
                 <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-                <i class="tag">{{item.tag }}</i>
+                <i class="tag" v-if="item.tag">{{item.tag }}</i>
               </div>
             </li>
           </ul>
-          <!-- p class="more" @click="getMore">查看更多场地空间(23)</p -->
+          <p class="more" @click="getMore">查看更多场地空间(23)</p>
         </div>
       </div>
       <!-- 场地介绍 -->
@@ -277,7 +277,6 @@ export default {
       })
      
       this.Request.getSiteList(this.spaceListId).then(res =>{
-        console.log(res)
         this.siteList = res
       }).catch(res =>{
         console.log(res) //失败
@@ -384,7 +383,7 @@ export default {
       border-radius 3px
       line-height:23px;
       padding 0 9px
-      margin-right:8px;
+      margin:0 16rpx 10rpx 0;
 
     }
     button::after{
@@ -525,7 +524,7 @@ export default {
           margin-right 10px
         }
         .right-box{
-          width 60%
+          width 59%
           .title{
             padding 2px
             font-weight bold

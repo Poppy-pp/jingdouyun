@@ -25,18 +25,26 @@
         </block>
      </div>
      <!-- 搜索结果 -->
-     <div v-if="resultstatus" class="search-result">
+     <div v-if="resultstatus && resultList.length != 0" class="search-result">
        <p>名称包含{{ inputvalue }}的场地</p>
        <div class="content" v-for="(item,index) in resultList" :key="index" @click="goCaseDetail">
-        <img :src="item.url">
-        <div class="right-box">
-          <p class="title">{{ item.name }}</p>
-          <i class="result-title">{{ item.type }}</i>
-          <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
-        </div>
+          <img :src="item.url">
+          <div class="right-box">
+            <p class="title">{{ item.name }}</p>
+            <i class="result-title">{{ item.type }}</i>
+            <i class="result-title">{{ item.area + ' | ' + item.num + ' | ' + item.count}}</i>
+          </div>
+      </div>
      </div>
-     </div>
+     <!-- 搜索无结果 -->
+    <div v-if="resultList.length == 0" class="no-data-search">
+      <p>没有找到合适的场地</p>
+      <p>换个关键词试试~</p>
+      <button @click="goFindForm">免费帮我找场地</button>
+    </div>
 
+    <!-- 搜索提示 -->
+    <van-toast :show="showToast" :message="toastMsg" />
      <!-- 清除确认框 -->
       <van-dialog :show="showDialog" :message="dialogMsg" title="清除搜索历史" :showCancelButton="true" @confirm="confirmCancel" @cancel="showDialog = false"/>
    </div>
@@ -46,6 +54,8 @@
 export default {
    data() {
        return {
+         showToast:false,
+         toastMsg:'',
         hotList:[ '北京鸟巢体育场','北京西郊宾馆', '北京***酒店','北京***酒店' ],
         inputstatus:false,//输入状态，是否输入
         resultstatus:false,
@@ -66,6 +76,12 @@ export default {
   components: {},
   computed:{},
   methods:{
+    // 跳转找场地表单
+    goFindForm() {
+      wx.navigateTo({
+        url: "/pages/findSite/findSiteForm/main"
+      });
+    },
     //取消
     goCancel(){
       wx.navigateBack({
@@ -95,6 +111,11 @@ export default {
         this.Request.getSpaceListSearch(this.inputvalue,"","","","","","").then(res =>{
             console.log(res)
             this.resultList = res
+            this.showToast = true;
+            this.toastMsg = "搜索结果：共找到" + this.resultList.length + "个匹配项";
+            setTimeout(() => {
+              this.showToast = false;
+            }, 2000);
           }).catch(res =>{
             console.log(res) //失败
           })
@@ -298,6 +319,30 @@ export default {
         color #8e9398
         text-align center
       }
+    }
+  }
+  .no-data-search {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #90959a;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    p {
+      margin-bottom: 5px;
+    }
+
+    button {
+      color: #11bcfd;
+      border: 1px solid #11bcfd;
+      border-radius: 20px;
+      background-color: #ffffff;
+      width: 35%;
+      font-size: 12px;
+      margin-top: 20px;
     }
   }
 }
