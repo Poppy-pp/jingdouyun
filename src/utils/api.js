@@ -44,6 +44,16 @@ class api {
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
+    getRegion(city){
+		let data = {
+			method: "getRegion",
+            activity_city: city,
+		}
+        var sign = hexMD5.signature(data, signKey)
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
     sendSms(mobile){
 		let data = {
 			method: "sendSms",
@@ -180,16 +190,19 @@ class api {
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListSearch(name,city,type,people_from,people_to,area_from,area_to){
+    getSpaceListSearch(name,city,region,type,people_from,people_to,area_from,area_to,price_from,price_to){
 		let data = {
 			method: "getSpaceListSearch",
             space_name: name,
             activity_city: city,
+            activity_region: region,
             space_type_list: type,
             people_number_from: people_from,
             people_number_to: people_to,
             space_area_from: area_from,
-            space_area_to: area_to,            
+            space_area_to: area_to,    
+            space_price_from: price_from,
+            space_price_to: price_to,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign

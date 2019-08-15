@@ -380,9 +380,9 @@ export default {
       actions: [],
       area: "",
       type: "",
-      size: "",
-      num: "",
-      price: "",
+      size: { name: "不限", from: "", to: "" },
+      num: { name: "不限", from: "", to: "" },
+      price: { name: "不限", from: "", to: "" },
       Request: this.$api.api.prototype //请求头
     };
   },
@@ -472,14 +472,14 @@ export default {
         ];
       } else if (index == 4) {
         this.actions = [
-          { name: "不限" },
-          { name: "1万元以下" },
-          { name: "1万-5万" },
-          { name: "5万-10万" },
-          { name: "10万-20万" },
-          { name: "20万-30万" },
-          { name: "30万-50万" },
-          { name: "50万以上" }
+          { name: "不限", from: "", to: "" },
+          { name: "1万元以下", from: "1", to: "10000" },
+          { name: "1万-5万", from: "10001", to: "50000" },
+          { name: "5万-10万", from: "50001", to: "100000" },
+          { name: "10万-20万", from: "100001", to: "200000" },
+          { name: "20万-30万", from: "200001", to: "300000" },
+          { name: "30万-50万", from: "300001", to: "500000" },
+          { name: "50万以上", from: "500001", to: "9990000" }
         ];
       }
     },
@@ -499,29 +499,79 @@ export default {
       this.showPopup = false;
       this.activeId = e.mp.detail.id;
       this.searchTitle[this.chooseSearchIndex] = e.mp.detail.text;
+      
+      this.area = e.mp.detail.id;
+      
+      
+      
+      this.Request.getSpaceListSearch(
+          "",
+          this.curCity.name,
+          this.area,
+          this.type,
+          this.num.from,
+          this.num.to,
+          this.size.from,
+          this.size.to,
+          this.price.from,
+          this.price.to
+        ).then(res => {
+        
+            console.log(res)
+            this.siteList = res;
+
+            // 显示提示
+            this.showToast = true;
+            this.showNotify = true;
+            this.toastMsg = "共找到" + this.siteList.length + "个场地";
+            setTimeout(() => {
+              this.showToast = false;
+              this.showNotify = false;
+            }, 2000);
+        }).catch(res => {
+            console.log(res); //失败
+        });
+      
     },
     // 类型——点击选择类型
     selectType(data, index) {
       this.showPopup = false;
       this.searchTitle[this.chooseSearchIndex] = data.title;
+      this.type = data.id
       this.typeList.forEach(item => {
         item.isSelect = false;
       });
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
-      this.type = "0"; //初始化
 
-      this.typeList.every((v, i) => {
-        if (v.isSelect) {
-          if (v.id == 1) {
-            this.type = "";
-            return false;
-          }
+      this.Request.getSpaceListSearch(
+          "",
+          this.curCity.name,
+          this.area,
+          this.type,
+          this.num.from,
+          this.num.to,
+          this.size.from,
+          this.size.to,
+          this.price.from,
+          this.price.to
+        )
+          .then(res => {
+            console.log(res)
+            this.siteList = res;
 
-          this.type = this.type + "_" + v.id;
-        }
+            // 显示提示
+            this.showToast = true;
+            this.showNotify = true;
+            this.toastMsg = "共找到" + this.siteList.length + "个场地";
+            setTimeout(() => {
+              this.showToast = false;
+              this.showNotify = false;
+            }, 2000);
+          })
+          .catch(res => {
+            console.log(res); //失败
+          });
 
-        return true;
-      });
     },
     // 面积、人数、价格——点击选择
     selectAction(item) {
@@ -530,18 +580,22 @@ export default {
       this.siteList = [];
 
       if (this.chooseSearchIndex == 2) {
-        this.size = item.name;
+        this.size = item;
 
         this.Request.getSpaceListSearch(
           "",
           this.curCity.name,
+          this.area,
           this.type,
-          "",
-          "",
-          item.from,
-          item.to
+          this.num.from,
+          this.num.to,
+          this.size.from,
+          this.size.to,
+          this.price.from,
+          this.price.to
         )
           .then(res => {
+          console.log(res)
             this.siteList = res;
 
             // 显示提示
@@ -557,18 +611,22 @@ export default {
             console.log(res); //失败
           });
       } else if (this.chooseSearchIndex == 3) {
-        this.num = item.name;
+        this.num = item;
 
         this.Request.getSpaceListSearch(
           "",
           this.curCity.name,
-          this.type,
-          item.from,
-          item.to,
-          "",
-          ""
+           this.area,
+           this.type,
+          this.num.from,
+          this.num.to,
+          this.size.from,
+          this.size.to,
+          this.price.from,
+          this.price.to
         )
           .then(res => {
+          console.log(res)
             this.siteList = res;
 
             // 显示提示
@@ -584,7 +642,34 @@ export default {
             console.log(res); //失败
           });
       } else if (this.chooseSearchIndex == 4) {
-        this.price = item.name;
+        this.price = item;
+        
+        this.Request.getSpaceListSearch(
+          "",
+          this.curCity.name,
+          this.area,
+          this.type,
+          this.num.from,
+          this.num.to,
+          this.size.from,
+          this.size.to,
+          this.price.from,
+          this.price.to).then(res => {
+            console.log(res)
+            this.siteList = res;
+        
+            // 显示提示
+            this.showToast = true;
+            this.showNotify = true;
+            this.toastMsg = "共找到" + this.siteList.length + "个场地";
+            setTimeout(() => {
+              this.showToast = false;
+              this.showNotify = false;
+            }, 2000);
+          })
+          .catch(res => {
+            console.log(res); //失败
+          });
       }
     },
     // 调出拨打电话
@@ -717,17 +802,21 @@ export default {
     //   }
     // });
 
-    this.Request.getActivityListBanner()
-      .then(res => {
+    this.Request.getActivityListBanner().then(res => {
+        console.log(res)
         this.images = res;
-      })
-      .catch(res => {});
+      }).catch(res => {});
 
-    this.Request.getSpaceList(this.curCity.name)
-      .then(res => {
+    this.Request.getSpaceList(this.curCity.name).then(res => {
+      console.log(res)
         this.siteList = res;
-      })
-      .catch(res => {});
+      }).catch(res => {});
+      
+    this.Request.getRegion(this.curCity.name).then(res => {
+      console.log(res)
+      this.areas = res;
+      }).catch(res => {});  
+      
   },
   onLoad() {}
 };
