@@ -18,6 +18,11 @@
           </li>
         </ul>
       </div>
+      <div v-if="siteList.length == 0" class="no-data-search">
+        <p>{{ title == '我的订单' || title == '我的收藏' || title == '我的足迹' ? '没有找过场地哦' : '没有找到心仪的场地？' }}</p>
+        <p>{{ title == '我的订单' || title == '我的收藏' || title == '我的足迹' ? '去“找场地”发布你的场地需求吧~' : '让场地顾问1对1免费帮您找~' }}</p>
+        <button @click="goFindForm">{{ title == '我的订单' || title == '我的收藏' || title == '我的足迹' ? '去找场地' : '免费帮我找场地' }}</button>
+      </div>
    </div>
 </template>
 
@@ -25,15 +30,16 @@
 export default {
    data() {
        return {
+         title:'',
         siteList: [
-          {name:'朝阳公园', price:'12000', num:'100人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'200人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'300人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'400人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'500人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'600人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'700人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
-          {name:'朝阳公园', price:'12000', num:'800人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'100人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'200人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'300人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'400人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'500人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'600人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'700人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
+          // {name:'朝阳公园', price:'12000', num:'800人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米'},
         ],
         tags:[ '全部(6)', '体育场馆(1)','酒店(3)',  '会议中心(2)', '泳池(4)', '户外(6)', '健身(6)'],
         mystatus:false,//我的收藏状态
@@ -44,11 +50,18 @@ export default {
   components: {},
   computed:{},
   methods:{
+    // 跳转找场地表单
+    goFindForm() {
+      wx.navigateTo({
+        url: "/pages/findSite/findSiteForm/main"
+      });
+    },
     /* 获取当前路由栈数据 */
     getQuery() {
       const pages = getCurrentPages();
       const currentPage = pages[pages.length - 1];
       const options = currentPage.options;
+      this.title = options.title;
       
       this.mystatus = false;
       
@@ -245,6 +258,30 @@ export default {
   }
   .scroll::-webkit-scrollbar {
     display: none;
+  }
+}
+.no-data-search {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #90959a;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    margin-bottom: 5px;
+  }
+
+  button {
+    color: #11bcfd;
+    border: 1px solid #11bcfd;
+    border-radius: 20px;
+    background-color: #ffffff;
+    width: 35%;
+    font-size: 12px;
+    margin-top: 20px;
   }
 }
 </style>

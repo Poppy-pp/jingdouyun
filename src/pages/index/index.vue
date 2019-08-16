@@ -750,7 +750,7 @@ export default {
       title: "加载中"
     });
     
-    
+
     // 获取地理位置授权
     //if (_self.locationInfo.address == undefined) {
       wx.getLocation({
@@ -762,9 +762,10 @@ export default {
           console.log(this.globalData.latitude)
           console.log(this.globalData.longitude)
           
+          
           this.Request.getSpaceList(this.curCity.name,this.globalData.latitude,this.globalData.longitude).then(res => {
                 console.log(res)
-                this.siteList = res;
+                // this.siteList = res;
             }).catch(res => {});
 
           this.qqmapsdk.reverseGeocoder({

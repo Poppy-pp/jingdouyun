@@ -66,7 +66,7 @@ export default {
           { url:'/static/images/tengxun.png', name:'全场', type:'特色场地',num:'2000人' ,area:'2400m', count:'13m'}
         ],
         showHistory:[],
-        searchHistory:['北京鸟巢体育场1','鸟巢2','北京鸟巢体育场3','北京鸟巢体育场4','北京鸟巢体育场5','北京鸟巢体育场6'],
+        searchHistory:[],
         showDialog: false,
         dialogMsg: '清除后不可恢复',
         

@@ -19,7 +19,7 @@
       </div>
 
       <div :class="formData.length == 0 ? 'no-data-position' : 'no-data'">
-         <p>没有找到场地哦？</p>
+         <p>没有找过场地哦</p>
          <p>去“找场地”发布你的场地需求吧~</p>
          <button @click="goFindForm">去找场地</button>
       </div>
@@ -34,26 +34,26 @@ export default {
       return {
           active:0,
           formData:[
-            {
-               area: "北京市",
-               date: "2019.06.03 全天",
-               num: "200-300人",
-               price: "5000元以下",
-               type:"客服已受理",
-               needs:[
-                  { isSelect:true, title:"发布会/颁奖/庆典"}
-               ]
-            },
-            {
-               area: "北京市",
-               date: "2019.06.03 全天",
-               num: "200-300人",
-               price: "5000元以下",
-               type:"客服已受理",
-               needs:[
-                  { isSelect:true, title:"发布会/颁奖/庆典"}
-               ]
-            },
+            // {
+            //    area: "北京市",
+            //    date: "2019.06.03 全天",
+            //    num: "200-300人",
+            //    price: "5000元以下",
+            //    type:"客服已受理",
+            //    needs:[
+            //       { isSelect:true, title:"发布会/颁奖/庆典"}
+            //    ]
+            // },
+            // {
+            //    area: "北京市",
+            //    date: "2019.06.03 全天",
+            //    num: "200-300人",
+            //    price: "5000元以下",
+            //    type:"客服已受理",
+            //    needs:[
+            //       { isSelect:true, title:"发布会/颁奖/庆典"}
+            //    ]
+            // },
           ], 
 	  
 	  Request: this.$api.api.prototype, //请求头
@@ -85,7 +85,7 @@ export default {
   
     console.log(this.globalData)
     this.Request.getMySpaceOrder(this.globalData.uid,this.globalData.latitude,this.globalData.longitude).then(res =>{
-        this.formData = res
+      //   this.formData = res
     })
     .catch(res =>{
         console.log(res) //失败

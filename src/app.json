@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/authorizeMobile/main",
+    "pages/index/main",
     "pages/login/main",
     "pages/authorizePlace/main",
-    "pages/index/main",
     "pages/logs/main",
     "pages/findSite/main",
     "pages/myCenter/main",

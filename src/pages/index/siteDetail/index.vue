@@ -41,7 +41,7 @@
         <p class="title-p">场地空间 <span class="num">{{ siteList.length }} 间</span></p>
         <div class="site-box">
           <ul>
-            <li v-for="(item,index) in siteList" :key="index" @click="goSiteSpace(item.id)">
+            <li v-for="(item,index) in siteListFive" :key="index" @click="goSiteSpace(item.id)">
               <img :src="item.url">
               <div class="right-box">
                 <p class="title">{{ item.name }}</p>
@@ -51,7 +51,7 @@
               </div>
             </li>
           </ul>
-          <p class="more" @click="getMore">查看更多场地空间(23)</p>
+          <p class="more" @click="getMore">查看更多场地空间({{ siteList.length }})</p>
         </div>
       </div>
       <!-- 场地介绍 -->
@@ -146,6 +146,7 @@ export default {
             {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
             {name:'朝阳公园第二宴会厅', price:'12000', num:'500人', count:'8间', area:'2400m',  tag:'无柱'},
           ],
+          siteListFive:[],//页面显示前五条空间
           nearsiteList: [
             {name:'华熙LIVE五棵松-凯迪拉克中心', price:'12000', num:'100人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米',url: "/static/images/near.png"},
             {name:'华熙LIVE五棵松-凯迪拉克中心', price:'12000', num:'200人', count:'8间', area:'2400m', addr:'朝阳区朝阳北路101号', far:'距市中心 2.32千米',url: "/static/images/near.png"},
@@ -192,12 +193,7 @@ export default {
     },
     // 查看更多场地空间
     getMore(){
-      //this.siteList.push(
-      //  {name:'全场', price:'12000', num:'100人', count:'8间', area:'2400m', tag:'无柱'},
-      //  {name:'一楼演艺大厅', price:'12000', num:'200人', count:'8间', area:'2400m',  tag:'无柱'},
-      //  {name:'朝阳公园第一宴会厅', price:'12000', num:'300人', count:'8间', area:'2400m',  tag:'无柱'},
-      //  {name:'宴会厅', price:'12000', num:'400人', count:'8间', area:'2400m', tag:'泳池'},
-      //  {name:'朝阳公园第二宴会厅', price:'12000', num:'500人', count:'8间', area:'2400m',  tag:'无柱'})
+      this.siteListFive == this.siteList;
     },
     // 跳转场地介绍
     goSiteIntroduce(){
@@ -287,6 +283,7 @@ export default {
      
       this.Request.getSiteList(this.spaceListId).then(res =>{
         this.siteList = res
+        this.siteListFive = this.siteList.slice(0,5)
       }).catch(res =>{
         console.log(res) //失败
       }) 

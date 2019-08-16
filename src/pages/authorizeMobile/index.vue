@@ -16,8 +16,10 @@
       </van-cell>
       <navigator url="../login/main" class="other">使用其他手机号码</navigator>
       <div class="btn">
-        <button class="refuse">拒绝</button>
-        <button class="allow" @click="goIndex">允许</button>
+        <!-- <button class="refuse">拒绝</button> -->
+        <button class="allow" open-type="getUserInfo" @getuserinfo="getUserInfo" >获取用户信息</button>
+        <button class="allow" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取手机号</button>
+        <!-- <button class="allow" @click="goIndex">允许</button> -->
       </div>
     </div>
   </van-popup>
@@ -38,6 +40,16 @@ export default {
     })
   },
   methods: {
+    getUserInfo (e) { //获取用户信息
+      var wxUserInfo = e.mp.detail.userInfo;
+      console.log(wxUserInfo)
+      wx.switchTab({
+        url: "/pages/index/main"
+      });
+   },
+   getPhoneNumber (e) {
+      console.log(e)
+   },
     goIndex(){
        wx.switchTab({
         url: "/pages/index/main"
@@ -57,7 +69,7 @@ export default {
         }
       });
     }
-  }
+  },
 };
 </script>
 
