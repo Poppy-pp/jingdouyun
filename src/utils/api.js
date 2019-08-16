@@ -180,17 +180,32 @@ class api {
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceList(city){
+    getSpaceList(city,latitude,longitude){
 		let data = {
 			method: "getSpaceList",
             activity_city: city,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListSearch(name,city,region,type,people_from,people_to,area_from,area_to,price_from,price_to){
+    getSpaceListNear(id,latitude,longitude){
+		let data = {
+			method: "getSpaceListNear",
+            space_list_id: id,
+            latitude: latitude,
+            longitude: longitude,
+		}
+        var sign = hexMD5.signature(data, signKey)
+        data["sign"] = sign
+		return requestAll.postRequest(apiUrl + 'api/i.php', data);
+	}
+    
+    
+    getSpaceListSearch(name,city,region,type,people_from,people_to,area_from,area_to,price_from,price_to,latitude,longitude,distance){
 		let data = {
 			method: "getSpaceListSearch",
             space_name: name,
@@ -203,36 +218,47 @@ class api {
             space_area_to: area_to,    
             space_price_from: price_from,
             space_price_to: price_to,
+            latitude: latitude,
+            longitude: longitude,
+            distance: distance,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListHot(city){
+    
+    
+    getSpaceListHot(city,latitude,longitude){
 		let data = {
 			method: "getSpaceListHot",
             activity_city: city,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListFlag(city){
+    getSpaceListFlag(city,latitude,longitude){
 		let data = {
 			method: "getSpaceListFlag",
             activity_city: city,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListKeep(wechat_id){
+    getSpaceListKeep(wechat_id,latitude,longitude){
 		let data = {
 			method: "getSpaceListKeep",
             userInfo: wechat_id,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
@@ -250,10 +276,12 @@ class api {
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}
     
-    getSpaceListHistory(wechat_id){
+    getSpaceListHistory(wechat_id,latitude,longitude){
 		let data = {
 			method: "getSpaceListHistory",
             userInfo: wechat_id,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign
@@ -311,10 +339,12 @@ class api {
 		return requestAll.postRequest(apiUrl + 'api/i.php', data);
 	}    
     
-    getSpaceListAddr(id){
+    getSpaceListAddr(id,latitude,longitude){
 		let data = {
 			method: "getSpaceListAddr",
             space_list_id: id,
+            latitude: latitude,
+            longitude: longitude,
 		}
         var sign = hexMD5.signature(data, signKey)
         data["sign"] = sign

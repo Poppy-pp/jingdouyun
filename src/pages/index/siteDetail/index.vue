@@ -63,7 +63,7 @@
       </div>
       <!-- 附近热门场地 -->
       <div class="site-near">
-        <p class="title-p">附近热门场地 <span class="num">8</span></p>
+        <p class="title-p">附近热门场地 <span class="num">{{nearsiteList.length}}</span></p>
         <div class="scroll">
           <div class="scroll-item" v-for="(item,index) in nearsiteList" :key="index" @click="goSiteDetail(item.id)">
             <img :src="item.url" alt="">
@@ -254,13 +254,22 @@ export default {
       
       console.log(this.spaceListId)
       
-      this.Request.getSpaceListAddr(this.spaceListId).then(res =>{
+      this.Request.getSpaceListAddr(this.spaceListId,this.globalData.latitude,this.globalData.longitude).then(res =>{
         console.log(res)
         this.addr = res
+        
+        
+        console.log(this.addr.latitude)
+        console.log(this.addr.longitude)
+        this.Request.getSpaceListNear(this.spaceListId,
+           this.addr.latitude,this.addr.longitude).then(res => {
+            console.log(res)
+            this.nearsiteList = res;
+        }).catch(res => {});
+         
       }).catch(res =>{
         console.log(res) //失败
       })
-      
       
       this.Request.getSpaceListImages(this.spaceListId).then(res =>{
         console.log(res)
@@ -280,7 +289,7 @@ export default {
         this.siteList = res
       }).catch(res =>{
         console.log(res) //失败
-      })
+      }) 
       
       this.Request.addSpaceListHistory(this.globalData.uid,this.spaceListId).then(res =>{
         console.log(res)
@@ -305,7 +314,6 @@ export default {
       }).catch(res =>{
         console.log(res) //失败
       })
-	  
       
   },
   

@@ -502,20 +502,13 @@ export default {
       
       this.area = e.mp.detail.id;
       
-      
-      
+
       this.Request.getSpaceListSearch(
-          "",
-          this.curCity.name,
-          this.area,
-          this.type,
-          this.num.from,
-          this.num.to,
-          this.size.from,
-          this.size.to,
-          this.price.from,
-          this.price.to
-        ).then(res => {
+          "",this.curCity.name,this.area,this.type,
+          this.num.from,this.num.to,
+          this.size.from,this.size.to,
+          this.price.from,this.price.to,
+          this.globalData.latitude,this.globalData.longitude,"").then(res => {
         
             console.log(res)
             this.siteList = res;
@@ -544,18 +537,12 @@ export default {
       this.typeList[index].isSelect = !this.typeList[index].isSelect;
 
       this.Request.getSpaceListSearch(
-          "",
-          this.curCity.name,
-          this.area,
-          this.type,
-          this.num.from,
-          this.num.to,
-          this.size.from,
-          this.size.to,
-          this.price.from,
-          this.price.to
-        )
-          .then(res => {
+          "",this.curCity.name,this.area,this.type,
+          this.num.from,this.num.to,
+          this.size.from,this.size.to,
+          this.price.from,this.price.to,
+          this.globalData.latitude,this.globalData.longitude,"").then(res => {
+          
             console.log(res)
             this.siteList = res;
 
@@ -583,19 +570,13 @@ export default {
         this.size = item;
 
         this.Request.getSpaceListSearch(
-          "",
-          this.curCity.name,
-          this.area,
-          this.type,
-          this.num.from,
-          this.num.to,
-          this.size.from,
-          this.size.to,
-          this.price.from,
-          this.price.to
-        )
-          .then(res => {
-          console.log(res)
+          "",this.curCity.name,this.area,this.type,
+          this.num.from,this.num.to,
+          this.size.from,this.size.to,
+          this.price.from,this.price.to,
+          this.globalData.latitude,this.globalData.longitude,"").then(res => {
+            
+            console.log(res)
             this.siteList = res;
 
             // 显示提示
@@ -614,19 +595,13 @@ export default {
         this.num = item;
 
         this.Request.getSpaceListSearch(
-          "",
-          this.curCity.name,
-           this.area,
-           this.type,
-          this.num.from,
-          this.num.to,
-          this.size.from,
-          this.size.to,
-          this.price.from,
-          this.price.to
-        )
-          .then(res => {
-          console.log(res)
+          "",this.curCity.name,this.area,this.type,
+          this.num.from,this.num.to,
+          this.size.from,this.size.to,
+          this.price.from,this.price.to,
+          this.globalData.latitude,this.globalData.longitude,"").then(res => {
+            
+            console.log(res)
             this.siteList = res;
 
             // 显示提示
@@ -645,16 +620,12 @@ export default {
         this.price = item;
         
         this.Request.getSpaceListSearch(
-          "",
-          this.curCity.name,
-          this.area,
-          this.type,
-          this.num.from,
-          this.num.to,
-          this.size.from,
-          this.size.to,
-          this.price.from,
-          this.price.to).then(res => {
+          "",this.curCity.name,this.area,this.type,
+          this.num.from,this.num.to,
+          this.size.from,this.size.to,
+          this.price.from,this.price.to,
+          this.globalData.latitude,this.globalData.longitude,"").then(res => {
+            
             console.log(res)
             this.siteList = res;
         
@@ -681,6 +652,13 @@ export default {
   },
   mounted() {
     if (this.ctoast) this.ctoast.clear();
+    this.globalData.uid = this.openId;
+    
+    this.Request.getActivityListBanner().then(res => {
+        console.log(res)
+        this.images = res;
+      }).catch(res => {});
+    
     this.Request.getSpaceTypeSearchItem()
       .then(res => {
         this.typeList = res;
@@ -688,7 +666,7 @@ export default {
       .catch(res => {
         console.log(res); //失败
       });
-    mpvue.hideLoading();
+    
   },
   created() {
     // 实例化API核心类
@@ -771,52 +749,62 @@ export default {
     mpvue.showLoading({
       title: "加载中"
     });
-    this.globalData.uid = this.openId;
+    
+    
     // 获取地理位置授权
-    if (this.locationInfo.address == undefined) {
+    //if (_self.locationInfo.address == undefined) {
       wx.getLocation({
         type: "gcj02",
         success: res => {
+        
+          this.globalData.latitude = res.latitude
+          this.globalData.longitude = res.longitude
+          console.log(this.globalData.latitude)
+          console.log(this.globalData.longitude)
+          
+          this.Request.getSpaceList(this.curCity.name,this.globalData.latitude,this.globalData.longitude).then(res => {
+                console.log(res)
+                this.siteList = res;
+            }).catch(res => {});
+
           this.qqmapsdk.reverseGeocoder({
             location: {
               latitude: res.latitude,
               longitude: res.longitude
             },
             success: addressRes => {
-              mpvue.hideLoading();
+              mpvue.hideLoading();          
               this.$store.commit("SET_LOCATIONINFO", addressRes.result);
               this.$store.commit("SET_City", {
                 name: addressRes.result.address_component.city
               });
-            }
+              
+              this.Request.getRegion(this.curCity.name).then(res => {
+                console.log(res)
+                this.areas = res;
+            }).catch(res => {}); 
+              
+            }         
           });
         }
       });
-    }
+    //}
+    
+    
+    
 
-    // let _self = this;
+     
+
+    //let _self = this;
     // wx.getStorage({
     //   key: "cname",
     //   success(res) {
     //     _self.addr = res.data.name || "成都";
     //   }
     // });
+    
+    mpvue.hideLoading();
 
-    this.Request.getActivityListBanner().then(res => {
-        console.log(res)
-        this.images = res;
-      }).catch(res => {});
-
-    this.Request.getSpaceList(this.curCity.name).then(res => {
-      console.log(res)
-        this.siteList = res;
-      }).catch(res => {});
-      
-    this.Request.getRegion(this.curCity.name).then(res => {
-      console.log(res)
-      this.areas = res;
-      }).catch(res => {});  
-      
   },
   onLoad() {}
 };

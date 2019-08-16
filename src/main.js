@@ -13,6 +13,8 @@ const app = new Vue(App)
 app.$mount()
 
 getApp().globalData = {
-  uid: '1234567890'
+  uid: '1234567890',
+  latitude: "",
+  longitude: ""
 }
 Vue.prototype.globalData = getApp().globalData

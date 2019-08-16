@@ -55,7 +55,7 @@ export default {
       if (options.title == '我的收藏') {
         this.mystatus = false;
         
-        this.Request.getSpaceListKeep(this.globalData.uid).then(res =>{
+        this.Request.getSpaceListKeep(this.globalData.uid,this.globalData.latitude,this.globalData.longitude).then(res =>{
             console.log(res)
             this.siteList = res
         }).catch(res =>{
@@ -66,7 +66,7 @@ export default {
       
       if (options.title == '我的足迹') {
         
-        this.Request.getSpaceListHistory(this.globalData.uid).then(res =>{
+        this.Request.getSpaceListHistory(this.globalData.uid,this.globalData.latitude,this.globalData.longitude).then(res =>{
             console.log(res)
             this.siteList = res
         }).catch(res =>{
@@ -76,7 +76,7 @@ export default {
       }
           
         if(options.title == '热门场地') {
-            this.Request.getSpaceListHot(options.addr).then(res =>{
+            this.Request.getSpaceListHot(options.addr,this.globalData.latitude,this.globalData.longitude).then(res =>{
                 console.log(res)
                 this.siteList = res
             })
@@ -86,7 +86,7 @@ export default {
         }
 
         if(options.title == '城市地标') {
-            this.Request.getSpaceListFlag(options.addr).then(res =>{
+            this.Request.getSpaceListFlag(options.addr,this.globalData.latitude,this.globalData.longitude).then(res =>{
                 console.log(res)
                 this.siteList = res
             })

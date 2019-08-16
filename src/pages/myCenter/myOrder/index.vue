@@ -84,7 +84,7 @@ export default {
   onShow () {
   
     console.log(this.globalData)
-    this.Request.getMySpaceOrder(this.globalData.uid).then(res =>{
+    this.Request.getMySpaceOrder(this.globalData.uid,this.globalData.latitude,this.globalData.longitude).then(res =>{
         this.formData = res
     })
     .catch(res =>{
